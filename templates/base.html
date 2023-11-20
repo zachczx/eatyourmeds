@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time to eat your medicine</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+    <style>
+
+        /* colour scheme - https://colorhunt.co/palette/a0c49dc4d7b2e1ecc8f7ffe5 */
+
+        body {
+            background-color: #FCFFF9;
+            font-family: 'Lato', sans-serif;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: #EBF3E8;
+            box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+            border-bottom: 0.25em solid #B2C8BA;
+        }
+
+        input[type=text], input[type=password] {
+            border: 1px solid #B2C8BA;
+            border-radius: 5px;
+            padding: 5px;
+            width: 90%;
+        }
+
+        input[type=checkbox] {
+            height: 1.25em;
+            width: 1.25em;
+            accent-color: green;
+        }
+
+        textarea {
+            border: 1px solid #B2C8BA;
+            border-radius: 5px;
+            padding: 5px;
+            width: 90%;
+            line-height: 1em;
+        }
+
+        select {
+            border: 1px solid #B2C8BA;
+            border-radius: 5px;
+            padding: 5px;
+            width: 90%;
+        }
+
+        label {
+            padding-top: 10px;
+        }
+
+        #header {
+            text-decoration: none;
+        }
+
+        a, a:visited {
+            text-decoration: none;
+            color: #6B856D;
+            font-weight: 500;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .list_action_icons {
+            text-align: center;
+            font-size: 120%;
+        }
+
+        .card-title {
+            text-decoration: underline;
+            text-decoration-thickness: 5px;
+            text-decoration-color: #86A789;
+            text-underline-offset: 4px;
+        }
+/*
+        .list_action_icons a:hover {
+            padding: 5px;
+            color: white;
+            background-color: #6B856D;
+            border-width: 5px;
+            border-style: solid;
+        }
+*/
+        .list_action_icons i {
+            margin-left: 0.75em;
+        }
+
+        .footer {
+            text-align: center;
+        }
+
+        .footer i {
+            font-size: 2em;
+        }
+
+        .badge.even-larger-badge {
+            font-size: 1.1em;
+        }
+
+        /* for the timeline */
+
+        .hori-timeline .events {
+            border-top: 3px solid #e9ecef;
+        }
+        .hori-timeline .events .event-list {
+            display: block;
+            position: relative;
+            text-align: center;
+            padding-top: 70px;
+            margin-right: 0;
+        }
+        .hori-timeline .events .event-list:before {
+            content: "";
+            position: absolute;
+            height: 36px;
+            border-right: 2px dashed #dee2e6;
+            top: 0;
+        }
+        .hori-timeline .events .event-list .event-date {
+            position: absolute;
+            top: 38px;
+            left: 0;
+            right: 0;
+            width: 75px;
+            margin: 0 auto;
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
+        @media (min-width: 1140px) {
+            .hori-timeline .events .event-list {
+                display: inline-block;
+                width: 24%;
+                padding-top: 45px;
+            }
+            .hori-timeline .events .event-list .event-date {
+                top: -12px;
+            }
+        }
+        .bg-soft-primary {
+            background-color: rgba(64,144,203,.3)!important;
+        }
+        .bg-soft-success {
+            background-color: rgba(71,189,154,.3)!important;
+        }
+        .bg-soft-danger {
+            background-color: rgba(231,76,94,.3)!important;
+        }
+        .bg-soft-warning {
+            background-color: rgba(249,213,112,.3)!important;
+        }
+        .bg-soft-secondary {
+            background-color: #d5e1eb!important;
+        }
+        .card {
+            border: none;
+            margin-bottom: 24px;
+            -webkit-box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
+            box-shadow: 0 0 13px 0 rgba(236,236,241,.44);
+        }
+        /* end timeline */
+    </style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<div class="container shadow mb-5 pb-5 bg-white rounded">
+    <div class="row">
+        <a href="{% url 'eatlist' %}" id="header"><div class="col p-3 mb-2 text-white" style="background-color: #86A789">
+            <h1 class="text-center">Time to eat your medicine</h1>
+        </div></a>
+    </div>
+
+    <div class="row">
+        {% if user.is_authenticated %}
+            <div class="col-12 text-center">Hello, <b>{{user.username}}</b>. | <a href="{% url 'eatlogout' %}">Logout?</a></div>
+        {% else %}
+            <div class="col-12 text-center">You are not logged in. <a href="{% url 'eatlogin' %}">Please login here</a>.</div>
+        {% endif %}
+    </div>
+
+        {% block content %}
+        {% endblock %}
+
+{% include "_footer.html" %}
+</div>
+</body>
+</html>

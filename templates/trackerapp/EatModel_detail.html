@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h2>Task: {{ object.medicine }}</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <p>Remarks: {{ object.remarks }}</p>
+        <p>Status: {{ object.complete }}</p>
+        <p>Last Fed: {{ object.last_fed }}</p>
+        <p>Created: {{ object.created }}</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <form action="{% url 'eatupdate' outstanding_list.id %}"><button type='submit' class="btn btn-warning">Edit</button></form>  
+        <p><a href="{% url 'eatlist' %}">Back to Overview</a></p>
+    </div>
+</div>   
+
+
+{%endblock %}

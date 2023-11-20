@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+{% if user.is_authenticated %}
+    <div class="col-12 text-center">Hello, <b>{{user.username}}</b>. | <a href="{% url 'eatlogout' %}">Logout?</a></div>
+{% else %}
+    <div class="col-12 text-center">You are not logged in. <a href="{% url 'eatlogin' %}">Please login here</a>.</div>
+{% endif %}
+</div>
+
+<div>You have {{count}} outstanding task{{count|pluralize:"s"}}.</div>
+
+<div class="row bg-success text-white">
+    <div class="col-1">
+        <h2></h2>
+    </div>
+    <div class="col-2">
+        <h2>Medicine</h2>
+    </div>
+    <div class="col-2">
+        <h2>Last Dose</h2>
+    </div>
+    <div class="col-2">
+        <h2>Next Dose</h2>
+    </div>
+    <div class="col-3">
+        <h2>Remarks</h2>
+    </div>
+    <div class="col-2">
+        <h2>Action</h2>
+    </div>
+</div>
+
+
+{% for item in outstanding_list %}
+{% if forloop.counter|divisibleby:'2' %}
+<div class="row" style="background-color: #f9fff0">
+{% else %}
+<div class="row" style="background-color: #e0eccd">
+{% endif %}
+    <div class="col-1">
+        {% if item.complete %}
+        <i style="color:green" class="bi bi-check fs-5"></i>
+        {% else %}
+        <i style="color:red" class="bi bi-x fs-5"></i>
+        {% endif %}
+    </div>
+    <div class="col-2">
+        <p class="fw-bold"><a href="{% url 'eatdetails' item.id %}">{{ item.medicine }}</a></p>            
+    </div>
+    <div class="col-2">
+        {{ item.last_fed }}            
+    </div>
+    <div class="col-2">
+        {{ item.next_dose }}            
+    </div>
+    <div class="col-3">
+        {{ item.remarks }}            
+    </div>
+    <div class="col-2">
+        <div class="btn-group">
+            <a href="{% url 'eatupdate' item.id %}" class="btn btn-success btn-sm">Edit</a><a href="{% url 'eatdelete' item.id %}" class="btn btn-danger btn-sm">Delete</a>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="col">
+    <p>No items in list</p>            
+</div>
+{% endfor %}
+
+
+<div class="row">
+    <div class="col text-center">
+        <form action="{% url 'eatcreate' %}"><button type="submit" class="btn btn-success">Create new entry</button></form>
+    </div>
+</div>
+
+
+{% endblock %}

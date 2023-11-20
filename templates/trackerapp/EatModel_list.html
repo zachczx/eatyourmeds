@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row mb-1">
+    <div class="col-6">You have {{count}} outstanding dose{{count|pluralize:"s"}}.</div>
+    <div class="col-6 text-end"><a href="{% url 'eatcreate' %}"><span class="badge bg-success even-larger-badge"><i class="bi bi-plus-square-fill pr-5"></i>&nbsp Create</span></a></div>
+</div>
+
+<div class="accordion" id="accordionExample">
+{% for item in outstanding_list %}
+{% if item.complete %} 
+<div class="accordion-item">
+    <h2 class="accordion-header" id="heading{{item.id}}">
+        <button class="accordion-button collapsed fw-bolder" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{item.id}}" aria-expanded="true" aria-controls="collapse{{item.id}}">
+            {% if item.complete %}
+            <span class="badge text-bg-success rounded-pill" style="margin-right: 1.5em;">Completed</span>
+            <span class="fw-bolder">{{ item.medicine }}</span>
+            {% else %}
+            <span class="badge text-bg-danger rounded-pill" style="margin-right: 1.5em;">Ongoing</span>
+            <span class="fw-bolder">{{ item.medicine }}</span>
+            {% endif %} 
+        </button>
+    </h2>
+    <div id="collapse{{item.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{item.id}}" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <p>{{ item.last_fed }}</p>
+            <p>{{ item.next_dose }}</p> 
+            <p>{{ item.remarks }}</p>
+            <p class="list_action_icons"><a href="{% url 'eatupdate_complete' item.id %}"><i class="bi bi-check-square-fill"></i></a><a href="{% url 'nextDose' item.id %}"><i class="bi bi-box-arrow-up-right"></i></a> <a href="{% url 'eatupdate' item.id %}"><i class="bi bi-pencil-square"></i></a> <a href="{% url 'eatdelete' item.id %}"><i class="bi bi-trash-fill"></i></a></p>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="accordion-item">
+    <h2 class="accordion-header" id="heading{{item.id}}">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{item.id}}" aria-expanded="true" aria-controls="collapse{{item.id}}">
+        {% if item.complete %}
+        <span class="badge text-bg-success rounded-pill" style="margin-right: 1.5em;">Completed</span>
+        <span class="fw-bolder">{{ item.medicine }}</span>
+        {% else %}
+        <span class="badge text-bg-danger rounded-pill" style="margin-right: 1.5em;">Ongoing</span>
+        <span class="fw-bolder">{{ item.medicine }}</span>
+        {% endif %} 
+        </button>
+    </h2>
+    <div id="collapse{{item.id}}" class="accordion-collapse collapse show" aria-labelledby="heading{{item.id}}" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <p>{{ item.last_fed }}</p>
+            <p>{{ item.next_dose }}</p> 
+            <p>{{ item.remarks }}</p> 
+            <p class="list_action_icons">
+                <a href="{% url 'eatupdate_complete' item.id %}" ><i class="bi bi-check-square-fill" alt="Mark as completed"></i></a><a href="{% url 'nextDose' item.id %}"><i class="bi bi-box-arrow-up-right"></i></a> <a href="{% url 'eatupdate' item.id %}"><i class="bi bi-pencil-square"></i></a> <a href="{% url 'eatdelete' item.id %}"><i class="bi bi-trash-fill"></i></a></p>        
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% empty %}
+    <div class="col">
+        <p>No items in list</p>            
+    </div>
+{% endfor %}
+</div>
+
+{% endblock %}

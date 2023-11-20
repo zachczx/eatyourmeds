@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mt-3 mb-1">
+    <div class="col">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading_within">
+                    <button class="accordion-button fw-bolder" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_within" aria-expanded="true" aria-controls="collapse_within">
+                        {{ alldetails.0.medicine }}
+                    </button>
+                </h2>
+                <div id="collapse_within" class="accordion-collapse collapse show" aria-labelledby="heading_within" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <p><h5>Your next doses:</h5><p>
+                           
+                        <!-- <p>Dose {{forloop.counter}}: {{ x }}</p> -->
+                        
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <!-- credit: https://www.bootdey.com/snippets/view/simple-horizontal-timeline -->
+                                            <!-- <h4 class="card-title mb-5">Horizontal Timeline</h4> -->
+                                            <div class="hori-timeline" dir="ltr">
+                                                <ul class="list-inline events">
+                                                    {% for x in dose %}
+                                                        {% if forloop.counter is 1 %}
+                                                        <li class="list-inline-item event-list">
+                                                            <div class="px-4">
+                                                                <div class="event-date bg-soft-secondary text-secondary fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;{{forloop.counter}}</div>
+                                                                <h5 class="font-size-16">
+                                                                {{x}}
+                                                                </h5>
+                                                            </div>
+                                                        </li>
+                                                        {% else %}
+                                                        <li class="list-inline-item event-list">
+                                                            <div class="px-4">
+                                                                <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;{{forloop.counter}}</div>
+                                                                <h5 class="font-size-16">
+                                                                <b>{{x}}</b>
+                                                                </h5>
+                                                            </div>
+                                                        </li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end card -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- start second accordion item -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading_within2">
+                    <button class="accordion-button fw-bolder" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_within2" aria-expanded="true" aria-controls="collapse_within2">
+                        General Information
+                    </button>
+                </h2>
+                <div id="collapse_within2" class="accordion-collapse collapse show" aria-labelledby="heading_within2" data-bs-parent="#accordionExample_block_auto_closing"><!-- removing this data-bs-parent blocks auto closing others -->
+                    <div class="accordion-body">
+                    <!-- cards -->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Description</h5>
+                                        <p class="card-text">{{medical_info.0.description}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Dosing Interval</h5>
+                                        <p class="card-text">{{medical_info.0.rec_interval}} hourly <span class="text-muted">(or {{number_of_times}} times a day)</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Used For</h5>
+                                        <p class="card-text">{{medical_info.0.used_for}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Side Effects</h5>
+                                        <p class="card-text">{{medical_info.0.sideeffects}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end cards -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end second accordion item -->
+        </div>
+</div>
+{% endblock %}

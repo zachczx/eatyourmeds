@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="text-center">Login</h2>
+<div class="d-flex justify-content-center">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Login" class="btn btn-success">
+    </form>
+</div>
+<div class="d-flex justify-content-center">
+    <span class="alert alert-danger"><a href="{% url 'eatregister' %}">Sign up</a></span>
+</div>
+
+{% endblock %}
