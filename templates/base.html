@@ -24,38 +24,6 @@
             border-bottom: 0.25em solid #B2C8BA;
         }
 
-        input[type=text], input[type=password] {
-            border: 1px solid #B2C8BA;
-            border-radius: 5px;
-            padding: 5px;
-            width: 90%;
-        }
-
-        input[type=checkbox] {
-            height: 1.25em;
-            width: 1.25em;
-            accent-color: green;
-        }
-
-        textarea {
-            border: 1px solid #B2C8BA;
-            border-radius: 5px;
-            padding: 5px;
-            width: 90%;
-            line-height: 1em;
-        }
-
-        select {
-            border: 1px solid #B2C8BA;
-            border-radius: 5px;
-            padding: 5px;
-            width: 90%;
-        }
-
-        label {
-            padding-top: 10px;
-        }
-
         #header {
             text-decoration: none;
         }
@@ -135,6 +103,7 @@
             border-radius: 4px;
             padding: 2px 4px;
         }
+        
         @media (min-width: 1140px) {
             .hori-timeline .events .event-list {
                 display: inline-block;
@@ -183,8 +152,6 @@
     <div class="row">
         {% if user.is_authenticated %}
             <div class="col-12 text-center">Hello, <b>{{user.username}}</b>. | <a href="{% url 'eatlogout' %}">Logout?</a></div>
-        {% else %}
-            <div class="col-12 text-center">You are not logged in. <a href="{% url 'eatlogin' %}">Please login here</a>.</div>
         {% endif %}
     </div>
 
