@@ -33,6 +33,7 @@ class EatList(LoginRequiredMixin, ListView):
     model = EatModel
     context_object_name = 'outstanding_list'
     fields = ['medicine', 'remarks', 'last_fed', 'interval', 'complete']
+    login_url = "eatlogin"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
