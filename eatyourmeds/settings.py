@@ -131,6 +131,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # for login logout
-LOGIN_REDIRECT_URL = "eatlist"
-LOGOUT_REDIRECT_URL = "eatlogin"
-LOGIN_URL = "eatlogin"
+LOGIN_REDIRECT_URL = 'eatlist'
+LOGOUT_REDIRECT_URL = 'eatlogin'
+LOGIN_URL = 'eatlogin'
