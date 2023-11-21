@@ -13,10 +13,7 @@ from pathlib import Path
 import environ
 import os
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
+env = environ.Env()
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,7 +29,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG_VAL')
 
-ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=[str])
+ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=[str])
 
 # Application definition
 
