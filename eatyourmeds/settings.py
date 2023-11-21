@@ -13,7 +13,9 @@ from pathlib import Path
 import environ
 import os
 
-env = environ.Env()
+env = environ.Env(
+    ALLOWED_HOSTS=(list, ['zixianchen.com','146.190.97.144'])
+)
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
