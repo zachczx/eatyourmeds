@@ -1,14 +1,12 @@
 {% extends 'trackerapp/base.html' %}
 
-{% load crispy_forms_tags %}
-
 {% block content %}
 <h2 class="text-center">Login</h2>
 <div class="d-flex justify-content-center">
     <form action="" method="POST">
         {% csrf_token %}
-        {{ form|crispy }}
-        <input type="submit" value="Login" class="btn btn-success">
+        {{ form.as_p }}
+        <input type="submit" value="Login" class="btn btn-success mt-2">
     </form>
 </div>
 <div class="d-flex justify-content-center mt-5">

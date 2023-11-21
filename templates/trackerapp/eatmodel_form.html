@@ -1,7 +1,5 @@
 {% extends 'trackerapp/base.html' %}
 
-{% load crispy_forms_tags %}
-
 {% block content %}
 <div class="row">
     <div class="col-3"></div>
@@ -11,22 +9,22 @@
 
             {% if form.medicine %}
             <div class="fw-bold">Select the medicine:</div>
-            <div class="mb-3">{{ form.medicine|as_crispy_field }}</div>
+            <div class="mb-3">{{ form.medicine }}</div>
             {% endif %}
             {% if form.last_fed %}
             <div class="fw-bold">Time of last dose:</div>
-            <div class="mb-3">{{ form.last_fed|as_crispy_field }}</div>
+            <div class="mb-3">{{ form.last_fed }}</div>
             {% endif %}
             {% if form.interval %}
             <div class="fw-bold">Hours in between doses:</div>
-            <div class="mb-3">{{ form.interval|as_crispy_field }}</div>
+            <div class="mb-3">{{ form.interval }}</div>
             {% endif %}
             {% if form.remarks %}
             <div class="fw-bold">Insert remarks, if any:</div>
-            <div class="mb-3">{{ form.remarks|as_crispy_field }}</div>
+            <div class="mb-3">{{ form.remarks }}</div>
             {% endif %}
             <div class="fw-bold">Have you fed the next dose?</div>
-            <div class="mb-3">{{ form.complete|as_crispy_field }}</div>
+            <div class="mb-3">{{ form.complete }}</div>
             <div class="pt-3">
                 <input type="submit" value="Submit" class="btn btn-success">
                 <input type="reset" value="Reset" class="btn btn-secondary">
