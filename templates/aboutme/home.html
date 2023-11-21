@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello world! This is Zixian's webpage.</title>
+        <link rel="stylesheet" href="{% static 'aboutme/geocities_bootstrap.css' %}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    </head>
+    <body style="background-image: url('{% static 'aboutme/library2.gif' %}')">
+        <div class="row">
+                <div class="col">
+                    <h1 class="text-center">Welcome to my (Geocities) website!</h1>
+                    <p class="text-center"><img src="{% static 'aboutme/welcome.gif' %}" class="img-fluid" alt="The rocket looks cool!" /></p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-sm-4">
+                    <h2>About me</h2>
+                    <p>Hello, I am Zixian. Welcome to my personal website.</p>
+                    <p>In here you can find out all about me and please feel free to e-mail me if you have any questions.</p>     
+                </div>
+                <div class="col-sm-4">
+                    <h2>Here is my paw friend, Kit</h2>
+                    <img src="{% static 'aboutme/kit.jpg' %}" class="img-fluid" alt="Good doggo" />
+                    <p>We all love Kit, though sometimes she's naughty.</p>
+                    <img src="{% static 'aboutme/kit chew.jpg' %}" class="img-fluid" alt="Bad doggo" />
+                </div>
+                <div class="col-sm-4">
+                    <h2>These are my other webpages</h2>
+                    <ul>
+                        <li><a href="https://zixianchen.com/eatyourmeds">Eat Your Medicine webapp</a></li>
+                        <li><a href="https://www.linkedin.com/in/zixianchen/">LinkedIn profile</a></li>
+                        <li><a href="https://btonomics.com/">BTOnomics</a></li>
+                        <li><a href="https://github.com/zachczx">Github</a></li>
+                    </ul>
+                </div>
+        </div>
+    </body>
+</html>
