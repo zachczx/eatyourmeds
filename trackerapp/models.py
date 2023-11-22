@@ -14,22 +14,6 @@ medicine_choices = [
     ('Ivy Leaf Extract','Ivy Leaf Extract'),
 ]
 
-class EatModel(models.Model):
-    # user is one to many 
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    medicine = models.CharField(max_length=50, choices=medicine_choices)
-    last_fed = models.DateTimeField(default=datetime.now)
-    interval = models.IntegerField(default=4)
-    remarks = models.TextField(max_length=140)
-    complete = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
-        
-    def __str__(self):
-        return self.medicine
-    
-    class Meta:
-        ordering = ['complete'] #ordering in descending just do -complete
-        
 class MedicalInfo(models.Model):
     medicine = models.CharField(max_length=50, choices=medicine_choices)
     rec_interval = models.IntegerField(null=False)
@@ -39,5 +23,22 @@ class MedicalInfo(models.Model):
     
     def __str__(self):
         return self.medicine
+    
+class EatModel(models.Model):
+    # user is one to many 
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    medicine = models.ForeignKey(MedicalInfo, on_delete=models.SET_NULL, null=True)
+    last_fed = models.DateTimeField(default=datetime.now)
+    interval = models.IntegerField(default=4)
+    remarks = models.TextField(max_length=140)
+    complete = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+        
+    def __str__(self):
+        return str(self.medicine)
+    
+    class Meta:
+        ordering = ['complete'] #ordering in descending just do -complete
+    
     
     
