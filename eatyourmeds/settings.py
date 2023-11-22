@@ -131,8 +131,7 @@ USE_TZ = True
 
 STATIC_URL = 'staticfiles/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static/aboutme"),
-    os.path.join(BASE_DIR, "static/trackerapp"),
+    os.path.join(BASE_DIR, "static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #single root directory from where the Django application will serve the static files in production.
 
