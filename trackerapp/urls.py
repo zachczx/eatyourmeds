@@ -3,6 +3,7 @@ from . import views
 from .views import EatLogin, EatLogout, EatRegister, EatList, EatDetails, EatCreate, EatUpdate, EatDelete
 from .views import nextDose
 
+app_name = 'eatyourmeds'
 urlpatterns = [
     path('login/', EatLogin.as_view(), name='eatlogin'),
     path('logout/', EatLogout.as_view(), name='eatlogout'),
