@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'trackerapp.apps.TrackerappConfig',
     'aboutme.apps.AboutmeConfig',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 # for https, "Origin checking failed - https://zixianchen.com does not match any trusted origins."
@@ -143,3 +145,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'eatlist'
 LOGOUT_REDIRECT_URL = 'eatlogin'
 LOGIN_URL = 'eatlogin'
+
+# for django toolbar
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]

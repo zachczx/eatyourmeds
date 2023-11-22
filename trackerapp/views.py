@@ -96,20 +96,17 @@ class EatDelete(LoginRequiredMixin, DeleteView):
     context_object_name = 'outstanding_list'
     success_url = reverse_lazy('eatlist')    
 
-########### my own func view ###################
+########### my own func views ###################
 
 def nextDose(request, pk=None):
     if request.user.is_authenticated is True:
        
         alldetails = EatModel.objects.filter(pk=pk).values()
-        hrs= alldetails[0]['interval'] #putting this here to avoid doing another filter
+        hrs = alldetails[0]['interval'] #putting this here to avoid doing another filter
         number_of_times = int(24 / hrs)
         if request.user.id == alldetails[0]['user_id']: #check if user is the creator of the record
-            first_dose = EatModel.objects.filter(pk=pk).values_list('last_fed', flat=True)
+            first_dose = EatModel.objects.filter(id=pk).values_list('last_fed', flat=True)
             first_dose = first_dose[0]
-            #result = EatModel.objects.filter(user=request.user).filter(pk=pk).values_list('last_fed', flat=True)
-            #first_dose_a = list(first_dose)
-            
             second_dose = first_dose + timedelta(hours=hrs)
             third_dose = second_dose + timedelta(hours=hrs)
             fourth_dose = third_dose + timedelta(hours=hrs)
@@ -118,9 +115,12 @@ def nextDose(request, pk=None):
             dose = [first_dose, second_dose, third_dose, fourth_dose]
             
             #get the info from MedicalInfo Model
-            get_type_medicine = EatModel.objects.filter(pk=pk).values_list('medicine', flat=True)
-            get_type_medicine = get_type_medicine[0]
-            medical_info = MedicalInfo.objects.filter(medicine=get_type_medicine).values()
+            #get_type_medicine = EatModel.objects.filter(pk=pk).values_list('medicine', flat=True)
+            #get_type_medicine = get_type_medicine[0]
+            #medical_info = MedicalInfo.objects.filter(medicine=get_type_medicine).values()
+
+
+            medical_info = MedicalInfo.objects.filter(id=alldetails[0]['medicine_id']).values()
 
             context = {
                 'dose': dose,
@@ -132,6 +132,6 @@ def nextDose(request, pk=None):
             return redirect('eatlist') #redirects user who tried to access someone else's records
         
         return render(request, 'trackerapp/dose.html', context) #for some reason need to access via {{ details.0.medicine }}
-    
+        
     else:
         return redirect('eatregister')

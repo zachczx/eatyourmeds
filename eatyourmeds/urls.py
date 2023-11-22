@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls), 
     path('', include('aboutme.urls')),
     path('eatyourmeds/', include('trackerapp.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
