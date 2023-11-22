@@ -133,7 +133,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     os.path.join(BASE_DIR, "static/aboutme"),
-    os.path.join(BASE_DIR, "trackerapp"),
+    os.path.join(BASE_DIR, "static/trackerapp"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #single root directory from where the Django application will serve the static files in production.
 
