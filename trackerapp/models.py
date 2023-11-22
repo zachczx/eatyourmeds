@@ -30,7 +30,7 @@ class EatModel(models.Model):
     medicine = models.ForeignKey(MedicalInfo, on_delete=models.SET_NULL, null=True)
     last_fed = models.DateTimeField(default=datetime.now)
     interval = models.IntegerField(default=4)
-    remarks = models.TextField(max_length=140)
+    remarks = models.TextField(max_length=140, blank=True)
     complete = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
         
