@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent #gets to folder with manage.py
 
 # Take environment variables from .env file
 env = environ.Env()
@@ -132,6 +132,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "static/aboutme"),
+    os.path.join(BASE_DIR, "trackerapp"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #single root directory from where the Django application will serve the static files in production.
 
