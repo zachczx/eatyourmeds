@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views
 from .views import EatLogin, EatLogout, EatRegister, EatList, EatDetails, EatCreate, EatUpdate, EatDelete
-from .views import nextDose
+#from .views import nextDose, NewList
+from .views import nextDose, MakeNextDoses
 
 urlpatterns = [
     path('login/', EatLogin.as_view(), name='eatlogin'),
@@ -13,5 +14,6 @@ urlpatterns = [
     path('update/<int:pk>/', EatUpdate.as_view(), name='eatupdate'),
     path('update_complete/<int:pk>', EatUpdate.as_view(fields=['complete']), name='eatupdate_complete'),    
     path('delete/<int:pk>/', EatDelete.as_view(), name='eatdelete'),
-    path('dose/<int:pk>/', views.nextDose, name='nextDose')
+    path('dose/<int:pk>/', views.nextDose, name='nextDose'),
+    #path('newlist/', views.NewList, name='newlist'),
 ]

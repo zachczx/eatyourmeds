@@ -7,7 +7,7 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="heading_within">
                     <button class="accordion-button fw-bolder" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_within" aria-expanded="true" aria-controls="collapse_within">
-                        {{ alldetails.0.medicine }}
+                        {{ medical_info.0.medicine }}
                     </button>
                 </h2>
                 <div id="collapse_within" class="accordion-collapse collapse show" aria-labelledby="heading_within" data-bs-parent="#accordionExample">
@@ -25,7 +25,7 @@
                                             <!-- <h4 class="card-title mb-5">Horizontal Timeline</h4> -->
                                             <div class="hori-timeline" dir="ltr">
                                                 <ul class="list-inline events">
-                                                    {% for x in dose %}
+                                                    {% for x in next_four_doses.doses_timings %}
                                                         {% if forloop.counter is 1 %}
                                                         <li class="list-inline-item event-list">
                                                             <div class="px-4">

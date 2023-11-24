@@ -98,7 +98,52 @@ class EatDelete(LoginRequiredMixin, DeleteView):
 
 ########### my own func views ###################
 
+def MakeNextDoses(userpk):
+    alldetails = EatModel.objects.filter(pk=userpk).values()
+    hrs = alldetails[0]['interval'] #putting this here to avoid doing another filter
+    doses_per_day = int(24 / hrs)
+
+    first_dose = EatModel.objects.filter(id=userpk).values_list('last_fed', flat=True)
+    second_dose = first_dose[0] + timedelta(hours=hrs)
+    third_dose = second_dose + timedelta(hours=hrs)
+    fourth_dose = third_dose + timedelta(hours=hrs)
+    dose = {
+        'doses_per_day': doses_per_day,
+        'doses_timings': [first_dose[0], second_dose, third_dose, fourth_dose],
+        'user_id': alldetails[0]['user_id'], #I used this to check user_id later
+    }
+    return dose 
+
+def GetMedicalInfo(userpk):
+    alldetails = EatModel.objects.filter(pk=userpk).values()
+    get_medical_info = MedicalInfo.objects.filter(id=alldetails[0]['medicine_id']).values()
+    return get_medical_info
+
 def nextDose(request, pk=None):
+    if request.user.is_authenticated is True:
+        ### display if authenticated ###
+        next_four_doses = MakeNextDoses(pk)
+        ### checks if requestor is owner of record ###
+        if request.user.id == next_four_doses['user_id']:
+            medical_info = GetMedicalInfo(pk) 
+            context = {
+                'next_four_doses': next_four_doses,
+                'medical_info': medical_info,
+            }
+            return render(request, 'trackerapp/dose.html', context)
+         ### redirects if not ###
+        else:
+            return redirect('eatlist') 
+        ### redirects to register if not logged in ###
+    else:
+        return redirect('eatregister')
+
+##################################
+'''
+#original code for nextDose before I split it up
+
+def nextDose(request, pk=None):
+
     if request.user.is_authenticated is True:
        
         alldetails = EatModel.objects.filter(pk=pk).values()
@@ -135,3 +180,5 @@ def nextDose(request, pk=None):
         
     else:
         return redirect('eatregister')
+'''
+    

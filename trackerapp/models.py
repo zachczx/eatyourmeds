@@ -35,7 +35,7 @@ class EatModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
         
     def __str__(self):
-        return str(self.medicine)
+        return f'{self.id} -- User ID ({self.user_id}) -- {self.medicine}'
     
     class Meta:
         ordering = ['complete'] #ordering in descending just do -complete
