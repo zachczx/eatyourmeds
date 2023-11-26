@@ -27,7 +27,7 @@ class EatLogin(LoginView):
     redirect_authenticated_user = True
     
     def get_success_url(self):
-        return reverse_lazy('eatlist')
+        return reverse_lazy('newlist')
 
 class EatLogout(LogoutView):
     next_page = 'eatlogin'    
@@ -35,7 +35,7 @@ class EatLogout(LogoutView):
 class EatRegister(FormView):
     template_name = 'trackerapp/registration/register.html'
     form_class = UserCreationForm
-    success_url = reverse_lazy('eatlist')
+    success_url = reverse_lazy('newlist')
     
     def form_valid(self, form):
         user = form.save() # this is user cos we are working with usercreationform 
@@ -47,7 +47,7 @@ class EatRegister(FormView):
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:      
             #import redirect
-            return redirect('eatlist')
+            return redirect('newlist')
         return super(EatRegister, self).get(*args, **kwargs)
     
 class EatDetails(LoginRequiredMixin, DetailView):
@@ -63,7 +63,7 @@ class EatDetails(LoginRequiredMixin, DetailView):
 class EatCreate(LoginRequiredMixin, CreateView):
     model = EatModel
     fields = ['medicine', 'remarks', 'last_fed', 'interval', 'complete']
-    success_url = reverse_lazy('eatlist')
+    success_url = reverse_lazy('newlist')
     
     #for date picking
     #def get_form(self, form_class=None):
@@ -79,13 +79,13 @@ class EatCreate(LoginRequiredMixin, CreateView):
 class EatUpdate(LoginRequiredMixin, UpdateView):
     model = EatModel
     fields = ['medicine', 'remarks', 'last_fed', 'interval', 'complete']
-    success_url = reverse_lazy('eatlist')
+    success_url = reverse_lazy('newlist')
 
 class EatDelete(LoginRequiredMixin, DeleteView):
     model = EatModel
     fields = ['medicine', 'remarks', 'interval', 'complete']
     context_object_name = 'outstanding_list'
-    success_url = reverse_lazy('eatlist')    
+    success_url = reverse_lazy('newlist')    
 
 ########### my own func views ###################
 
@@ -124,7 +124,7 @@ def nextDose(request, pk=None):
             return render(request, 'trackerapp/dose.html', context)
          ### redirects if not ###
         else:
-            return redirect('eatlist') 
+            return redirect('newlist') 
         ### redirects to register if not logged in ###
     else:
         return redirect('eatregister')
