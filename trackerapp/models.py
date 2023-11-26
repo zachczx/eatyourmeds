@@ -25,20 +25,51 @@ class MedicalInfo(models.Model):
         return self.medicine
     
 class EatModel(models.Model):
-    # user is one to many 
+
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     medicine = models.ForeignKey(MedicalInfo, on_delete=models.SET_NULL, null=True)
-    last_fed = models.DateTimeField(default=datetime.now)
     interval = models.IntegerField(default=4)
+    last_fed = models.DateTimeField(default=datetime.now)
+    second_dose = models.DateTimeField(default=None, null=True)
+    third_dose = models.DateTimeField(default=None, null=True)
+    fourth_dose = models.DateTimeField(default=None, null=True)
+    fifth_dose = models.DateTimeField(default=None, null=True)
     remarks = models.TextField(max_length=140, blank=True)
     complete = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
         
     def __str__(self):
-        return f'{self.id} -- User ID ({self.user_id}) -- {self.medicine}'
+        return str(self.medicine)
+
+    @property
+    def get_second_dose(self):
+        a = self.last_fed + timedelta(hours=self.interval)
+        return a  
+     
+    @property
+    def get_third_dose(self):
+        b = self.last_fed + timedelta(hours=self.interval) * 2
+        return b  
+     
+    @property
+    def get_fourth_dose(self):
+        c = self.last_fed + timedelta(hours=self.interval) * 3
+        return c      
     
+    @property
+    def get_fifth_dose(self):
+        d = self.last_fed + timedelta(hours=self.interval) * 4
+        return d
+    
+    def save(self, *args, **kwargs):
+        self.second_dose = self.get_second_dose
+        self.third_dose = self.get_third_dose
+        self.fourth_dose = self.get_fourth_dose
+        self.fifth_dose = self.get_fifth_dose
+        super(EatModel, self).save(*args, **kwargs)
+          
     class Meta:
         ordering = ['complete'] #ordering in descending just do -complete
-    
-    
+        
+
     

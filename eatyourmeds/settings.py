@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'compression_middleware.middleware.CompressionMiddleware', #custom for brotli
+    #'compression_middleware.middleware.CompressionMiddleware', #custom for brotli
 ]
 
 # for https, "Origin checking failed - https://zixianchen.com does not match any trusted origins."

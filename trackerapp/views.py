@@ -3,7 +3,7 @@ from django.db import models
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 #from django.http import HttpResponse
-from django.views.generic.list import ListView
+
 from django.views.generic.detail import DetailView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,6 +16,9 @@ from .models import EatModel, MedicalInfo
 
 from django.utils.timezone import datetime, timedelta
 
+from django.views.generic.base import TemplateView #for newlist class
+from django.db.models import FilteredRelation
+
 # Create your views here.
 
 class EatLogin(LoginView):
@@ -27,19 +30,7 @@ class EatLogin(LoginView):
         return reverse_lazy('eatlist')
 
 class EatLogout(LogoutView):
-    next_page = 'eatlogin'
-
-class EatList(LoginRequiredMixin, ListView):
-    model = EatModel
-    context_object_name = 'outstanding_list'
-    fields = ['medicine', 'remarks', 'last_fed', 'interval', 'complete']
-    login_url = "eatlogin"
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["outstanding_list"] = context["outstanding_list"].filter(user=self.request.user)
-        context["count"] = context["outstanding_list"].filter(complete=False).count()
-        return context        
+    next_page = 'eatlogin'    
 
 class EatRegister(FormView):
     template_name = 'trackerapp/registration/register.html'
@@ -137,7 +128,19 @@ def nextDose(request, pk=None):
         ### redirects to register if not logged in ###
     else:
         return redirect('eatregister')
-
+    
+class newlist(LoginRequiredMixin, TemplateView):
+    
+    template_name = 'trackerapp/eatmodel_newlist.html'
+    login_url = 'eatlogin'
+    
+    #filter to only contain the user's data
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['list'] = EatModel.objects.filter(user=self.request.user)
+        #context['medicine'] = MedicalInfo.objects.all()
+        return context
+    
 ##################################
 '''
 #original code for nextDose before I split it up
@@ -180,5 +183,19 @@ def nextDose(request, pk=None):
         
     else:
         return redirect('eatregister')
+
+from django.views.generic.list import ListView
+class EatList(LoginRequiredMixin, ListView):
+    model = EatModel
+    context_object_name = 'outstanding_list'
+    fields = ['medicine', 'remarks', 'last_fed', 'interval', 'complete']
+    login_url = "eatlogin"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["outstanding_list"] = context["outstanding_list"].filter(user=self.request.user)
+        context["count"] = context["outstanding_list"].filter(complete=False).count()
+        return context    
+
 '''
     
