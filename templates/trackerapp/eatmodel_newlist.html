@@ -11,17 +11,16 @@
 <div class="row bg-light border border-success rounded p-1 mt-3">
     <div class="col-sm-4">
         <h4>{{item.medicine}}</h4>
-        <span class="btn btn-outline-primary">{{item.last_fed|date:"d M"}} at {{item.last_fed|time:"h:i a"}}</span>
-        <span class="btn btn-outline-success">{{item.interval}} hourly</span>
+        <span class="btn btn-outline-dark"><i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.interval}} hourly</span>
+        <span class="btn btn-outline-dark"><i class="bi bi-1-circle-fill"></i>&nbsp;&nbsp;{{item.last_fed|date:"d M"}} at {{item.last_fed|time:"h:i a"}}</span>
     </div>
-    <div class="col-sm-4 col-sm-4 d-flex align-items-end justify-content-center">
+    <div class="col-sm-6 d-flex align-items-end justify-content-left">
         {% if item.second_dose is not None %}
             <button type="button" class="btn btn-success position-relative">
-            {{item.second_dose|date:"d M"}} at {{item.second_dose|time:"h:i a"}}
+                <i class="bi bi-2-circle-fill"></i>&nbsp;&nbsp;{{item.second_dose|date:"d M"}} at {{item.second_dose|time:"h:i a"}}
                 <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
-                    Next
-                <span class="Second Dose"></span>
-            </span>
+                    Next<span class="Second Dose"></span>
+                </span>
             </button>
         {% else %}
         None
@@ -29,17 +28,13 @@
         <span class="px-2"></span>
         {% if item.third_dose is not None %}
             <button type="button" class="btn btn-outline-success position-relative">
-            {{item.third_dose|date:"d M"}} at {{item.third_dose|time:"h:i a"}}
-                <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-secondary">
-                    Next Next
-                <span class="Third Dose"></span>
-            </span>
+                <i class="bi bi-3-circle-fill"></i>&nbsp;&nbsp;{{item.third_dose|date:"d M"}} at {{item.third_dose|time:"h:i a"}}
             </button>
         {% endif %}   
     </div>
-    <div class="col-sm-4 d-flex align-items-end justify-content-end">
+    <div class="col-sm-2 d-flex align-items-end justify-content-end">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 Actions
             </button>
             <ul class="dropdown-menu">
