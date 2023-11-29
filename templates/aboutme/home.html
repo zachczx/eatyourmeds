@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     </head>
     <body style="background-image: url('{% static 'aboutme/library2.gif' %}')">
-    <div class="container1"> <!-- lazy to change all the geocities css references to container -->
+    <div class="container1 px-3"> <!-- lazy to change all the geocities css references to container -->
         <div class="row">
                 <div class="col-sm">
                     <h1 class="text-center">Welcome to Zixian's website!</h1>
@@ -18,9 +18,9 @@
                 </div>
             </div>
         <div class="row">
-                <div class="col-sm-4 px-5">
+                <div class="col-sm-4">
                     <h2>About me</h2>
-                    <div class="border border-dark p-3">
+                    <div class="bg-light border border-dark p-3">
                         <p class="fs-4">Hello, I am Zixian. I am old. Welcome to my personal website.</p>
                         <p class="fs-4">I did this in the nostalgic feeling of Geocities/Angelfires webpage ages ago, like fanpages I created</a>. The days of nesting tables, opening Paintshop Pro and Frontpage/notepad!</p>
                         <img src="{% static 'aboutme/float1.gif' %}">
@@ -29,18 +29,22 @@
                 </div>
                 <div class="col-sm-4">
                     <h2>Here is my doggo friend, Kit</h2>
-                    <img src="{% static 'aboutme/kit.webp' %}" class="img-fluid" alt="Good doggo" />
-                    <p>We all love Kit, though sometimes she's naughty.</p>
-                    <img src="{% static 'aboutme/kit_chew.webp' %}" class="img-fluid" alt="Bad doggo" />
+                    <div class="bg-light border border-dark p-3">
+                        <img src="{% static 'aboutme/kit.webp' %}" class="img-fluid" width="1080" height="720" alt="Good doggo" />
+                        <p>We all love Kit, though sometimes she's naughty.</p>
+                        <img src="{% static 'aboutme/kit_chew.webp' %}" class="img-fluid" width="720" height="826" alt="Bad doggo" />
+                    </div>
                 </div>
                 <div class="col-sm-4">
                     <h2>These are my other webpages</h2>
-                    <ul>
-                        <li class="display-3"><a href="https://zixianchen.com/eatyourmeds">My webapp Eat Your Medicine to learn django</a></li>
-                        <li class="display-3"><a href="https://www.linkedin.com/in/zixianchen/">LinkedIn profile</a></li>
-                        <li class="display-3"><a href="https://btonomics.com/">My home renovation blog, BTOnomics</a></li>
-                        <li><a href="https://github.com/zachczx">Github</a></li>
-                    </ul>
+                    <div class="bg-light border border-dark p-3">
+                        <ul>
+                            <li class="fs-3"><a href="https://zixianchen.com/eatyourmeds">My webapp Eat Your Medicine to learn django</a></li>
+                            <li class="fs-3"><a href="https://www.linkedin.com/in/zixianchen/">LinkedIn profile</a></li>
+                            <li class="fs-3"><a href="https://btonomics.com/">My home renovation blog, BTOnomics</a></li>
+                            <li><a href="https://github.com/zachczx">Github</a></li>
+                        </ul>
+                    </div>
                 </div>
         </div>
         <div class="row">
