@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container w-80">
     <div class="row mb-1">
-        <div class="col text-end"><a href="{% url 'eatcreate' %}"><span class="badge bg-success even-larger-badge"><i class="bi bi-plus-square-fill pr-5"></i>&nbsp Create</span></a></div>
+        <div class="col text-end"><a href="{% url 'eatcreate' %}"><span class="badge bg-success even-larger-badge"><i class="bi bi-plus-lg"></i>&nbsp&nbspCreate&nbsp&nbsp</span></a></div>
     </div>
 {% for item in list %}
     {% if item.complete is False %}
@@ -16,31 +16,34 @@
     </div>
     <div class="col-sm-6 d-flex align-items-end justify-content-left">
         {% if item.second_dose is not None %}
-            <button type="button" class="btn btn-success position-relative">
+        <a href="{% url 'nextDose' item.id %}"><button type="button" class="btn btn-success position-relative">
                 <i class="bi bi-2-circle-fill"></i>&nbsp;&nbsp;{{item.second_dose|date:"d M"}} at {{item.second_dose|time:"h:i a"}}
                 <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
                     Next<span class="Second Dose"></span>
                 </span>
             </button>
+        </a>
         {% else %}
         None
         {% endif %}
         <span class="px-2"></span>
         {% if item.third_dose is not None %}
+        <a href="{% url 'nextDose' item.id %}">    
             <button type="button" class="btn btn-outline-success position-relative">
                 <i class="bi bi-3-circle-fill"></i>&nbsp;&nbsp;{{item.third_dose|date:"d M"}} at {{item.third_dose|time:"h:i a"}}
             </button>
+        </a>
         {% endif %}   
     </div>
     <div class="col-sm-2 d-flex align-items-end justify-content-end">
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Actions
+                Manage
             </button>
             <ul class="dropdown-menu">
-                <li><a href="{% url 'nextDose' item.id %}" class="dropdown-item">View</a></li>
-                <li><a href="{% url 'eatupdate' item.id %}" class="dropdown-item">Edit</a></li>
-                <li><a href="{% url 'eatdelete' item.id %}" class="dropdown-item">Delete</a></li>
+                <li><a href="{% url 'nextDose' item.id %}" class="dropdown-item"><i class="bi bi-box-arrow-up-right"></i>&nbsp;&nbsp;View</a></li>
+                <li><a href="{% url 'eatupdate' item.id %}" class="dropdown-item"><i class="bi bi-pencil-fill"></i>&nbsp;&nbsp;Edit</a></li>
+                <li><a href="{% url 'eatdelete' item.id %}" class="dropdown-item"><i class="bi bi-trash3"></i>&nbsp;&nbsp;Delete</a></li>
             </ul>
         </div> 
     </div>
