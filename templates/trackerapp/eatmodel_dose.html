@@ -49,7 +49,7 @@
                                                             <div class="px-4">
                                                                 <div class="event-date bg-soft-secondary text-secondary fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;1</div>
                                                                 <h5 class="font-size-16">
-                                                                {{nextfewdoses.last_fed}}
+                                                                {{nextfewdoses.last_fed|date:"d M (D)"}}<br>{{nextfewdoses.last_fed|time:"g:i a"}}
                                                                 </h5>
                                                             </div>
                                                         </li>
@@ -58,25 +58,25 @@
                                                             <div class="px-4">
                                                                 <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;2</div>
                                                                 <h5 class="font-size-16">
-                                                                <b>{{nextfewdoses.second_dose}}</b>
+                                                                <b>{{nextfewdoses.second_dose|date:"d M (D)"}}<br>{{nextfewdoses.second_dose|time:"g:i a"}}</b>
                                                                 </h5>
                                                             </div>
                                                         </li>
 
                                                         <li class="list-inline-item event-list">
                                                             <div class="px-4">
-                                                                <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;2</div>
+                                                                <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;3</div>
                                                                 <h5 class="font-size-16">
-                                                                <b>{{nextfewdoses.third_dose}}</b>
+                                                                <b>{{nextfewdoses.third_dose|date:"d M (D)"}}<br>{{nextfewdoses.third_dose|time:"g:i a"}}</b>
                                                                 </h5>
                                                             </div>
                                                         </li>
 
                                                         <li class="list-inline-item event-list">
                                                             <div class="px-4">
-                                                                <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;2</div>
+                                                                <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;4</div>
                                                                 <h5 class="font-size-16">
-                                                                <b>{{nextfewdoses.fourth_dose}}</b>
+                                                                <b>{{nextfewdoses.fourth_dose|date:"d M (D)"}}<br>{{nextfewdoses.fourth_dose|time:"g:i a"}}</b>
                                                                 </h5>
                                                             </div>
                                                         </li>

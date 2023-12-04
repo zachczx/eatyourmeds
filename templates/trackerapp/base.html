@@ -67,7 +67,7 @@
         label {
             padding-top: 10px;
         }
-
+        
         #header {
             text-decoration: none;
         }
@@ -76,7 +76,7 @@
 
             color: #6B856D;
             text-decoration-thickness: 3px;
-            text-underline-offset: 3px;
+            text-underline-offset: 5px; /* offset the issue with g being covered by line */
             text-decoration-color: #6B856D;
         }
 
@@ -88,7 +88,6 @@
             color: #86A789;
             text-decoration-thickness: 3px;
             text-decoration-color: #86A789;
-
         }
 
         a.btn:hover { 
@@ -202,10 +201,10 @@
 <div class="container shadow mb-5 pb-5 bg-white rounded">
     <div class="row">
         <a href="{% url 'newlist' %}" id="header">
-            <div class="col p-3 mb-2 text-white rounded" style="background-color: #86A789;">
-                <div class="jumbotron jumbotron-fluid border-start border-white border-5 px-3">
-                    <h1 class="fw-bolder">Eat Your Med<i class="bi bi-capsule text-white fs-2"></i>cine</h1>
-                    <p class="lead">Cannot remember when to eat your medicine? Get reminded.</p>
+            <div class="col p-3 mb-2 text-white rounded text-center" style="background-color: #86A789;">
+                <div class="jumbotron jumbotron-fluid">
+                    <h1 class="fw-bolder">Eat Y<i class="bi bi-ban-fill fs-3"></i>ur Med<i class="bi bi-capsule text-white fs-3"></i>cine</h1>
+                    <p class="lead">Forgetting to eat your medicine? Get reminded here.</p>
                 </div>
             </div>
         </a>
