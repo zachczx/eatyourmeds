@@ -22,6 +22,10 @@
             <div class="fw-bold">Insert remarks, if any:</div>
             <div class="mb-3">{{ form.remarks }}</div>
             {% endif %}
+            {% if form.complete %}
+            <div class="fw-bold">Have you completed all doses?</div>
+            <div class="mb-3">{{ form.complete }}</div>
+            {% endif %}
                 <input type="submit" value="Submit" class="btn btn-success">
                 <input type="reset" value="Reset" class="btn btn-secondary">
             </div>

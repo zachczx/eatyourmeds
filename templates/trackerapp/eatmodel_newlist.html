@@ -1,56 +1,62 @@
 {% extends 'trackerapp/base.html' %}
 
 {% block content %}
+
+
+
 <div class="container w-80">
-    <div class="row mb-1">
-        <div class="col text-end"><a href="{% url 'eatcreate' %}"><span class="badge bg-success even-larger-badge"><i class="bi bi-plus-lg"></i>&nbsp&nbspCreate&nbsp&nbsp</span></a></div>
+
+    <div class="row">
+        <div class="col-sm mt-3 gx-0 d-flex justify-content-end fw-bold">
+            <a href="{% url 'eatcreate' %}"><span class="badge bg-success even-larger-badge"><i class="bi bi-plus-lg"></i>&nbsp&nbspCreate&nbsp&nbsp</span></a>
+        </div>
     </div>
-{% for item in list %}
+    {% for item in list %}
     {% if item.complete is False %}
-
-<div class="row bg-light border border-success rounded p-1 mt-3">
-    <div class="col-sm-4">
-        <h4>{{item.medicine}}</h4>
-        <span class="btn btn-outline-dark"><i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.interval}} hourly</span>
-        <span class="btn btn-outline-dark"><i class="bi bi-1-circle-fill"></i>&nbsp;&nbsp;{{item.last_fed|date:"d M"}} at {{item.last_fed|time:"h:i a"}}</span>
+    <!-- start of each item -->
+    <div class="row bg-light border border-success rounded p-1 mt-1">
+        <div class="col-sm-4">
+            <h4>{{item.medicine}}</h4>
+            <span class="btn btn-outline-dark"><i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.interval}} hourly</span>
+            <span class="btn btn-outline-dark"><i class="bi bi-1-circle-fill"></i>&nbsp;&nbsp;{{item.last_fed|date:"d M"}} at {{item.last_fed|time:"h:i a"}}</span>
+        </div>
+        <div class="col-sm-6 d-flex align-items-end justify-content-left">
+            {% if item.second_dose is not None %}
+            <a href="#nextdose"><button type="button" class="btn btn-success position-relative">
+                    <i class="bi bi-2-circle-fill"></i>&nbsp;&nbsp;{{item.second_dose|date:"d M"}} at {{item.second_dose|time:"h:i a"}}
+                    <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+                        Next<span class="Second Dose"></span>
+                    </span>
+                </button>
+            </a>
+            {% else %}
+            None
+            {% endif %}
+            <span class="px-2"></span>
+            {% if item.third_dose is not None %}
+            <a href="#nextdose id">    
+                <button type="button" class="btn btn-outline-success position-relative">
+                    <i class="bi bi-3-circle-fill"></i>&nbsp;&nbsp;{{item.third_dose|date:"d M"}} at {{item.third_dose|time:"h:i a"}}
+                </button>
+            </a>
+            {% endif %}   
+        </div>
+        <div class="col-sm-2 d-flex align-items-end justify-content-end">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Manage
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#nextdose item.id" class="dropdown-item"><i class="bi bi-box-arrow-up-right"></i>&nbsp;&nbsp;View</a></li>
+                    <li><a href="{% url 'eatupdate' item.id %}" class="dropdown-item"><i class="bi bi-pencil-fill"></i>&nbsp;&nbsp;Edit</a></li>
+                    <li><a href="{% url 'eatdelete' item.id %}" class="dropdown-item"><i class="bi bi-trash3"></i>&nbsp;&nbsp;Delete</a></li>
+                </ul>
+            </div> 
+        </div>
     </div>
-    <div class="col-sm-6 d-flex align-items-end justify-content-left">
-        {% if item.second_dose is not None %}
-        <a href="{% url 'nextDose' item.id %}"><button type="button" class="btn btn-success position-relative">
-                <i class="bi bi-2-circle-fill"></i>&nbsp;&nbsp;{{item.second_dose|date:"d M"}} at {{item.second_dose|time:"h:i a"}}
-                <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
-                    Next<span class="Second Dose"></span>
-                </span>
-            </button>
-        </a>
-        {% else %}
-        None
-        {% endif %}
-        <span class="px-2"></span>
-        {% if item.third_dose is not None %}
-        <a href="{% url 'nextDose' item.id %}">    
-            <button type="button" class="btn btn-outline-success position-relative">
-                <i class="bi bi-3-circle-fill"></i>&nbsp;&nbsp;{{item.third_dose|date:"d M"}} at {{item.third_dose|time:"h:i a"}}
-            </button>
-        </a>
-        {% endif %}   
-    </div>
-    <div class="col-sm-2 d-flex align-items-end justify-content-end">
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Manage
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="{% url 'nextDose' item.id %}" class="dropdown-item"><i class="bi bi-box-arrow-up-right"></i>&nbsp;&nbsp;View</a></li>
-                <li><a href="{% url 'eatupdate' item.id %}" class="dropdown-item"><i class="bi bi-pencil-fill"></i>&nbsp;&nbsp;Edit</a></li>
-                <li><a href="{% url 'eatdelete' item.id %}" class="dropdown-item"><i class="bi bi-trash3"></i>&nbsp;&nbsp;Delete</a></li>
-            </ul>
-        </div> 
-    </div>
-</div>
-
-{% endif %}
-{% endfor %}
+    <!-- end of each item -->
+    {% endif %}
+    {% endfor %}
 </div>
 
 {% endblock %}

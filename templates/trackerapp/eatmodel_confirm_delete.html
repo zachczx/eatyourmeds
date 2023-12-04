@@ -9,7 +9,7 @@
             {% csrf_token %}
             <div class="alert alert-danger">Are you sure you want to delete <b>{{ outstanding_list.medicine|upper }}?</b></div>
             <input type="submit" class="btn btn-danger" value="Delete">
-            <a href="{% url 'eatlist' %}" class="btn btn-secondary text-white">Back</a>
+            <a href="{% url 'newlist' %}" class="btn btn-secondary text-white">Back</a>
         </form>
     </div>
     <div class="col-3"></div>

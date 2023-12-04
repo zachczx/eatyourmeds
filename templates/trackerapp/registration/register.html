@@ -4,15 +4,22 @@
 
 <h2 class="text-center">Register</h2>
 
-<div class="d-flex justify-content-center fw-bold">
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_div }}
-        <input type="submit" value="Register" class="btn btn-success mt-3">
-    </form>
+<div class="row">
+    <div class="d-flex justify-content-center fw-bold">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.as_div }}
+            <input type="submit" value="Register" class="btn btn-success mt-3">
+        </form>
+    </div>
 </div>
-<div class="d-flex justify-content-center mt-5">
-    <p>Already have an account? <a href="{% url 'eatlogin' %}">Login here</a>.</p>
+
+<div class="row">
+    <div class="d-flex justify-content-center mt-5">
+        <p>
+            <span class="mb-2">Already have an account? <a href="{% url 'eatlogin' %}">Login here</a>.</span>
+        </p>
+    </div>
 </div>
 
 {% endblock %}

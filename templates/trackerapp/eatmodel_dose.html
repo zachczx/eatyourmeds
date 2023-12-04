@@ -1,13 +1,33 @@
 {% extends 'trackerapp/base.html' %}
 
 {% block content %}
+
+<div class="row">
+    <div class="col-sm">
+        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'newlist' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">View Entry</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm d-flex justify-content-center">
+        <div class="btn-group">
+            <span class="btn btn-success active" aria-current="page"><i class="bi bi-box-arrow-up-right"></i>&nbsp;&nbsp;View</li></span>
+            <a href="{% url 'eatupdate' nextfewdoses.pk %}" class="btn btn-outline-success"><i class="bi bi-pencil-fill"></i>&nbsp;&nbsp;Edit</li></a>
+            <a href="{% url 'eatdelete' nextfewdoses.pk %}" class="btn btn-outline-success"><i class="bi bi-trash3"></i>&nbsp;&nbsp;Delete</li></a>
+        </div>
+    </div>
+</div>
 <div class="row mt-3 mb-1">
-    <div class="col">
+    <div class="col-sm">
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="heading_within">
                     <button class="accordion-button fw-bolder" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_within" aria-expanded="true" aria-controls="collapse_within">
-                        {{ medical_info.0.medicine }}
+                        {{ nextfewdoses.medicine }}
                     </button>
                 </h2>
                 <div id="collapse_within" class="accordion-collapse collapse show" aria-labelledby="heading_within" data-bs-parent="#accordionExample">
@@ -25,27 +45,42 @@
                                             <!-- <h4 class="card-title mb-5">Horizontal Timeline</h4> -->
                                             <div class="hori-timeline" dir="ltr">
                                                 <ul class="list-inline events">
-                                                    {% for x in next_four_doses.doses_timings %}
-                                                        {% if forloop.counter is 1 %}
                                                         <li class="list-inline-item event-list">
                                                             <div class="px-4">
-                                                                <div class="event-date bg-soft-secondary text-secondary fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;{{forloop.counter}}</div>
+                                                                <div class="event-date bg-soft-secondary text-secondary fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;1</div>
                                                                 <h5 class="font-size-16">
-                                                                {{x}}
+                                                                {{nextfewdoses.last_fed}}
                                                                 </h5>
                                                             </div>
                                                         </li>
-                                                        {% else %}
+
                                                         <li class="list-inline-item event-list">
                                                             <div class="px-4">
-                                                                <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;{{forloop.counter}}</div>
+                                                                <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;2</div>
                                                                 <h5 class="font-size-16">
-                                                                <b>{{x}}</b>
+                                                                <b>{{nextfewdoses.second_dose}}</b>
                                                                 </h5>
                                                             </div>
                                                         </li>
-                                                        {% endif %}
-                                                    {% endfor %}
+
+                                                        <li class="list-inline-item event-list">
+                                                            <div class="px-4">
+                                                                <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;2</div>
+                                                                <h5 class="font-size-16">
+                                                                <b>{{nextfewdoses.third_dose}}</b>
+                                                                </h5>
+                                                            </div>
+                                                        </li>
+
+                                                        <li class="list-inline-item event-list">
+                                                            <div class="px-4">
+                                                                <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;2</div>
+                                                                <h5 class="font-size-16">
+                                                                <b>{{nextfewdoses.fourth_dose}}</b>
+                                                                </h5>
+                                                            </div>
+                                                        </li>
+
                                                 </ul>
                                             </div>
                                         </div>
@@ -73,7 +108,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Description</h5>
-                                        <p class="card-text">{{medical_info.0.description}}</p>
+                                        <p class="card-text">{{nextfewdoses.medicine.description}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +116,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Dosing Interval</h5>
-                                        <p class="card-text">{{medical_info.0.rec_interval}} hourly <span class="text-muted">(or {{number_of_times}} times a day)</span></p>
+                                        <p class="card-text">{{nextfewdoses.medicine.rec_interval}} hourly <span class="text-muted">(or {{doses_per_day}} times a day)</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +124,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Used For</h5>
-                                        <p class="card-text">{{medical_info.0.used_for}}</p>
+                                        <p class="card-text">{{nextfewdoses.medicine.used_for}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +132,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Side Effects</h5>
-                                        <p class="card-text">{{medical_info.0.sideeffects}}</p>
+                                        <p class="card-text">{{nextfewdoses.medicine.sideeffects}}</p>
                                     </div>
                                 </div>
                             </div>

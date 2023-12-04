@@ -87,47 +87,17 @@ class EatDelete(LoginRequiredMixin, DeleteView):
     context_object_name = 'outstanding_list'
     success_url = reverse_lazy('newlist')    
 
-########### my own func views ###################
+class DoseView(LoginRequiredMixin, DetailView):
 
-def MakeNextDoses(userpk):
-    alldetails = EatModel.objects.filter(pk=userpk).values()
-    hrs = alldetails[0]['interval'] #putting this here to avoid doing another filter
-    doses_per_day = int(24 / hrs)
-
-    first_dose = EatModel.objects.filter(id=userpk).values_list('last_fed', flat=True)
-    second_dose = first_dose[0] + timedelta(hours=hrs)
-    third_dose = second_dose + timedelta(hours=hrs)
-    fourth_dose = third_dose + timedelta(hours=hrs)
-    dose = {
-        'doses_per_day': doses_per_day,
-        'doses_timings': [first_dose[0], second_dose, third_dose, fourth_dose],
-        'user_id': alldetails[0]['user_id'], #I used this to check user_id later
-    }
-    return dose 
-
-def GetMedicalInfo(userpk):
-    alldetails = EatModel.objects.filter(pk=userpk).values()
-    get_medical_info = MedicalInfo.objects.filter(id=alldetails[0]['medicine_id']).values()
-    return get_medical_info
-
-def nextDose(request, pk=None):
-    if request.user.is_authenticated is True:
-        ### display if authenticated ###
-        next_four_doses = MakeNextDoses(pk)
-        ### checks if requestor is owner of record ###
-        if request.user.id == next_four_doses['user_id']:
-            medical_info = GetMedicalInfo(pk) 
-            context = {
-                'next_four_doses': next_four_doses,
-                'medical_info': medical_info,
-            }
-            return render(request, 'trackerapp/dose.html', context)
-         ### redirects if not ###
-        else:
-            return redirect('newlist') 
-        ### redirects to register if not logged in ###
-    else:
-        return redirect('eatregister')
+    model = EatModel
+    template_name = 'trackerapp/eatmodel_dose.html'
+    login_url = 'eatlogin'
+    context_object_name = 'nextfewdoses'
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super(DoseView, self).get_context_data(*args, **kwargs)
+        context['doses_per_day'] = int(24 / self.object.interval)
+        return context
     
 class newlist(LoginRequiredMixin, TemplateView):
     
@@ -197,5 +167,45 @@ class EatList(LoginRequiredMixin, ListView):
         context["count"] = context["outstanding_list"].filter(complete=False).count()
         return context    
 
+def MakeNextDoses(userpk):
+    alldetails = EatModel.objects.filter(pk=userpk).values()
+    hrs = alldetails[0]['interval'] #putting this here to avoid doing another filter
+    doses_per_day = int(24 / hrs)
+
+    first_dose = EatModel.objects.filter(id=userpk).values_list('last_fed', flat=True)
+    second_dose = first_dose[0] + timedelta(hours=hrs)
+    third_dose = second_dose + timedelta(hours=hrs)
+    fourth_dose = third_dose + timedelta(hours=hrs)
+    dose = {
+        'doses_per_day': doses_per_day,
+        'doses_timings': [first_dose[0], second_dose, third_dose, fourth_dose],
+        'user_id': alldetails[0]['user_id'], #I used this to check user_id later
+    }
+    return dose 
+
+def GetMedicalInfo(userpk):
+    alldetails = EatModel.objects.filter(pk=userpk).values()
+    get_medical_info = MedicalInfo.objects.filter(id=alldetails[0]['medicine_id']).values()
+    return get_medical_info
+    
+def nextDose(request, pk=None):
+    if request.user.is_authenticated is True:
+        ### display if authenticated ###
+        next_four_doses = MakeNextDoses(pk)
+        ### checks if requestor is owner of record ###
+        if request.user.id == next_four_doses['user_id']:
+            medical_info = GetMedicalInfo(pk) 
+            context = {
+                'next_four_doses': next_four_doses,
+                'medical_info': medical_info,
+                'findid': pk,
+            }
+            return render(request, 'trackerapp/dose.html', context)
+         ### redirects if not ###
+        else:
+            return redirect('newlist') 
+        ### redirects to register if not logged in ###
+    else:
+        return redirect('eatregister')
 '''
     
