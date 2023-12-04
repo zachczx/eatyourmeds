@@ -22,7 +22,7 @@
         </div>
         <div class="col-sm-6 d-flex align-items-end justify-content-left">
             {% if item.second_dose is not None %}
-            <a href="#nextdose"><button type="button" class="btn btn-success position-relative">
+            <a href="{% url 'doseview' item.id %}"><button type="button" class="btn btn-success position-relative">
                     <i class="bi bi-2-circle-fill"></i>&nbsp;&nbsp;{{item.second_dose|date:"d M"}} at {{item.second_dose|time:"h:i a"}}
                     <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
                         Next<span class="Second Dose"></span>
@@ -34,7 +34,7 @@
             {% endif %}
             <span class="px-2"></span>
             {% if item.third_dose is not None %}
-            <a href="#nextdose id">    
+            <a href="{% url 'doseview' item.id %}">    
                 <button type="button" class="btn btn-outline-success position-relative">
                     <i class="bi bi-3-circle-fill"></i>&nbsp;&nbsp;{{item.third_dose|date:"d M"}} at {{item.third_dose|time:"h:i a"}}
                 </button>
@@ -47,7 +47,7 @@
                     Manage
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="#nextdose item.id" class="dropdown-item"><i class="bi bi-box-arrow-up-right"></i>&nbsp;&nbsp;View</a></li>
+                    <li><a href="{% url 'doseview' item.id %}" class="dropdown-item"><i class="bi bi-box-arrow-up-right"></i>&nbsp;&nbsp;View</a></li>
                     <li><a href="{% url 'eatupdate' item.id %}" class="dropdown-item"><i class="bi bi-pencil-fill"></i>&nbsp;&nbsp;Edit</a></li>
                     <li><a href="{% url 'eatdelete' item.id %}" class="dropdown-item"><i class="bi bi-trash3"></i>&nbsp;&nbsp;Delete</a></li>
                 </ul>
