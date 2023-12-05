@@ -14,7 +14,7 @@ from django.contrib.admin.widgets import AdminDateWidget
 from django.urls import reverse_lazy
 from .models import EatModel, MedicalInfo
 
-from django.utils.timezone import datetime, timedelta
+from django.utils.timezone import datetime, timedelta, localtime #localtime to do subtraction
 
 from django.views.generic.base import TemplateView #for newlist class
 from django.db.models import FilteredRelation
@@ -97,6 +97,42 @@ class DoseView(LoginRequiredMixin, DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(DoseView, self).get_context_data(*args, **kwargs)
         context['doses_per_day'] = int(24 / self.object.interval)
+        #key = [self.object.second_dose, self.object.third_dose, self.object.fourth_dose, self.object.fifth_dose]
+        #newkey = []
+        #for v in key:
+        #    time_remaining = v + timedelta(hours=72)
+        #    newkey.append(time_remaining)
+        #context['dose_differential'] = newkey
+        now = localtime()
+        
+        if self.object.last_fed > now:
+            key = str(self.object.last_fed - now)
+            splitkey = key.split(":")
+            context['remaining_last_fed'] = splitkey[0] + " hrs " + splitkey[1] + " mins "
+        else:
+            context['remaining_last_fed'] = "over"
+            
+        if self.object.second_dose > now:
+            key = str(self.object.second_dose - now)
+            splitkey = key.split(":")
+            context['remaining_second_dose'] = splitkey[0] + " hrs " + splitkey[1] + " mins "
+        else:
+            context['remaining_second_dose'] = "over"
+            
+        if self.object.third_dose > now:
+            key = str(self.object.third_dose - now)
+            splitkey = key.split(":")
+            context['remaining_third_dose'] = splitkey[0] + " hrs " + splitkey[1] + " mins "
+        else:
+            context['remaining_third_dose'] = "over"
+        
+        if self.object.fourth_dose > now:
+            key = str(self.object.fourth_dose - now)
+            splitkey = key.split(":")
+            context['remaining_fourth_dose'] = splitkey[0] + " hrs " + splitkey[1] + " mins "
+        else:
+            context['remaining_fourth_dose'] = "over"
+        
         return context
     
 class newlist(LoginRequiredMixin, TemplateView):
