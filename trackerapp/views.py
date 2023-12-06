@@ -2,6 +2,7 @@ from typing import Any
 from django.db import models
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_http_methods
 #from django.http import HttpResponse
 
 from django.views.generic.detail import DetailView
@@ -86,6 +87,12 @@ class EatDelete(LoginRequiredMixin, DeleteView):
     fields = ['medicine', 'remarks', 'interval', 'complete']
     context_object_name = 'outstanding_list'
     success_url = reverse_lazy('newlist')    
+
+@require_http_methods(['DELETE'])
+def htmx_delete(request, id):
+    EatModel.objects.filter(id=id).delete()
+    list = EatModel.objects.filter(user=request.user).all()
+    return render(request, "trackerapp/eatmodel_newlist_content.html", {'list': list})
 
 class DoseView(LoginRequiredMixin, DetailView):
 

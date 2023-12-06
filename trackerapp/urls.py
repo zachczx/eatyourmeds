@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import EatLogin, EatLogout, EatRegister, EatDetails, EatCreate, EatUpdate, EatDelete
-from .views import newlist, DoseView 
+from .views import newlist, DoseView, htmx_delete 
 
 urlpatterns = [
     path('login/', EatLogin.as_view(), name='eatlogin'),
@@ -14,4 +14,5 @@ urlpatterns = [
     path('delete/<int:pk>/', EatDelete.as_view(), name='eatdelete'),
     path('dose/<int:pk>/', DoseView.as_view(), name='doseview'),
     path('', newlist.as_view(), name='newlist'),
+    path('dose/<int:id>/delete/', views.htmx_delete, name="htmx_delete"),
 ]
