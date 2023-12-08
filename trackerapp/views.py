@@ -12,8 +12,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login # to login right after creating account
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.contrib.admin.widgets import AdminDateWidget
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .models import EatModel, MedicalInfo
+
+#from datetime import datetime as core_datetime #for the sorting by time
+#from django.db.models import Q #for query multiply columns
 
 from django.utils.timezone import datetime, timedelta, localtime #localtime to do subtraction
 
@@ -80,7 +83,10 @@ class EatCreate(LoginRequiredMixin, CreateView):
 class EatUpdate(LoginRequiredMixin, UpdateView):
     model = EatModel
     fields = ['medicine', 'remarks', 'last_fed', 'interval', 'complete']
-    success_url = reverse_lazy('newlist')
+    #success_url = reverse_lazy('doseview')
+
+    def get_success_url(self):
+        return reverse('doseview', kwargs={"pk": self.kwargs.get('pk')})
 
 class EatDelete(LoginRequiredMixin, DeleteView):
     model = EatModel
@@ -112,6 +118,42 @@ class DoseView(LoginRequiredMixin, DetailView):
         #context['dose_differential'] = newkey
         now = localtime()
         
+        #get number of hours
+        last_fed_in_hrs = float((self.object.last_fed - now).total_seconds())/3600
+        second_dose_in_hrs = float((self.object.second_dose - now).total_seconds())/3600
+        third_dose_in_hrs = float((self.object.third_dose - now).total_seconds())/3600
+        fourth_dose_in_hrs = float((self.object.fourth_dose - now).total_seconds())/3600
+        
+        if last_fed_in_hrs < 0:
+            context['last_fed_alert_status'] = "secondary"
+        elif 0 < last_fed_in_hrs < self.object.interval: 
+            context['last_fed_alert_status'] = "danger"
+        else:
+            context['last_fed_alert_status'] = "success"
+            
+        if second_dose_in_hrs < 0:
+            context['second_dose_alert_status'] = "secondary"
+        elif 0 < second_dose_in_hrs < self.object.interval: 
+            context['second_dose_alert_status'] = "danger"
+        else:
+            context['second_dose_alert_status'] = "success"
+            
+        if third_dose_in_hrs < 0:
+            context['third_dose_alert_status'] = "secondary"
+        elif 0 < third_dose_in_hrs < self.object.interval: 
+            context['third_dose_alert_status'] = "danger"
+        else:
+            context['third_dose_alert_status'] = "success"
+        
+        if fourth_dose_in_hrs < 0:
+            context['fourth_dose_alert_status'] = "secondary"
+        elif 0 < fourth_dose_in_hrs < self.object.interval: 
+            context['fourth_dose_alert_status'] = "danger"
+        else:
+            context['fourth_dose_alert_status'] = "success"
+            
+        '''
+        # these were for printing the time remaining statically
         if self.object.last_fed > now:
             key = str(self.object.last_fed - now)
             splitkey = key.split(":")
@@ -139,7 +181,7 @@ class DoseView(LoginRequiredMixin, DetailView):
             context['remaining_fourth_dose'] = splitkey[0] + " hrs " + splitkey[1] + " mins "
         else:
             context['remaining_fourth_dose'] = "over"
-        
+        '''
         return context
     
 class newlist(LoginRequiredMixin, TemplateView):
@@ -147,11 +189,24 @@ class newlist(LoginRequiredMixin, TemplateView):
     template_name = 'trackerapp/eatmodel_newlist.html'
     login_url = 'eatlogin'
     
-    #filter to only contain the user's data
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['time'] = localtime()
         context['list'] = EatModel.objects.filter(user=self.request.user)
-        #context['medicine'] = MedicalInfo.objects.all()
+                
+        '''
+        q = {}
+        for item in context['list']:
+            if item.second_dose > t and item.third_dose > t and item.fourth_dose > t and item.fifth_dose > t:
+                q[item.id] = ['True', 'True', 'True', 'True']
+            elif item.second_dose < t and item.third_dose > t and item.fourth_dose > t and item.fifth_dose > t:
+                q[item.id] = ['False', 'True', 'True', 'True']
+            elif item.second_dose < t and item.third_dose < t and item.fourth_dose < t and item.fifth_dose > t:
+                q[item.id] = ['False', 'False', 'True', 'True']    
+            elif item.second_dose < t and item.third_dose < t and item.fourth_dose < t and item.fifth_dose > t:
+                q[item.id] = ['False', 'False', 'False', 'True']    
+        context['dose_status'] = q
+        '''
         return context
     
 ##################################

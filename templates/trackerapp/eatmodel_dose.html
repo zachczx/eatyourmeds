@@ -15,7 +15,6 @@
 <div class="row">
     <div class="col-sm d-flex justify-content-end align-items-center">
         <div class="btn-group">
-            <span class="btn btn-success active" aria-current="page"><i class="bi bi-box-arrow-up-right"></i>&nbsp;&nbsp;View</li></span>
             <a href="{% url 'eatupdate' nextfewdoses.pk %}" class="btn btn-outline-success"><i class="bi bi-pencil-fill"></i>&nbsp;&nbsp;Edit</li></a>
             <a href="{% url 'eatdelete' nextfewdoses.pk %}" class="btn btn-outline-success"><i class="bi bi-trash3"></i>&nbsp;&nbsp;Delete</li></a>
         </div>
@@ -47,64 +46,84 @@
                                                 <ul class="list-inline events">
                                                         <li class="list-inline-item event-list">
                                                             <div class="px-4">
-                                                                <div class="event-date bg-soft-secondary text-secondary fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;1</div>
+                                                                <div class="event-date bg-soft-{{last_fed_alert_status}} text-dark fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;1</div>
                                                                 <h5 class="font-size-16">
                                                                 {{nextfewdoses.last_fed|date:"j M (D)"}}<br>{{nextfewdoses.last_fed|time:"g:i a"}}
                                                                 </h5>
                                                             </div>
                                                             <div>
                                                                 {% if remaining_last_fed == "over" %}
-                                                                <span class="btn btn-secondary fw-bold">Over</span>
+                                                                <span class="btn btn-{{last_fed_alert_status}} fw-bold">Over</span>
                                                                 {% else %}
-                                                                <span class="btn btn-success fw-bold">{{remaining_last_fed}} away</span>
+                                                                <span class="btn btn-{{last_fed_alert_status}} fw-bold">
+                                                                    <span id="remaining_last_fed_day"></span>
+                                                                    <span id="remaining_last_fed_hrs"></span>
+                                                                    <span id="remaining_last_fed_min"></span>
+                                                                    <span id="remaining_last_fed_sec"></span>
+                                                                </span>
                                                                 {% endif %}
                                                             </div>
                                                         </li>
 
                                                         <li class="list-inline-item event-list">
                                                             <div class="px-4">
-                                                                <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;2</div>
+                                                                <div class="event-date bg-soft-{{second_dose_alert_status}} text-dark fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;2</div>
                                                                 <h5 class="font-size-16">
                                                                 <b>{{nextfewdoses.second_dose|date:"j M (D)"}}<br>{{nextfewdoses.second_dose|time:"g:i a"}}</b>
                                                                 </h5>
                                                             </div>
                                                             <div>
                                                                 {% if remaining_second_dose == "over" %}
-                                                                <span class="btn btn-secondary fw-bold">Over</span>
+                                                                <span class="btn btn-{{second_dose_alert_status}} fw-bold">Over</span>
                                                                 {% else %}
-                                                                <span class="btn btn-success fw-bold">{{remaining_second_dose}} away</span>
+                                                                <span class="btn btn-{{second_dose_alert_status}} fw-bold">    
+                                                                    <span id="remaining_second_dose_day"></span>
+                                                                    <span id="remaining_second_dose_hrs"></span>
+                                                                    <span id="remaining_second_dose_min"></span>
+                                                                    <span id="remaining_second_dose_sec"></span>
+                                                                </span>
                                                                 {% endif %}
                                                             </div>
                                                         </li>
 
                                                         <li class="list-inline-item event-list">
                                                             <div class="px-4">
-                                                                <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;3</div>
+                                                                <div class="event-date bg-soft-{{third_dose_alert_status}} text-dark fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;3</div>
                                                                 <h5 class="font-size-16">
                                                                 <b>{{nextfewdoses.third_dose|date:"j M (D)"}}<br>{{nextfewdoses.third_dose|time:"g:i a"}}</b>
                                                                 </h5>
                                                             </div>
                                                             <div>
                                                                 {% if remaining_third_dose == "over" %}
-                                                                <span class="btn btn-secondary fw-bold">Over</span>
+                                                                <span class="btn btn-{{third_dose_alert_status}} fw-bold">Over</span>
                                                                 {% else %}
-                                                                <span class="btn btn-success fw-bold">{{remaining_third_dose}} away</span>
+                                                                <span class="btn btn-{{third_dose_alert_status}} fw-bold">    
+                                                                    <span id="remaining_third_dose_day"></span>
+                                                                    <span id="remaining_third_dose_hrs"></span>
+                                                                    <span id="remaining_third_dose_min"></span>
+                                                                    <span id="remaining_third_dose_sec"></span>
+                                                                </span>
                                                                 {% endif %}
                                                             </div>
                                                         </li>
 
                                                         <li class="list-inline-item event-list">
                                                             <div class="px-4">
-                                                                <div class="event-date bg-soft-success text-success fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;4</div>
+                                                                <div class="event-date bg-soft-{{fourth_dose_alert_status}} text-dark fw-bold"><i class="bi bi-capsule-pill"></i> &nbsp;4</div>
                                                                 <h5 class="font-size-16">
                                                                 <b>{{nextfewdoses.fourth_dose|date:"j M (D)"}}<br>{{nextfewdoses.fourth_dose|time:"g:i a"}}</b>
                                                                 </h5>
                                                             </div>
                                                             <div>
                                                                     {% if remaining_fourth_dose == "over" %}
-                                                                    <span class="btn btn-secondary fw-bold">Over</span>
+                                                                    <span class="btn btn-{{fourth_dose_alert_status}} fw-bold">Over</span>
                                                                     {% else %}
-                                                                    <span class="btn btn-success fw-bold">{{remaining_fourth_dose}} away</span>
+                                                                    <span class="btn btn-{{fourth_dose_alert_status}} fw-bold">    
+                                                                        <span id="remaining_fourth_dose_day"></span>
+                                                                        <span id="remaining_fourth_dose_hrs"></span>
+                                                                        <span id="remaining_fourth_dose_min"></span>
+                                                                        <span id="remaining_fourth_dose_sec"></span>
+                                                                    </span>
                                                                     {% endif %}
                                                             </div>
                                                         </li>
@@ -173,4 +192,78 @@
             <!-- end second accordion item -->
         </div>
 </div>
+
+<!-- counter javascript for countdown -->
+<script
+    data-js-last-fed="{{nextfewdoses.last_fed.isoformat}}"
+    data-js-second-dose="{{nextfewdoses.second_dose.isoformat}}"
+    data-js-third-dose="{{nextfewdoses.third_dose.isoformat}}"
+    data-js-fourth-dose="{{nextfewdoses.fourth_dose.isoformat}}"
+    >
+    const data = document.currentScript.dataset
+    
+    // get all the variables
+    const jsLastFed = data.jsLastFed
+    const jsSecondDose = data.jsSecondDose
+    const jsThirdDose = data.jsThirdDose
+    const jsFourthDose = data.jsFourthDose
+    
+    //get them in date format
+    let countLastFed = new Date(jsLastFed)
+    let countSecondDose = new Date(jsSecondDose)
+    let countThirdDose = new Date(jsThirdDose)
+    let countFourthDose = new Date(jsFourthDose)
+
+    function counter(targetDate, elementname) {
+        var now = new Date().getTime()
+        var timeleft = targetDate - now;
+
+        var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+
+        elementname_day = elementname + "_day"
+        elementname_hrs = elementname + "_hrs"
+        elementname_min = elementname + "_min"
+        elementname_sec = elementname + "_sec"
+
+        document.getElementById(elementname_day).innerHTML = days + "d : "  
+        document.getElementById(elementname_hrs).innerHTML = hours + "h : "  
+        document.getElementById(elementname_min).innerHTML = minutes + "m left"  
+        //document.getElementById(elementname_sec).innerHTML = seconds + "s left"  
+
+        if (days <= 0) { //more than 1 day
+            document.getElementById(elementname_day).innerHTML = ""  
+        } 
+
+        if (hours <= 0) { //1 day or less
+            document.getElementById(elementname_hrs).innerHTML = ""
+        }
+
+        if (minutes <= 0) { //less than 1 hr
+            document.getElementById(elementname_min).innerHTML = "" 
+        }
+        
+        if (timeleft < 0) {
+            clearInterval(counter);
+            document.getElementById(elementname_day).innerHTML = "Over" 
+            document.getElementById(elementname_hrs).innerHTML = ""
+            document.getElementById(elementname_min).innerHTML = ""
+            document.getElementById(elementname_sec).innerHTML = ""
+        }
+    }
+    counter(countLastFed, "remaining_last_fed")
+    setInterval(() => {counter(countLastFed, "remaining_last_fed")}, 6000)
+
+    counter(countSecondDose, "remaining_second_dose")
+    setInterval(() => {counter(countSecondDose, "remaining_second_dose")}, 6000)
+
+    counter(countThirdDose, "remaining_third_dose")
+    setInterval(() => {counter(countThirdDose, "remaining_third_dose")}, 6000)
+
+    counter(countFourthDose, "remaining_fourth_dose")
+    setInterval(() => {counter(countFourthDose, "remaining_fourth_dose")}, 6000)
+</script>
+<!-- end counter script for countdown -->
 {% endblock %}
