@@ -98,7 +98,7 @@ class EatDelete(LoginRequiredMixin, DeleteView):
 def htmx_delete(request, id):
     EatModel.objects.filter(id=id).delete()
     list = EatModel.objects.filter(user=request.user).all()
-    return render(request, "trackerapp/eatmodel_newlist_content.html", {'list': list})
+    return render(request, "trackerapp/partials/eatmodel_newlist_content.html", {'list': list})
 
 class DoseView(LoginRequiredMixin, DetailView):
 
