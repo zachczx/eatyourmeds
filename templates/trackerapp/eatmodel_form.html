@@ -1,5 +1,22 @@
 {% extends 'trackerapp/base.html' %}
 
+<!-- start flatpickr -->
+{% block extra_css %}
+{{form.media.css}}
+{% endblock %}
+
+{% block extra_js %}
+{{form.media.js}}
+<script>
+  window.djangoFlatpickrOptions = {
+    onChange: function (selectedDates) { console.log("Global onChange") }
+  }
+  window.djangoFlatpickrOptions_start_date = {
+    onChange: function (selectedDates) { console.log("start_date onChange") }
+  }
+</script>
+{% endblock %}
+<!-- end flatpickr -->
 {% block content %}
 <div class="row">
     <div class="col-3"></div>

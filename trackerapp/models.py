@@ -39,7 +39,7 @@ class EatModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
         
     def __str__(self):
-        return str(self.medicine)
+        return str(self.id)
 
     @property
     def get_second_dose(self):
@@ -70,6 +70,24 @@ class EatModel(models.Model):
           
     class Meta:
         ordering = ['complete'] #ordering in descending just do -complete
-        
 
+
+class CourseInfo(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
+    medicine = models.ForeignKey(MedicalInfo, on_delete=models.SET_NULL, null=True)
+    interval = models.IntegerField(default=4)
+    course_duration = models.IntegerField(default=3)
+    course_start = models.DateTimeField(default=datetime.now)
+    complete = models.BooleanField(default=False)
+    course_created = models.DateTimeField(auto_now_add=True)
+        
+    def __str__(self):
+        return str(self.id)
     
+class DoseInfo(models.Model):
+    courseinfo = models.ForeignKey(CourseInfo, on_delete=models.CASCADE, default='')
+    dose_timing = models.DateTimeField(default=datetime.now)
+    dose_created = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return str(self.id)

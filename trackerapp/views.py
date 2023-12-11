@@ -1,6 +1,7 @@
 from typing import Any
 from django.db import models
-from django.http import HttpRequest, HttpResponse
+from django.db.models.query import QuerySet
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 #from django.http import HttpResponse
@@ -14,6 +15,11 @@ from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteVi
 from django.contrib.admin.widgets import AdminDateWidget
 from django.urls import reverse_lazy, reverse
 from .models import EatModel, MedicalInfo
+
+#beta version stuff
+from .models import CourseInfo, DoseInfo
+from .forms import BetaCourseForm, BetaDoseForm, BetaDoseHtmxForm
+from django.views.generic.list import ListView
 
 #from datetime import datetime as core_datetime #for the sorting by time
 #from django.db.models import Q #for query multiply columns
@@ -79,7 +85,7 @@ class EatCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(EatCreate, self).form_valid(form)
-    
+
 class EatUpdate(LoginRequiredMixin, UpdateView):
     model = EatModel
     fields = ['medicine', 'remarks', 'last_fed', 'interval', 'complete']
@@ -208,7 +214,109 @@ class newlist(LoginRequiredMixin, TemplateView):
         context['dose_status'] = q
         '''
         return context
+#################################
+
+'''
+def newcourse(request):
     
+    if request.method == 'POST':
+
+        eatmodel_form = EatModelForm(request.POST)
+        dosesinfo_form = DosesInfoForm(request.POST)
+
+        if eatmodel_form.is_valid() and dosesinfo_form.is_valid():
+
+            eatmodel_form.save()
+            dosesinfo_form.save()
+            return HttpResponseRedirect('newlist')        
+
+        else:
+            context = {
+                'eatmodel_form': eatmodel_form,
+                'dosesinfo_form': dosesinfo_form,
+            }
+
+    else:
+        context = {
+            'eatmodel_form': EatModelForm(),
+            'dosesinfo_form': DosesInfoForm(),
+        }
+
+    return render(request, 'trackerapp/create_timings.html', context)
+'''
+
+class BetaCreateCourse(LoginRequiredMixin, CreateView):
+    template_name = 'trackerapp/betacreatecourse.html'
+    form_class = BetaCourseForm
+    success_url = reverse_lazy('betaviewdose')
+    
+    #to auto populate the form user created
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(BetaCreateCourse, self).form_valid(form)
+    
+class BetaCreateDose(CreateView):
+    template_name = 'trackerapp/betacreatedose.html'
+    form_class = BetaDoseForm
+    success_url = reverse_lazy('betaviewdose')
+'''    
+class BetaViewCourse(LoginRequiredMixin, DetailView):
+
+    model = CourseInfo
+    template_name = 'trackerapp/betaviewcourse.html'
+    login_url = 'eatlogin'
+    context_object_name = 'courseinfo'
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super(BetaViewCourse, self).get_context_data(*args, **kwargs)
+        context['info'] = CourseInfo.objects.filter(pk=self.kwargs.get('pk')).select_related()
+        now = localtime()
+        q = CourseInfo.objects.filter(pk=self.kwargs.get('pk')).values()
+        return context
+'''
+class BetaViewCourse(LoginRequiredMixin, ListView):
+
+    model = CourseInfo
+    template_name = 'trackerapp/betaviewcourse.html'
+    login_url = 'eatlogin'
+    context_object_name = 'courseinfo'
+
+    def get_queryset(self):
+        return CourseInfo.objects.filter(pk=self.kwargs.get('pk'))
+ 
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get the context
+        context = super().get_context_data(**kwargs)
+        context['doseinfo'] = DoseInfo.objects.filter(courseinfo_id=self.kwargs.get('pk')).values()
+        context['htmx_create_dose'] = BetaDoseHtmxForm()
+        return context
+
+def htmx_create_dose(request, id):
+    
+    form = BetaDoseHtmxForm(request.POST or None)
+    
+    #if request.method == 'GET':    
+    #    return render(request, 'trackerapp/htmx_create_dose.html', {'form': form})
+    
+    if request.method == 'POST':
+        form.courseinfo = id  
+        if form.is_valid():
+            #fill in the course info automatically
+            filled = form.save(commit=False)
+            filled.courseinfo_id = id
+            filled.save()
+            courseinfo = CourseInfo.objects.filter(pk=id)
+            doseinfo = DoseInfo.objects.filter(courseinfo_id=id).values()
+            htmx_create_dose = BetaDoseHtmxForm()
+            context = {
+                'courseinfo': courseinfo,
+                'doseinfo': doseinfo,
+                'form': form,
+                'htmx_create_dose': htmx_create_dose,
+            }
+            time = localtime()
+            return render(request, 'trackerapp/htmx_view_dose.html', context)
+
 ##################################
 '''
 #original code for nextDose before I split it up
