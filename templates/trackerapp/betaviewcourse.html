@@ -111,8 +111,7 @@
             <h2>Dose Timings</h2>
             <form hx-post="{% url 'htmx_create_dose' courseinfo.0.id %}" hx-target="#htmx_view_dose" hx-swap="innerHTML" >
                 {% csrf_token %}
-                <span>Add a new dose</span>: {{htmx_create_dose.dose_timing}}
-                <input type="submit" value="Submit">
+                    <div class="d-flex w-50">{{htmx_create_dose.dose_timing}} <input type="submit" value="Add Dose"></div>
             </form>
             <div id="htmx_view_dose">
                 {% include 'trackerapp/htmx_view_dose.html' %}
@@ -184,5 +183,13 @@
     </div>
     {% endfor %}
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr('#id_dose_timing', {
+        enableTime: true,
+        altInput: true,
+        altFormat: "j F Y, h:i K",
+        dateFormat: "Y-m-d H:i",
+    });
+</script>
 {% endblock %}
