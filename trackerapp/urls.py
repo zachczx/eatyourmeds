@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import EatLogin, EatLogout, EatRegister, EatDetails, EatCreate, EatUpdate, EatDelete
-from .views import newlist, DoseView, htmx_delete, htmx_create_dose
+from .views import newlist, DoseView, htmx_delete, htmx_create_dose, htmx_delete_dose, htmx_create_dose_auto
 from .views import BetaCreateCourse, BetaCreateDose, BetaViewCourse
 
 urlpatterns = [
@@ -25,7 +25,9 @@ newversion = [
 
 htmxpatterns = [
     path('view_course/<int:id>/add/', views.htmx_create_dose, name="htmx_create_dose"),
+    path('view_course/<int:id>/addauto/', views.htmx_create_dose_auto, name="htmx_create_dose_auto"),
     path('dose/<int:id>/delete/', views.htmx_delete, name="htmx_delete"),
+    path('view_course/<int:id>/delete/<int:doseid>', views.htmx_delete_dose, name="htmx_delete_dose"),
 ]
 
 urlpatterns = urlpatterns + newversion + htmxpatterns

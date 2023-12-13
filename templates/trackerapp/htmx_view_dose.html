@@ -1,5 +1,9 @@
 <ol class="list-group list-group-numbered list-group-flush w-75">
 {% for item in doseinfo %}
-<li class="list-group-item">{{item.dose_timing}}</li>
+<li class="list-group-item">
+    <span class="border border-dark p-1 ms-3 mt-2 mb-2"><i class="bi bi-calendar-minus-fill"></i>&nbsp;&nbsp;{{item.dose_timing|date:"j M (D), Y"}}</span>
+    <span class="border border-dark p-1 mt-2 mb-2"><i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.dose_timing|time:"g:i a"}}</span>&nbsp;&nbsp;&nbsp;
+    <a hx-delete="{% url 'htmx_delete_dose' id=courseinfo.0.id doseid=item.id %}" hx-target="#htmx_view_dose" hx-swap="innerHTML"><i class="bi bi-trash3 text-danger"></i></a>
+</li>
 {% endfor %}
 </ol>

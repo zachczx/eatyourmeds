@@ -20,6 +20,8 @@ from .models import EatModel, MedicalInfo
 from .models import CourseInfo, DoseInfo
 from .forms import BetaCourseForm, BetaDoseForm, BetaDoseHtmxForm
 from django.views.generic.list import ListView
+from .utils import Calendar
+from django.utils.safestring import mark_safe
 
 #from datetime import datetime as core_datetime #for the sorting by time
 #from django.db.models import Q #for query multiply columns
@@ -287,10 +289,18 @@ class BetaViewCourse(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
         context = super().get_context_data(**kwargs)
-        context['doseinfo'] = DoseInfo.objects.filter(courseinfo_id=self.kwargs.get('pk')).values()
+        context['doseinfo'] = DoseInfo.objects.filter(courseinfo_id=self.kwargs.get('pk')).order_by('dose_timing').values()      
         context['htmx_create_dose'] = BetaDoseHtmxForm()
-        return context
 
+        dose_dates = DoseInfo.objects.filter(courseinfo_id=self.kwargs.get('pk')).order_by('dose_timing').values_list('dose_timing', flat=True)
+        #start_timing_calendar = DoseInfo.objects.filter(courseinfo_id=self.kwargs.get('pk')).order_by('dose_timing').values('dose_timing').first()
+        start_timing_calendar_month = dose_dates[0].month
+        start_timing_calendar_year = dose_dates[0].year
+        cal = Calendar(start_timing_calendar_year, start_timing_calendar_month)
+        html_cal = cal.formatmonth(withyear=True)
+        context['calendar'] = mark_safe(html_cal)
+        return context
+    
 def htmx_create_dose(request, id):
     
     form = BetaDoseHtmxForm(request.POST or None)
@@ -306,16 +316,83 @@ def htmx_create_dose(request, id):
             filled.courseinfo_id = id
             filled.save()
             courseinfo = CourseInfo.objects.filter(pk=id)
-            doseinfo = DoseInfo.objects.filter(courseinfo_id=id).values()
+            doseinfo = DoseInfo.objects.filter(courseinfo_id=id).order_by('dose_timing').values()
             htmx_create_dose = BetaDoseHtmxForm()
+                
             context = {
                 'courseinfo': courseinfo,
                 'doseinfo': doseinfo,
                 'form': form,
                 'htmx_create_dose': htmx_create_dose,
             }
-            time = localtime()
             return render(request, 'trackerapp/htmx_view_dose.html', context)
+
+def htmx_create_dose_auto(request, id):
+    
+    form = BetaDoseHtmxForm(request.POST or None)
+    
+    #if request.method == 'GET':    
+    #    return render(request, 'trackerapp/htmx_create_dose.html', {'form': form})
+    
+    # generate the dose timings
+    qs = CourseInfo.objects.filter(pk=id).values('course_start','course_duration', 'interval')
+    start_date = qs[0]['course_start']
+    course_duration = qs[0]['course_duration']
+    interval = qs[0]['interval']
+    
+    number_of_doses = int((course_duration * 24)/interval)
+    
+    new_doses = {}
+    new_doses[0] = start_date
+    i = 1
+    
+    while i < number_of_doses:
+        start_date = start_date + timedelta(hours=interval)
+        new_doses[i] = start_date
+        i += 1
+    
+    count = len(new_doses)
+    
+    context = {
+        'start_date': start_date,
+        'course_duration': course_duration,
+        'number_of_doses': number_of_doses,
+        'new_doses': new_doses,
+        'count': count,
+    }
+    
+    return render(request, 'trackerapp/test.html', context)
+    '''
+    if request.method == 'POST':
+        form.courseinfo = id  
+        if form.is_valid():
+            #fill in the course info automatically
+            filled = form.save(commit=False)
+            filled.courseinfo_id = id
+            filled.save()
+            courseinfo = CourseInfo.objects.filter(pk=id)
+            doseinfo = DoseInfo.objects.filter(courseinfo_id=id).order_by('dose_timing').values()
+            htmx_create_dose = BetaDoseHtmxForm()
+                
+            context = {
+                'courseinfo': courseinfo,
+                'doseinfo': doseinfo,
+                'form': form,
+                'htmx_create_dose': htmx_create_dose,
+            }
+            return render(request, 'trackerapp/htmx_view_dose.html', context)
+    '''
+
+@require_http_methods(['DELETE'])
+def htmx_delete_dose(request, id, doseid):
+    DoseInfo.objects.filter(id=doseid).delete()
+    courseinfo = CourseInfo.objects.filter(pk=id)
+    doseinfo = DoseInfo.objects.filter(courseinfo_id=id).order_by('dose_timing').values()
+    context = {
+        'courseinfo': courseinfo,
+        'doseinfo': doseinfo,
+    }
+    return render(request, 'trackerapp/htmx_view_dose.html', context)            
 
 ##################################
 '''
