@@ -15,3 +15,8 @@ class BetaDoseHtmxForm(forms.ModelForm):
     class Meta:
         fields = ['dose_timing']
         model = DoseInfo
+
+class BetaDoseAutoForm(forms.ModelForm):
+    class Meta:
+        fields = []
+        model = DoseInfo

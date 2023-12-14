@@ -20,6 +20,7 @@ class MedicalInfo(models.Model):
     description = models.TextField(max_length=500)
     used_for = models.TextField(max_length=500, default="")
     sideeffects = models.TextField(max_length=500)
+    brandnames = models.TextField(max_length=500, default="", null=True)
     
     def __str__(self):
         return self.medicine
