@@ -1,0 +1,17 @@
+{% extends 'trackerapp/base.html' %}
+
+{% block content %}
+
+<div class="container w-80">
+
+    <div class="row">
+        <div class="col-sm mt-3 gx-0 d-flex justify-content-start fw-bold">
+            <a href="{% url 'betacreatecourse' %}" class="btn btn-success fw-bold text-white"><i class="bi bi-plus-lg"></i>&nbsp&nbspNew</a>
+        </div>
+    </div>
+
+{% include 'trackerapp/partials/betamain_content.html' %}
+
+</div>
+
+{% endblock %}

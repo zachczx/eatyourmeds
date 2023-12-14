@@ -1,5 +1,8 @@
 {% if not doseinfo %}
-<p>Oops, there's no data here</p>
+<form action="{% url 'htmx_create_dose_auto' courseinfo.0.id %}" method="POST">
+    {% csrf_token %}
+    <p>Oops, there's no data here. Try <input type="submit" class=""btn btn-link" value="adding doses automatically"></p>
+</form>
 {% else %}
 <ol class="list-group list-group-numbered list-group-flush w-75">
 {% for item in doseinfo %}

@@ -88,110 +88,6 @@ class EatCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super(EatCreate, self).form_valid(form)
 
-class EatUpdate(LoginRequiredMixin, UpdateView):
-    model = EatModel
-    fields = ['medicine', 'remarks', 'last_fed', 'interval', 'complete']
-    #success_url = reverse_lazy('doseview')
-
-    def get_success_url(self):
-        return reverse('doseview', kwargs={"pk": self.kwargs.get('pk')})
-
-class EatDelete(LoginRequiredMixin, DeleteView):
-    model = EatModel
-    fields = ['medicine', 'remarks', 'interval', 'complete']
-    context_object_name = 'outstanding_list'
-    success_url = reverse_lazy('newlist')    
-
-@require_http_methods(['DELETE'])
-def htmx_delete(request, id):
-    EatModel.objects.filter(id=id).delete()
-    list = EatModel.objects.filter(user=request.user).all()
-    return render(request, "trackerapp/partials/eatmodel_newlist_content.html", {'list': list})
-
-class DoseView(LoginRequiredMixin, DetailView):
-
-    model = EatModel
-    template_name = 'trackerapp/eatmodel_dose.html'
-    login_url = 'eatlogin'
-    context_object_name = 'nextfewdoses'
-    
-    def get_context_data(self, *args, **kwargs):
-        context = super(DoseView, self).get_context_data(*args, **kwargs)
-        context['doses_per_day'] = int(24 / self.object.interval)
-        #key = [self.object.second_dose, self.object.third_dose, self.object.fourth_dose, self.object.fifth_dose]
-        #newkey = []
-        #for v in key:
-        #    time_remaining = v + timedelta(hours=72)
-        #    newkey.append(time_remaining)
-        #context['dose_differential'] = newkey
-        now = localtime()
-        
-        #get number of hours
-        last_fed_in_hrs = float((self.object.last_fed - now).total_seconds())/3600
-        second_dose_in_hrs = float((self.object.second_dose - now).total_seconds())/3600
-        third_dose_in_hrs = float((self.object.third_dose - now).total_seconds())/3600
-        fourth_dose_in_hrs = float((self.object.fourth_dose - now).total_seconds())/3600
-        
-        if last_fed_in_hrs < 0:
-            context['last_fed_alert_status'] = "secondary"
-        elif 0 < last_fed_in_hrs < self.object.interval: 
-            context['last_fed_alert_status'] = "danger"
-        else:
-            context['last_fed_alert_status'] = "success"
-            
-        if second_dose_in_hrs < 0:
-            context['second_dose_alert_status'] = "secondary"
-        elif 0 < second_dose_in_hrs < self.object.interval: 
-            context['second_dose_alert_status'] = "danger"
-        else:
-            context['second_dose_alert_status'] = "success"
-            
-        if third_dose_in_hrs < 0:
-            context['third_dose_alert_status'] = "secondary"
-        elif 0 < third_dose_in_hrs < self.object.interval: 
-            context['third_dose_alert_status'] = "danger"
-        else:
-            context['third_dose_alert_status'] = "success"
-        
-        if fourth_dose_in_hrs < 0:
-            context['fourth_dose_alert_status'] = "secondary"
-        elif 0 < fourth_dose_in_hrs < self.object.interval: 
-            context['fourth_dose_alert_status'] = "danger"
-        else:
-            context['fourth_dose_alert_status'] = "success"
-            
-        '''
-        # these were for printing the time remaining statically
-        if self.object.last_fed > now:
-            key = str(self.object.last_fed - now)
-            splitkey = key.split(":")
-            context['remaining_last_fed'] = splitkey[0] + " hrs " + splitkey[1] + " mins "
-        else:
-            context['remaining_last_fed'] = "over"
-            
-        if self.object.second_dose > now:
-            key = str(self.object.second_dose - now)
-            splitkey = key.split(":")
-            context['remaining_second_dose'] = splitkey[0] + " hrs " + splitkey[1] + " mins "
-        else:
-            context['remaining_second_dose'] = "over"
-            
-        if self.object.third_dose > now:
-            key = str(self.object.third_dose - now)
-            splitkey = key.split(":")
-            context['remaining_third_dose'] = splitkey[0] + " hrs " + splitkey[1] + " mins "
-        else:
-            context['remaining_third_dose'] = "over"
-        
-        if self.object.fourth_dose > now:
-            key = str(self.object.fourth_dose - now)
-            splitkey = key.split(":")
-            context['remaining_fourth_dose'] = splitkey[0] + " hrs " + splitkey[1] + " mins "
-        else:
-            context['remaining_fourth_dose'] = "over"
-        '''
-        return context
-    
 class newlist(LoginRequiredMixin, TemplateView):
     
     template_name = 'trackerapp/eatmodel_newlist.html'
@@ -201,51 +97,23 @@ class newlist(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['time'] = localtime()
         context['list'] = EatModel.objects.filter(user=self.request.user)
-                
-        '''
-        q = {}
-        for item in context['list']:
-            if item.second_dose > t and item.third_dose > t and item.fourth_dose > t and item.fifth_dose > t:
-                q[item.id] = ['True', 'True', 'True', 'True']
-            elif item.second_dose < t and item.third_dose > t and item.fourth_dose > t and item.fifth_dose > t:
-                q[item.id] = ['False', 'True', 'True', 'True']
-            elif item.second_dose < t and item.third_dose < t and item.fourth_dose < t and item.fifth_dose > t:
-                q[item.id] = ['False', 'False', 'True', 'True']    
-            elif item.second_dose < t and item.third_dose < t and item.fourth_dose < t and item.fifth_dose > t:
-                q[item.id] = ['False', 'False', 'False', 'True']    
-        context['dose_status'] = q
-        '''
         return context
-#################################
 
-'''
-def newcourse(request):
+
+class BetaMain(LoginRequiredMixin, ListView):
+    template_name = 'trackerapp/betamain.html'
+    model = CourseInfo
+    context_object_name = 'courseinfo'
     
-    if request.method == 'POST':
-
-        eatmodel_form = EatModelForm(request.POST)
-        dosesinfo_form = DosesInfoForm(request.POST)
-
-        if eatmodel_form.is_valid() and dosesinfo_form.is_valid():
-
-            eatmodel_form.save()
-            dosesinfo_form.save()
-            return HttpResponseRedirect('newlist')        
-
-        else:
-            context = {
-                'eatmodel_form': eatmodel_form,
-                'dosesinfo_form': dosesinfo_form,
-            }
-
-    else:
-        context = {
-            'eatmodel_form': EatModelForm(),
-            'dosesinfo_form': DosesInfoForm(),
-        }
-
-    return render(request, 'trackerapp/create_timings.html', context)
-'''
+    def get_queryset(self):
+        return CourseInfo.objects.filter(user=self.request.user).select_related()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        qs_id = CourseInfo.objects.filter(user=self.request.user).values('id')
+        context['doseinfo'] = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(dose_timing__gte=localtime()).order_by('dose_timing').values()[:4]
+        localtime()
+        return context
 
 class BetaCreateCourse(LoginRequiredMixin, CreateView):
     template_name = 'trackerapp/betacreatecourse.html'
@@ -257,25 +125,13 @@ class BetaCreateCourse(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super(BetaCreateCourse, self).form_valid(form)
     
+    def get_success_url(self):
+        return reverse_lazy('betaviewcourse', kwargs={'pk': self.object.id})
+    
 class BetaCreateDose(CreateView):
     template_name = 'trackerapp/betacreatedose.html'
     form_class = BetaDoseForm
-    success_url = reverse_lazy('betaviewdose')
-'''    
-class BetaViewCourse(LoginRequiredMixin, DetailView):
 
-    model = CourseInfo
-    template_name = 'trackerapp/betaviewcourse.html'
-    login_url = 'eatlogin'
-    context_object_name = 'courseinfo'
-    
-    def get_context_data(self, *args, **kwargs):
-        context = super(BetaViewCourse, self).get_context_data(*args, **kwargs)
-        context['info'] = CourseInfo.objects.filter(pk=self.kwargs.get('pk')).select_related()
-        now = localtime()
-        q = CourseInfo.objects.filter(pk=self.kwargs.get('pk')).values()
-        return context
-'''
 class BetaViewCourse(LoginRequiredMixin, ListView):
 
     model = CourseInfo
@@ -303,6 +159,23 @@ class BetaViewCourse(LoginRequiredMixin, ListView):
             html_cal = cal.formatmonth(withyear=True)
             context['calendar'] = mark_safe(html_cal)
         return context
+
+class BetaDeleteCourse(LoginRequiredMixin, DeleteView):
+    model = CourseInfo
+    template_name = 'trackerapp/betadelete_p.html'
+    fields = "__all__"
+    context_object_name = 'courseinfo'
+    success_url = reverse_lazy('betamain')
+    
+class BetaUpdateCourse(LoginRequiredMixin, UpdateView):
+    model = CourseInfo
+    template_name = 'trackerapp/betaupdatecourse.html'
+    fields = "__all__"
+    context_object_name = 'courseinfo'
+    fields = "__all__"
+
+    def get_success_url(self):
+        return reverse('betaviewcourse', kwargs={"pk": self.kwargs.get('pk')})
     
 def htmx_create_dose(request, id):
     
@@ -366,6 +239,18 @@ def htmx_create_dose_auto(request, id):
             return HttpResponseRedirect(url)
 
 @require_http_methods(['DELETE'])
+def htmx_delete_course(request, id):
+    CourseInfo.objects.filter(id=id).delete()
+    courseinfo = CourseInfo.objects.filter(user=request.user).select_related()
+    qs_id = CourseInfo.objects.filter(user=request.user).values('id')
+    doseinfo = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(dose_timing__gte=localtime()).order_by('dose_timing').values()[:4]
+    context = {
+        'courseinfo': courseinfo,
+        'doseinfo': doseinfo,
+    }
+    return render(request, "trackerapp/partials/betamain_content.html", context)
+
+@require_http_methods(['DELETE'])
 def htmx_delete_dose(request, id, doseid):
     DoseInfo.objects.filter(id=doseid).delete()
     courseinfo = CourseInfo.objects.filter(pk=id)
@@ -375,102 +260,3 @@ def htmx_delete_dose(request, id, doseid):
         'doseinfo': doseinfo,
     }
     return render(request, 'trackerapp/htmx_view_dose.html', context)            
-
-##################################
-'''
-#original code for nextDose before I split it up
-
-def nextDose(request, pk=None):
-
-    if request.user.is_authenticated is True:
-       
-        alldetails = EatModel.objects.filter(pk=pk).values()
-        hrs = alldetails[0]['interval'] #putting this here to avoid doing another filter
-        number_of_times = int(24 / hrs)
-        if request.user.id == alldetails[0]['user_id']: #check if user is the creator of the record
-            first_dose = EatModel.objects.filter(id=pk).values_list('last_fed', flat=True)
-            first_dose = first_dose[0]
-            second_dose = first_dose + timedelta(hours=hrs)
-            third_dose = second_dose + timedelta(hours=hrs)
-            fourth_dose = third_dose + timedelta(hours=hrs)
-            
-            #second_dose = datetime.strptime(list_result, "%Y, %m, %d %H:%M:%S")
-            dose = [first_dose, second_dose, third_dose, fourth_dose]
-            
-            #get the info from MedicalInfo Model
-            #get_type_medicine = EatModel.objects.filter(pk=pk).values_list('medicine', flat=True)
-            #get_type_medicine = get_type_medicine[0]
-            #medical_info = MedicalInfo.objects.filter(medicine=get_type_medicine).values()
-
-
-            medical_info = MedicalInfo.objects.filter(id=alldetails[0]['medicine_id']).values()
-
-            context = {
-                'dose': dose,
-                'alldetails': alldetails,
-                'medical_info': medical_info,
-                'number_of_times': number_of_times,
-            }
-        else:
-            return redirect('eatlist') #redirects user who tried to access someone else's records
-        
-        return render(request, 'trackerapp/dose.html', context) #for some reason need to access via {{ details.0.medicine }}
-        
-    else:
-        return redirect('eatregister')
-
-from django.views.generic.list import ListView
-class EatList(LoginRequiredMixin, ListView):
-    model = EatModel
-    context_object_name = 'outstanding_list'
-    fields = ['medicine', 'remarks', 'last_fed', 'interval', 'complete']
-    login_url = "eatlogin"
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["outstanding_list"] = context["outstanding_list"].filter(user=self.request.user)
-        context["count"] = context["outstanding_list"].filter(complete=False).count()
-        return context    
-
-def MakeNextDoses(userpk):
-    alldetails = EatModel.objects.filter(pk=userpk).values()
-    hrs = alldetails[0]['interval'] #putting this here to avoid doing another filter
-    doses_per_day = int(24 / hrs)
-
-    first_dose = EatModel.objects.filter(id=userpk).values_list('last_fed', flat=True)
-    second_dose = first_dose[0] + timedelta(hours=hrs)
-    third_dose = second_dose + timedelta(hours=hrs)
-    fourth_dose = third_dose + timedelta(hours=hrs)
-    dose = {
-        'doses_per_day': doses_per_day,
-        'doses_timings': [first_dose[0], second_dose, third_dose, fourth_dose],
-        'user_id': alldetails[0]['user_id'], #I used this to check user_id later
-    }
-    return dose 
-
-def GetMedicalInfo(userpk):
-    alldetails = EatModel.objects.filter(pk=userpk).values()
-    get_medical_info = MedicalInfo.objects.filter(id=alldetails[0]['medicine_id']).values()
-    return get_medical_info
-    
-def nextDose(request, pk=None):
-    if request.user.is_authenticated is True:
-        ### display if authenticated ###
-        next_four_doses = MakeNextDoses(pk)
-        ### checks if requestor is owner of record ###
-        if request.user.id == next_four_doses['user_id']:
-            medical_info = GetMedicalInfo(pk) 
-            context = {
-                'next_four_doses': next_four_doses,
-                'medical_info': medical_info,
-                'findid': pk,
-            }
-            return render(request, 'trackerapp/dose.html', context)
-         ### redirects if not ###
-        else:
-            return redirect('newlist') 
-        ### redirects to register if not logged in ###
-    else:
-        return redirect('eatregister')
-'''
-    
