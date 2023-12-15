@@ -10,7 +10,17 @@
         </div>
     </div>
 
-{% include 'trackerapp/partials/betamain_content.html' %}
+    <!-- the htmx delete div -->
+    <div id="deletetask"
+        hx-confirm="Are you sure you want to delete this task?"
+        hx-target="#deletetask"
+        hx-trigger="deletetask from:body"
+        hx-swap="innerHTML">
+
+        {% include 'trackerapp/partials/betamain_content.html' %}
+
+    </div>
+    <!-- the htmx delete div -->
 
 </div>
 

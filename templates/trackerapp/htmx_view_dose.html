@@ -1,10 +1,12 @@
 {% if not doseinfo %}
+<div class="text-center">
 <form action="{% url 'htmx_create_dose_auto' courseinfo.0.id %}" method="POST">
     {% csrf_token %}
-    <p>Oops, there's no data here. Try <input type="submit" class=""btn btn-link" value="adding doses automatically"></p>
+    <p>Oops, there's no data here. Try <input type="submit" class="btn btn-link" value="adding doses automatically"></p>
 </form>
+</div>
 {% else %}
-<ol class="list-group list-group-numbered list-group-flush w-75">
+<ol class="list-group list-group-numbered list-group-flush">
 {% for item in doseinfo %}
 <li class="list-group-item">
     <span class="border border-dark p-1 ms-3 mt-2 mb-2"><i class="bi bi-calendar-minus-fill"></i>&nbsp;&nbsp;{{item.dose_timing|date:"j M (D), Y"}}</span>
@@ -13,4 +15,5 @@
 </li>
 {% endfor %}
 </ol>
+
 {% endif %}

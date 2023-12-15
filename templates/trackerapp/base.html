@@ -251,7 +251,33 @@
 
     <div class="row mb-3">
         {% if user.is_authenticated %}
-            <div class="col-12 text-center">Hello, <b>{{user.username}}</b>. | <a href="{% url 'eatlogout' %}">Logout?</a></div>
+            <div class="col-2"></div>
+            <div class="col-8 text-center fs-5">
+                Hello, <b>{{user.username}}</b>. | 
+                <button 
+                    type="button"
+                    class="btn bg-success rounded-circle text-white position-relative" 
+                    {% if not notif %}
+                    
+                    {% else %}
+                    data-html="true"
+                    data-bs-container="body"
+                    data-bs-toggle="popover"
+                    data-bs-placement="bottom"
+                    data-bs-title="Doses Today - {{notif.0.dose_timing|date:'d M (D)'}}"
+                    data-bs-content="
+                    {% for dose in notif %}
+                    {{dose.courseinfo.medicine}} - {{dose.dose_timing|time:'g:i a'}}, {{dose.dose_timing|date:'d M (D)'}}   
+                    {% endfor %}
+                    "
+                    {% endif %}
+                    data-bs-trigger="focus" 
+                >
+                    <i class="bi bi-bell-fill fs-6"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{notif_count}}<span class="visually-hidden">upcoming doses</span></span>
+                </button>
+            </div>
+            <div class="col-2 text-end"><a href="{% url 'eatlogout' %}">Logout?</a></div>
         {% endif %}
     </div>
 
@@ -263,5 +289,12 @@
 </main>
 {% include "trackerapp/partials/_footer.html" %}
 </div>
+<script>
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    const popover = new bootstrap.Popover('.popover-dismiss', {
+        trigger: 'focus'
+      })
+</script>
 </body>
 </html>

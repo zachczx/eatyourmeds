@@ -89,6 +89,9 @@ class DoseInfo(models.Model):
     courseinfo = models.ForeignKey(CourseInfo, on_delete=models.CASCADE, default='')
     dose_timing = models.DateTimeField(default=datetime.now)
     dose_created = models.DateTimeField(auto_now_add=True)
-    
+
+    class Meta:
+        ordering = ['dose_timing']
+        
     def __str__(self):
         return str(self.id)

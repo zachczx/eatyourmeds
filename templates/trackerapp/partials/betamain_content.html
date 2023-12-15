@@ -1,43 +1,30 @@
 {% load static %}
-<div id="deletetask"
-    hx-confirm="Are you sure you want to delete this task?"
-    hx-target="#deletetask"
-    hx-trigger="deletetask from:body"
-    hx-swap="outerHTML"><!-- the htmx delete div -->
 
-    {% for item in courseinfo %}
     
-    {% if item.complete is False %}
+    {% for item in courseinfo %}
     <!-- start of each item -->
+    {% if item.complete is False %}
     <div class="row bg-light border border-success rounded p-1 mt-3">
         <div class="col-sm-3">
             <h3><strong><a href="{% url 'betaviewcourse' item.id %}">{{item.medicine}}</a></strong></h3>
             <i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.interval}} hourly
         </div>
-        <div class="col-sm-9 d-flex justify-content-start align-items-end border-start-dark">
+        <div class="col-sm-9 d-flex justify-content-start align-items-end">
             <div class="flex-grow-1">
                 <ul class="list-group list-group-horizontal-sm">
                     {% for x in doseinfo %}
-                    {% if forloop.counter is 1 %}
-                    <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-1-circle-fill"></i>&nbsp;&nbsp;{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>
-                    {% elif forloop.counter is 2 %}
-                    <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-2-circle-fill"></i>&nbsp;&nbsp;{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>        
-                    {% elif forloop.counter is 3 %}
-                    <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-3-circle-fill"></i>&nbsp;&nbsp;{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>
-                    {% elif forloop.counter is 4 %}
-                    <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-4-circle-fill"></i>&nbsp;&nbsp;{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>        
-                    {% else %}
-                    <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line">&nbsp;&nbsp;{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>        
-                    {% endif %}
-                    {% endfor %}
+                        {% if x.courseinfo.id == item.id %}
+                        <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line">{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>
+                        {% endif %}
+                    {% endfor %}</p>
                 </ul>
             </div>
             <div>            
                 <a hx-delete="{% url 'htmx_delete_course' item.id %}" href="#" class="dropdown-item"><i class="bi bi-trash3"></i></a>
             </div>
-
         </div>
     </div>
+
     <!-- end of each item -->
     {% elif item.complete is True %}
     <!-- start of each item -->
@@ -46,29 +33,21 @@
             <h3><strong><a href="{% url 'betaviewcourse' item.id %}" class="opacity-50">{{item.medicine}}</a>&nbsp;&nbsp;<i class="bi bi-check-circle-fill text-success"></i></strong></h3>
             <i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.interval}} hourly
         </div>
-        <div class="col-sm-9 d-flex justify-content-start align-items-end border-start-dark opacity-50">
+        <div class="col-sm-9 d-flex justify-content-start align-items-end opacity-50">
             <div class="flex-grow-1">
                 <ul class="list-group list-group-horizontal-sm">
-                    {% for x in doseinfo %}
-                    {% if forloop.counter is 1 %}
-                    <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-1-circle-fill"></i>&nbsp;&nbsp;{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>
-                    {% elif forloop.counter is 2 %}
-                    <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-2-circle-fill"></i>&nbsp;&nbsp;{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>        
-                    {% elif forloop.counter is 3 %}
-                    <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-3-circle-fill"></i>&nbsp;&nbsp;{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>
-                    {% elif forloop.counter is 4 %}
-                    <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-4-circle-fill"></i>&nbsp;&nbsp;{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>        
-                    {% else %}
-                    <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line">&nbsp;&nbsp;{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>        
-                    {% endif %}
-                    {% endfor %}
+                    {% for x in doseinfo%}
+                        {% if x.courseinfo.medicine == item.medicine %}
+                        <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line">{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>
+                        {% endif %}
+                    {% endfor %}</p>
                 </ul>
             </div>
             <div>            
                 <a hx-delete="{% url 'htmx_delete_course' item.id %}" href="#" class="dropdown-item"><i class="bi bi-trash3"></i></a>
             </div>
-
         </div>
+
     </div>
     {% endif %}
     {% endfor %}
@@ -81,4 +60,4 @@
         </div>
     </div>
     {% endif %}
-</div> <!-- the htmx delete div -->
+
