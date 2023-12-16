@@ -72,7 +72,12 @@ class EatModel(models.Model):
     class Meta:
         ordering = ['complete'] #ordering in descending just do -complete
 
-
+class Patient(models.Model):
+    name = models.CharField(max_length=50, blank=True, null=True, default=None)
+    
+    def __str__(self):
+        return self.name
+    
 class CourseInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
     medicine = models.ForeignKey(MedicalInfo, on_delete=models.SET_NULL, null=True)
@@ -81,6 +86,7 @@ class CourseInfo(models.Model):
     course_start = models.DateTimeField(default=datetime.now)
     complete = models.BooleanField(default=False)
     course_created = models.DateTimeField(auto_now_add=True)
+    patient = models.ForeignKey(Patient, on_delete=models.SET_NULL, blank=True, null=True)
         
     def __str__(self):
         return str(self.id)
@@ -95,3 +101,4 @@ class DoseInfo(models.Model):
         
     def __str__(self):
         return str(self.id)
+
