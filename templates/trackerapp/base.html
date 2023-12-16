@@ -263,7 +263,7 @@
                         <li class="dropdown-header bg-success text-white"><strong>Doses today - {{notif.0.dose_timing|date:'d M (D)'}}</strong></li>
                         {% for dose in notif %}
                         {% if dose.dose_timing < datetoday %}
-                        <li class="dropdown-item opacity-75 list-group-item px-3 border-top" href="#">{{dose.dose_timing|time:'g:i a'}} <i class="bi bi-chevron-right"></i> {{dose.courseinfo.medicine}}</li>   
+                        <li class="dropdown-item opacity-50 list-group-item px-3 border-top" href="#">{{dose.dose_timing|time:'g:i a'}} <i class="bi bi-chevron-right"></i> {{dose.courseinfo.medicine}}</li>   
                         {% else %}
                         <li class="dropdown-item list-group-item px-3 border-top" href="#">{{dose.dose_timing|time:'g:i a'}} <i class="bi bi-chevron-right"></i> {{dose.courseinfo.medicine}}</li>   
                         {% endif %}
