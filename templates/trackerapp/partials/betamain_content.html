@@ -35,7 +35,7 @@
         </div>
         <div class="col-sm-9 d-flex justify-content-start align-items-end opacity-50">
             <div class="flex-grow-1">
-                <ul class="list-group list-group-horizontal-sm">
+                <ol class="list-group list-group-horizontal-sm">
                     {% for x in doseinfo%}
                         {% if x.courseinfo.medicine == item.medicine %}
                         <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line">{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>

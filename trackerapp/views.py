@@ -112,6 +112,7 @@ class BetaMain(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         ########## start class based notif ########## 
         datetoday = localtime()
+        context['datetoday'] = datetoday
         qs_id = CourseInfo.objects.filter(user=self.request.user).values('id')
         context['notif'] = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(
             dose_timing__year=datetoday.year,
@@ -169,6 +170,7 @@ class BetaViewCourse(LoginRequiredMixin, ListView):
             context['calendar'] = mark_safe(html_cal)
         ########## start class based notif ########## 
         datetoday = localtime()
+        context['datetoday'] = datetoday
         qs_id = CourseInfo.objects.filter(user=self.request.user).values('id')
         context['notif'] = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(
             dose_timing__year=datetoday.year,
@@ -278,6 +280,7 @@ def htmx_delete_course(request, id):
         'doseinfo': doseinfo,
         'notif': notif,
         'notif_count': notif_count,
+        'datetoday': datetoday,
     }
     return render(request, "trackerapp/partials/betamain_content.html", context)
 
@@ -303,5 +306,6 @@ def htmx_delete_dose(request, id, doseid):
         'doseinfo': doseinfo,
         'notif': notif,
         'notif_count': notif_count,
+        'datetoday': datetoday,
     }
     return render(request, 'trackerapp/htmx_view_dose.html', context)            
