@@ -4,30 +4,30 @@
     {% for item in courseinfo %}
     <!-- start of each item -->
     {% if item.complete is False %}
-    <div class="row bg-light border border-secondary rounded p-1 mt-3">
-        <div class="col-sm-4 d-flex justify-content-start align-items-center">
-            <i class="bi bi-person-circle fs-1"></i>
+    <div class="row bg-light border border-light-subtle rounded p-1 mt-3 shadow-sm">
+        <div class="col-sm-1 btn btn-light rounded-pill fw-bolder">
+            <i class="bi bi-caret-right-fill"></i> {% if item.patient is not None %}{{item.patient|slugify|capfirst|slice:":3"}}{% else %}<i class="bi bi-person-fill p-0 m-0"></i>{% endif %}
+        </div>
+        <div class="col-sm-3 d-flex justify-content-start align-items-center">
             <div class="ms-4">
-                <h3><strong><a href="{% url 'betaviewcourse' item.id %}">{{item.medicine}}</a></strong></h3>
-                <i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.interval}} hourly&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-calendar-range-fill"></i>&nbsp;&nbsp;{{item.course_duration}}-day course
-            </div>    
+                <h4 class="mb-0"><strong><a href="{% url 'betaviewcourse' item.id %}">{{item.medicine}}</a></strong></h4>  
+            </div>
         </div>
         <div class="col-sm-8 d-flex">
-            <div class="d-flex justify-content-start align-items-end">
-                <i class="bi bi-arrow-right-circle-fill text-success fs-2"></i>
+            <div class="d-flex justify-content-start align-items-center">
+                <i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.interval}} hourly&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-calendar-range-fill"></i>&nbsp;&nbsp;{{item.course_duration}} days
             </div>
-            <div class="d-flex justify-content-start align-items-end ms-5 flex-grow-1">
+            <div class="d-flex justify-content-start align-items-center ms-5 flex-grow-1">
                 <div class="flex-grow-1">
-                    <ul class="list-group list-group-horizontal-sm">
-                        {% for x in doseinfo %}
+                    
+                    {% for x in doseinfo %}
                             {% if x.courseinfo.id == item.id %}
-                            <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-caret-right-fill text-success"></i> {{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i A"}}</li>
+                            <span class="me-2"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-arrow-right-circle-fill text-success"></i> {{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i A"}}</span>
                             {% endif %}
-                        {% endfor %}</p>
-                    </ul>
+                        {% endfor %}
                 </div>
                 <div>            
-                    <a hx-delete="{% url 'htmx_delete_course' item.id %}" href="#" class="dropdown-item"><i class="bi bi-trash3"></i></a>
+                    <a hx-delete="{% url 'htmx_delete_course' item.id %}" href="#" class="dropdown-item"><i class="bi bi-trash3 text-danger"></i></a>
                 </div>
             </div>
         </div>

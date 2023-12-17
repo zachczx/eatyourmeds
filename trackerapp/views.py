@@ -121,7 +121,7 @@ class BetaMain(LoginRequiredMixin, ListView):
             ).select_related() #for notif
         context['notif_count'] = len(context['notif'])
         ########## end class based notif ##########
-        upcomingoneday = datetoday + timedelta(hours=14) #for main page content display 
+        upcomingoneday = datetoday + timedelta(hours=8) #for main page content display 
         context['doseinfo'] = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(dose_timing__gte=localtime()).filter(dose_timing__lte=upcomingoneday).select_related() #for main page content display        
         return context
 
@@ -266,7 +266,7 @@ def htmx_delete_course(request, id):
     ########## start func based notif ########## 
     qs_id = CourseInfo.objects.filter(user=request.user).values('id')
     datetoday = localtime()
-    upcomingoneday = datetoday + timedelta(hours=14) 
+    upcomingoneday = datetoday + timedelta(hours=8) 
     doseinfo = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(dose_timing__gte=localtime()).filter(dose_timing__lte=upcomingoneday).select_related()        
     notif = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(
         dose_timing__year=datetoday.year,
@@ -292,7 +292,7 @@ def htmx_delete_dose(request, id, doseid):
     ########## start func based notif ########## 
     qs_id = CourseInfo.objects.filter(user=request.user).values('id')
     datetoday = localtime()
-    upcomingoneday = datetoday + timedelta(hours=14) 
+    upcomingoneday = datetoday + timedelta(hours=8) 
     doseinfo = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(dose_timing__gte=localtime()).filter(dose_timing__lte=upcomingoneday).select_related()        
     notif = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(
         dose_timing__year=datetoday.year,
