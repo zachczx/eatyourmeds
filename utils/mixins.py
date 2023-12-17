@@ -10,7 +10,6 @@ class CacheMixin(object):
     def dispatch(self, *args, **kwargs):
         return cache_page(self.get_cache_timeout())(super(CacheMixin, self).dispatch)(*args, **kwargs)
 
-
 class CacheControlMixin(object):
     cache_timeout = 60
 
