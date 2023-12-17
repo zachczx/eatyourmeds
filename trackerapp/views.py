@@ -24,6 +24,7 @@ from .forms import BetaCourseForm, BetaDoseForm, BetaDoseHtmxForm, BetaDoseAutoF
 from django.views.generic.list import ListView
 from .utils import Calendar
 from django.utils.safestring import mark_safe
+from utils.mixins import CacheMixin
 
 #from datetime import datetime as core_datetime #for the sorting by time
 #from django.db.models import Q #for query multiply columns
@@ -104,7 +105,8 @@ class newlist(LoginRequiredMixin, TemplateView):
         return context
 
 
-class BetaMain(LoginRequiredMixin, ListView):
+class BetaMain(LoginRequiredMixin, CacheMixin, ListView):
+    cache_timeout = 90
     template_name = 'trackerapp/betamain.html'
     model = CourseInfo
     context_object_name = 'courseinfo'
