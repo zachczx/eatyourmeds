@@ -76,7 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-#                'utils.context_processors.notif_context_data',
+                'utils.context_processors.notif_context_data',
             ],
         },
     },
@@ -113,8 +113,8 @@ CACHES = {
     }
 }
 
-#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-#SESSION_CACHE_ALIAS = "default"
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 
 ############## end redis ############## 
 
