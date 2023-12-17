@@ -105,7 +105,7 @@ class newlist(LoginRequiredMixin, TemplateView):
         return context
 
 
-class BetaMain(LoginRequiredMixin, CacheMixin, ListView):
+class BetaMain(LoginRequiredMixin, ListView):
     cache_timeout = 90
     template_name = 'trackerapp/betamain.html'
     model = CourseInfo
