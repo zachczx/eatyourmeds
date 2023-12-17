@@ -5,7 +5,7 @@
     <!-- start of each item -->
     {% if item.complete is False %}
     <div class="row bg-light border border-light-subtle rounded p-1 mt-3 shadow-sm">
-        <div class="col-sm-1 btn btn-light rounded-pill fw-bolder">
+        <div class="col-sm-1 btn rounded-pill fw-bolder">
             <i class="bi bi-caret-right-fill"></i> {% if item.patient is not None %}{{item.patient|slugify|capfirst|slice:":3"}}{% else %}<i class="bi bi-person-fill p-0 m-0"></i>{% endif %}
         </div>
         <div class="col-sm-3 d-flex justify-content-start align-items-center">

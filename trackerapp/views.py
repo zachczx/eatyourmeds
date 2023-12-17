@@ -111,17 +111,17 @@ class BetaMain(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         ########## start class based notif ########## 
-        datetoday = localtime()
-        context['datetoday'] = datetoday
+        #datetoday = localtime()
+        #context['datetoday'] = datetoday
         qs_id = CourseInfo.objects.filter(user=self.request.user).values('id')
-        context['notif'] = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(
-            dose_timing__year=datetoday.year,
-            dose_timing__month=datetoday.month,
-            dose_timing__day=datetoday.day
-            ).select_related() #for notif
-        context['notif_count'] = len(context['notif'])
+        #context['notif'] = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(
+        #    dose_timing__year=datetoday.year,
+        #    dose_timing__month=datetoday.month,
+        #    dose_timing__day=datetoday.day
+        #    ).select_related() #for notif
+        #context['notif_count'] = len(context['notif'])
         ########## end class based notif ##########
-        upcomingoneday = datetoday + timedelta(hours=8) #for main page content display 
+        upcomingoneday = localtime() + timedelta(hours=8) #for main page content display 
         context['doseinfo'] = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(dose_timing__gte=localtime()).filter(dose_timing__lte=upcomingoneday).select_related() #for main page content display        
         return context
 
@@ -168,17 +168,6 @@ class BetaViewCourse(LoginRequiredMixin, ListView):
             cal = Calendar(start_timing_calendar_year, start_timing_calendar_month)
             html_cal = cal.formatmonth(withyear=True)
             context['calendar'] = mark_safe(html_cal)
-        ########## start class based notif ########## 
-        datetoday = localtime()
-        context['datetoday'] = datetoday
-        qs_id = CourseInfo.objects.filter(user=self.request.user).values('id')
-        context['notif'] = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(
-            dose_timing__year=datetoday.year,
-            dose_timing__month=datetoday.month,
-            dose_timing__day=datetoday.day
-            ).select_related() #for notif
-        context['notif_count'] = len(context['notif'])
-        ########## end class based notif ##########
         return context
 
 class BetaDeleteCourse(LoginRequiredMixin, DeleteView):
@@ -263,24 +252,13 @@ def htmx_create_dose_auto(request, id):
 def htmx_delete_course(request, id):
     CourseInfo.objects.filter(id=id).delete()
     courseinfo = CourseInfo.objects.filter(user=request.user).prefetch_related()
-    ########## start func based notif ########## 
     qs_id = CourseInfo.objects.filter(user=request.user).values('id')
-    datetoday = localtime()
-    upcomingoneday = datetoday + timedelta(hours=8) 
-    doseinfo = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(dose_timing__gte=localtime()).filter(dose_timing__lte=upcomingoneday).select_related()        
-    notif = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(
-        dose_timing__year=datetoday.year,
-        dose_timing__month=datetoday.month,
-        dose_timing__day=datetoday.day
-        ).select_related()
-    notif_count = len(notif)
-    ########## end func based notif ##########                                          
+    upcomingoneday = localtime() + timedelta(hours=8) 
+    doseinfo = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(dose_timing__gte=localtime()).filter(dose_timing__lte=upcomingoneday).select_related()                              
     context = {
         'courseinfo': courseinfo,
         'doseinfo': doseinfo,
-        'notif': notif,
-        'notif_count': notif_count,
-        'datetoday': datetoday,
+
     }
     return render(request, "trackerapp/partials/betamain_content.html", context)
 
@@ -289,23 +267,13 @@ def htmx_delete_dose(request, id, doseid):
     DoseInfo.objects.filter(id=doseid).delete()
     courseinfo = CourseInfo.objects.filter(pk=id)
     doseinfo = DoseInfo.objects.filter(courseinfo_id=id).order_by('dose_timing').values()
-    ########## start func based notif ########## 
+    
     qs_id = CourseInfo.objects.filter(user=request.user).values('id')
-    datetoday = localtime()
-    upcomingoneday = datetoday + timedelta(hours=8) 
-    doseinfo = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(dose_timing__gte=localtime()).filter(dose_timing__lte=upcomingoneday).select_related()        
-    notif = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(
-        dose_timing__year=datetoday.year,
-        dose_timing__month=datetoday.month,
-        dose_timing__day=datetoday.day
-        ).select_related()
-    notif_count = len(notif)
-    ########## end func based notif ##########     
+
+    upcomingoneday = localtime() + timedelta(hours=8)         
+    
     context = {
         'courseinfo': courseinfo,
         'doseinfo': doseinfo,
-        'notif': notif,
-        'notif_count': notif_count,
-        'datetoday': datetoday,
     }
     return render(request, 'trackerapp/htmx_view_dose.html', context)            
