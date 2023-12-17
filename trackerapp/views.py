@@ -7,7 +7,9 @@ from django.views.decorators.http import require_http_methods
 #from django.http import HttpResponse
 
 from django.views.generic.detail import DetailView
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import logout #new django 5.0 logout
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login # to login right after creating account
@@ -39,15 +41,17 @@ class EatLogin(LoginView):
     redirect_authenticated_user = True
     
     def get_success_url(self):
-        return reverse_lazy('newlist')
+        return reverse_lazy('betamain')
 
-class EatLogout(LogoutView):
-    next_page = 'eatlogin'    
+def logout_view(request):
+    logout(request)
+    return redirect('betamain')
+    # Redirect to a success page.
 
 class EatRegister(FormView):
     template_name = 'trackerapp/registration/register.html'
     form_class = UserCreationForm
-    success_url = reverse_lazy('newlist')
+    success_url = reverse_lazy('betamain')
     
     def form_valid(self, form):
         user = form.save() # this is user cos we are working with usercreationform 

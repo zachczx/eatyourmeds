@@ -76,7 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'utils.context_processors.notif_context_data',
+#                'utils.context_processors.notif_context_data',
             ],
         },
     },
@@ -99,7 +99,24 @@ DATABASES = {
     }
 }
 
+############## end redis ##############
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": env('REDIS_PASSWORD'),
+        },
+        "KEY_PREFIX": "eatyourmeds"
+    }
+}
+
+#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+#SESSION_CACHE_ALIAS = "default"
+
+############## end redis ############## 
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

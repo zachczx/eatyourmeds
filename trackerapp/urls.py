@@ -1,12 +1,12 @@
 from django.urls import path
 from . import views
-from .views import EatLogin, EatLogout, EatRegister, EatDetails, EatCreate
-from .views import htmx_delete_course, htmx_create_dose, htmx_delete_dose, htmx_create_dose_auto
+from .views import EatLogin, EatRegister, EatDetails, EatCreate
+from .views import htmx_delete_course, htmx_create_dose, htmx_delete_dose, htmx_create_dose_auto, logout_view
 from .views import BetaCreateCourse, BetaCreateDose, BetaViewCourse, BetaMain, BetaDeleteCourse, BetaUpdateCourse
 
 urlpatterns = [
     path('login/', EatLogin.as_view(), name='eatlogin'),
-    path('logout/', EatLogout.as_view(), name='eatlogout'),
+    path('logout/', views.logout_view, name='eatlogout'),
     path('register/', EatRegister.as_view(), name='eatregister'),
     path('med/<int:pk>/', EatDetails.as_view(), name='eatdetails'),
     #path('create/', EatCreate.as_view(), name='eatcreate'),
