@@ -1,14 +1,14 @@
+<div class="col d-flex justify-content-center bg-light-subtle border border-secondary-subtle rounded">
 {% if not doseinfo %}
-<div class="text-center">
 <form action="{% url 'htmx_create_dose_auto' courseinfo.0.id %}" method="POST">
     {% csrf_token %}
-    <p>Oops, there's no data here. Try <input type="submit" class="btn btn-link" value="adding doses automatically"></p>
+    <div class="align-items-center pt-5 pb-5">Oops, there's no data here. Try <input type="submit" class="btn btn-outline-success" value="adding doses automatically"></div>
 </form>
-</div>
+
 {% else %}
 <ol class="list-group list-group-numbered list-group-flush">
 {% for item in doseinfo %}
-<li class="list-group-item">
+<li class="list-group-item bg-light-subtle">
     {% if item.dose_timing < datetoday %}
     <span class="border border-dark opacity-50 p-1 ms-3 mt-2 mb-2"><i class="bi bi-calendar-minus-fill"></i>&nbsp;&nbsp;{{item.dose_timing|date:"j M (D), Y"}}</span>
     <span class="border border-dark opacity-50 p-1 mt-2 mb-2"><i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.dose_timing|time:"g:i a"}}</span>&nbsp;&nbsp;&nbsp;
@@ -23,3 +23,4 @@
 </ol>
 
 {% endif %}
+</div>

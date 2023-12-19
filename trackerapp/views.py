@@ -1,4 +1,4 @@
-from typing import Any
+#from typing import Any
 from django.db import models
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
@@ -6,15 +6,14 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 #from django.http import HttpResponse
 
-from django.views.generic.detail import DetailView
+#from django.views.generic.detail import DetailView
 from django.contrib.auth.views import LoginView
-from django.contrib.auth import logout #new django 5.0 logout
+from django.contrib.auth import login, logout #new django 5.0 logout # to login right after creating account
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login # to login right after creating account
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
-from django.contrib.admin.widgets import AdminDateWidget
+
 from django.urls import reverse_lazy, reverse
 from .models import EatModel, MedicalInfo
 
@@ -24,15 +23,14 @@ from .forms import BetaCourseForm, BetaDoseForm, BetaDoseHtmxForm, BetaDoseAutoF
 from django.views.generic.list import ListView
 from .utils import Calendar
 from django.utils.safestring import mark_safe
+
+#caching
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from django.core.cache import cache
 from utils.mixins import CacheMixin
 
-#from datetime import datetime as core_datetime #for the sorting by time
-#from django.db.models import Q #for query multiply columns
-
 from django.utils.timezone import datetime, timedelta, localtime #localtime to do subtraction
-
-from django.views.generic.base import TemplateView #for newlist class
-from django.db.models import FilteredRelation
 
 # Create your views here.
 
@@ -66,46 +64,17 @@ class EatRegister(FormView):
             #import redirect
             return redirect('newlist')
         return super(EatRegister, self).get(*args, **kwargs)
-    
-class EatDetails(LoginRequiredMixin, DetailView):
-    login_url = 'eatlogin'
-    model = EatModel
-    context_object_name = 'outstanding_list'  #this allows me to call it from the details page, outstanding_list.id
-
-#    def get_context_data(self, **kwargs):
-#        context = super().get_context_data(**kwargs)
-#        context['tasks'] = EatModel.objects.filter(user=self.request.user)
-#        return context
 
 class EatCreate(LoginRequiredMixin, CreateView):
     model = EatModel
     fields = ['medicine', 'remarks', 'last_fed', 'interval', 'complete']
     success_url = reverse_lazy('newlist')
     
-    #for date picking
-    #def get_form(self, form_class=None):
-    #    form = super(EatCreate, self).get_form(form_class)
-    #    form.fields['last_fed'].widget = AdminDateWidget(attrs={'type': 'date'})
-    #    return form
-    
-    # after form is submitted, checks if user submitting matches the user in the form
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(EatCreate, self).form_valid(form)
 
-class newlist(LoginRequiredMixin, TemplateView):
-    
-    template_name = 'trackerapp/eatmodel_newlist.html'
-    login_url = 'eatlogin'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['time'] = localtime()
-        context['list'] = EatModel.objects.filter(user=self.request.user)
-        return context
-
-
-class BetaMain(LoginRequiredMixin, CacheMixin, ListView):
+class BetaMain(LoginRequiredMixin, ListView):
     cache_timeout = 90
     template_name = 'trackerapp/betamain.html'
     model = CourseInfo
@@ -156,7 +125,8 @@ class BetaViewCourse(LoginRequiredMixin, ListView):
     context_object_name = 'courseinfo'
 
     def get_queryset(self):
-        return CourseInfo.objects.filter(pk=self.kwargs.get('pk'))
+        get_qs = CourseInfo.objects.filter(pk=self.kwargs.get('pk'))
+        return get_qs
  
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
@@ -192,7 +162,7 @@ class BetaUpdateCourse(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('betaviewcourse', kwargs={"pk": self.kwargs.get('pk')})
-    
+
 def htmx_create_dose(request, id):
     
     form = BetaDoseHtmxForm(request.POST or None)
@@ -264,7 +234,6 @@ def htmx_delete_course(request, id):
     context = {
         'courseinfo': courseinfo,
         'doseinfo': doseinfo,
-
     }
     return render(request, "trackerapp/partials/betamain_content.html", context)
 
@@ -273,11 +242,7 @@ def htmx_delete_dose(request, id, doseid):
     DoseInfo.objects.filter(id=doseid).delete()
     courseinfo = CourseInfo.objects.filter(pk=id)
     doseinfo = DoseInfo.objects.filter(courseinfo_id=id).order_by('dose_timing').values()
-    
-    qs_id = CourseInfo.objects.filter(user=request.user).values('id')
-
-    upcomingoneday = localtime() + timedelta(hours=8)         
-    
+    #qs_id = CourseInfo.objects.filter(user=request.user).values('id')      
     context = {
         'courseinfo': courseinfo,
         'doseinfo': doseinfo,

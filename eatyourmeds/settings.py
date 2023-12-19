@@ -34,6 +34,7 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=[str])
 # Application definition
 
 INSTALLED_APPS = [
+    'clearcache',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -100,25 +101,26 @@ DATABASES = {
 }
 
 ############## end redis ##############
-'''
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
+        'TIMEOUT': 604800,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PASSWORD": env('REDIS_PASSWORD'),
             "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
         },
-        "KEY_PREFIX": "eatyourmeds"
+        "KEY_PREFIX": "eatyourmeds",
     }
 }
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
+#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+#SESSION_CACHE_ALIAS = "default"
 
 ############## end redis ############## 
-'''
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -163,7 +165,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # for login logout
-LOGIN_REDIRECT_URL = 'eatlist'
+LOGIN_REDIRECT_URL = 'betamain'
 LOGOUT_REDIRECT_URL = 'eatlogin'
 LOGIN_URL = 'eatlogin'
 

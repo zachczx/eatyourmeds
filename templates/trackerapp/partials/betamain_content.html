@@ -1,30 +1,25 @@
 {% load static %}
 
 <div class="row mt-5">
-    <div class="col-sm-1"></div>
-    <div class="col-sm-3 text-secondary ps-5 fw-bolder">Medicine</div>
-    <div class="col-sm-3 text-secondary fw-bolder">Intervals</div>
-    <div class="col-sm-5 text-secondary fw-bolder">Next Few Doses</div>
+    <div class="col-2 col-lg-1 text-secondary fw-bolder d-flex justify-content-center">Who Dat?</div>
+    <div class="col-3 col-lg-3 text-secondary fw-bolder d-flex justify-content-center">Medicine</div>
+    <div class="col-3 col-lg-3 text-secondary fw-bolder d-flex justify-content-center">Intervals</div>
+    <div class="col-4 col-lg-5 text-secondary fw-bolder d-flex justify-content-center">Next Doses</div>
 </div>
     {% for item in courseinfo %}
     <!-- start of each item -->
     {% if item.complete is False %}
-<div class="row bg-light border border-light-subtle rounded p-1 mt-3 shadow-sm">
-    <div class="col-sm-1 btn rounded-pill fw-bolder">
+<div class="row d-flex align-items-center bg-light border border-secondary-subtle rounded p-1 mt-3">
+    <div class="col-lg-1 col-sm-12 justify-content-start btn rounded-pill fw-bolder">
         <i class="bi bi-caret-right-fill"></i> {% if item.patient is not None %}{{item.patient|slugify|capfirst|slice:":3"}}{% else %}<i class="bi bi-person-fill p-0 m-0"></i>{% endif %}
     </div>
-    <div class="col-sm-3">
-        <div class="d-flex justify-content-start align-items-center ms-4">
-            <h4><strong><a href="{% url 'betaviewcourse' item.id %}">{{item.medicine}}</a></strong></h4>  
-        </div>
+    <div class="col-lg-3 col-sm-12 d-flex justify-content-center">
+        <div class="h-100 fs-4"><a href="{% url 'betaviewcourse' item.id %}">{{item.medicine}}</a></div>  
     </div>
-    <div class="col-sm-3 d-flex justify-content-start align-items-center">
-        <div class="">
-            <i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.interval}} hourly&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-calendar-range-fill"></i>&nbsp;&nbsp;{{item.course_duration}} days
-        </div>
+    <div class="col-lg-3 col-sm-12 d-flex justify-content-center">
+        <i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.interval}} hourly&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-calendar-range-fill"></i>&nbsp;&nbsp;{{item.course_duration}} days
     </div>
-    <div class="col-sm-5 d-flex justify-content-start align-items-center">
-        <div class="d-flex flex-grow-1">
+    <div class="col-lg-5 col-sm-12 d-flex justify-content-center">
             <div class="flex-grow-1">
                 {% for x in doseinfo %}
                 {% if x.courseinfo.id == item.id %}
@@ -33,34 +28,34 @@
                 {% endfor %}
             </div>         
             <a hx-delete="{% url 'htmx_delete_course' item.id %}" href="#"><i class="bi bi-trash3 text-danger"></i></a>
-        </div>
     </div>
 </div>
 
     <!-- end of each item -->
     {% elif item.complete is True %}
     <!-- start of each item -->
-    <div class="row bg border border-secondary rounded p-1 mt-3">
-        <div class="col-sm-3">
-            <h3><strong><a href="{% url 'betaviewcourse' item.id %}" class="opacity-50">{{item.medicine}}</a>&nbsp;&nbsp;<i class="bi bi-check-circle-fill text-success"></i></strong></h3>
-            <i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.interval}} hourly
+    <div class="row d-flex align-items-center bg-light border border-secondary-subtle rounded p-1 mt-3">
+        <div class="col-lg-1 col-sm-12 justify-content-start btn rounded-pill fw-bolder opacity-50">
+            <i class="bi bi-caret-right-fill"></i> {% if item.patient is not None %}{{item.patient|slugify|capfirst|slice:":3"}}{% else %}<i class="bi bi-person-fill p-0 m-0"></i>{% endif %}
         </div>
-        <div class="col-sm-9 d-flex justify-content-start align-items-end opacity-50">
-            <div class="flex-grow-1">
-                <ol class="list-group list-group-horizontal-sm">
-                    {% for x in doseinfo%}
-                        {% if x.courseinfo.medicine == item.medicine %}
-                        <li class="list-group-item"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line">{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i a"}}</li>
-                        {% endif %}
-                    {% endfor %}</p>
-                </ul>
-            </div>
-            <div>            
-                <a hx-delete="{% url 'htmx_delete_course' item.id %}" href="#" class="dropdown-item"><i class="bi bi-trash3"></i></a>
-            </div>
+        <div class="col-lg-3 col-sm-12 d-flex justify-content-center opacity-50">
+            <div class="h-100 fs-4"><a href="{% url 'betaviewcourse' item.id %}">{{item.medicine}}</a></div>  
         </div>
-
+        <div class="col-lg-3 col-sm-12 d-flex justify-content-center opacity-50">
+            <i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.interval}} hourly&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-calendar-range-fill"></i>&nbsp;&nbsp;{{item.course_duration}} days
+        </div>
+        <div class="col-lg-5 col-sm-12 d-flex justify-content-center">
+                <div class="flex-grow-1 opacity-50">
+                    {% for x in doseinfo %}
+                    {% if x.courseinfo.id == item.id %}
+                    <span class="me-2"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-arrow-right-circle-fill text-success"></i> {{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i A"}}</span>
+                    {% endif %}
+                    {% endfor %}
+                </div>         
+                <a hx-delete="{% url 'htmx_delete_course' item.id %}" href="#"><i class="bi bi-trash3 text-danger"></i></a>
+        </div>
     </div>
+    <!-- end of each item -->
     {% endif %}
     {% endfor %}
     {% if not courseinfo %}
