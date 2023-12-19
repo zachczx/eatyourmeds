@@ -137,9 +137,11 @@ class BetaViewCourse(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
         context = super().get_context_data(**kwargs)
-        context['doseinfo'] = DoseInfo.objects.filter(courseinfo_id=self.kwargs.get('pk')).values()      
+        dose_qs = DoseInfo.objects.filter(courseinfo_id=self.kwargs.get('pk')).values()      
+        context['doseinfo'] = dose_qs
         context['htmx_create_dose'] = BetaDoseHtmxForm()
 
+        #### calendar render ####
         dose_dates = DoseInfo.objects.filter(courseinfo_id=self.kwargs.get('pk')).values_list('dose_timing', flat=True)
         #start_timing_calendar = DoseInfo.objects.filter(courseinfo_id=self.kwargs.get('pk')).order_by('dose_timing').values('dose_timing').first()
         if not dose_dates:
@@ -150,6 +152,10 @@ class BetaViewCourse(LoginRequiredMixin, ListView):
             cal = Calendar(start_timing_calendar_year, start_timing_calendar_month)
             html_cal = cal.formatmonth(withyear=True)
             context['calendar'] = mark_safe(html_cal)
+        #### end calendar render ####
+        total_doses = dose_qs.count()
+        pending_doses = dose_qs.filter(dose_timing__gte=localtime()).count()
+        context['progress'] = round((total_doses-pending_doses)/total_doses*100)
         return context
 
 class BetaDeleteCourse(LoginRequiredMixin, DeleteView):
