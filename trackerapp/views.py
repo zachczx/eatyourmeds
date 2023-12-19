@@ -1,4 +1,5 @@
 #from typing import Any
+from typing import Any
 from django.db import models
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
@@ -109,6 +110,11 @@ class BetaCreateCourse(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(BetaCreateCourse, self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_user'] = self.request.user
+        return context
     
     def get_success_url(self):
         return reverse_lazy('betaviewcourse', kwargs={'pk': self.object.id})

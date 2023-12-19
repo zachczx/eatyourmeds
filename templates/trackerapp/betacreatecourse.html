@@ -21,8 +21,7 @@
                     <div class="col-sm">
                         <form action="" method="POST">
                             {% csrf_token %}
-                            {{form|crispy}}
-                            <input type="submit" value="Submit">
+                            {% crispy form %}
                         </form>
                     </div>
                 </div>
