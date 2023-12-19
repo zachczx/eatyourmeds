@@ -1,11 +1,12 @@
-<div class="col d-flex justify-content-center bg-light-subtle border border-secondary-subtle rounded">
 {% if not doseinfo %}
-<form action="{% url 'htmx_create_dose_auto' courseinfo.0.id %}" method="POST">
+<div class="col d-flex justify-content-center bg-light-subtle border border-secondary-subtle rounded">
+    <form action="{% url 'htmx_create_dose_auto' courseinfo.0.id %}" method="POST">
     {% csrf_token %}
     <div class="align-items-center pt-5 pb-5">Oops, there's no data here. Try <input type="submit" class="btn btn-outline-success" value="adding doses automatically"></div>
 </form>
-
+</div>
 {% else %}
+<div class="col d-flex p-2 justify-content-start bg-light-subtle border border-secondary-subtle rounded">
 <ol class="list-group list-group-numbered list-group-flush">
 {% for item in doseinfo %}
 <li class="list-group-item bg-light-subtle">
@@ -21,6 +22,5 @@
 </li>
 {% endfor %}
 </ol>
-
-{% endif %}
 </div>
+{% endif %}
