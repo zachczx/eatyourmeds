@@ -27,8 +27,8 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-3 px-2 mb-3">
-            <div class="card bg-light-subtle border-secondary-subtle h-100">
+        <div class="col-sm-4 px-2 mb-3">
+            <div class="card border-secondary-subtle h-100">
                 <div class="card-body d-flex justify-content-around align-items-center">
                     <div><i class="bi bi-person-bounding-box fs-1"></i></div>
                     {% if item.patient is None %}{% else %}
@@ -40,8 +40,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 px-2 mb-3">
-            <div class="card bg-light-subtle border-secondary-subtle h-100">
+        <div class="col-sm-4 px-2 mb-3">
+            <div class="card border-secondary-subtle h-100">
                 <div class="card-body d-flex justify-content-around align-items-center">
                     <div><i class="bi bi-capsule-pill fs-1"></i></div>
                     <div class="text-center">
@@ -51,13 +51,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 px-2 mb-3">
-            <div class="card bg-light-subtle border-secondary-subtle h-100">
+        <div class="col-sm-4 px-2 mb-3">
+            <div class="card border-secondary-subtle h-100">
                 <div class="card-body d-flex justify-content-around align-items-center">
-                    <div><i class="bi bi-body-text fs-1"></i></div>
-                    <div class="text-center ps-4">
-                        <h4 class="card-title fw-bold border-bottom border-dark">Description</h4>
-                        <div class="card-text">{{item.medicine.description}}</div>
+                    <div><i class="bi bi-pencil-square fs-1"></i></div>
+                    <div class="text-center">
+                        <h4 class="card-title fw-bold border-bottom border-dark">Entry Created</h4>
+                        <div class="card-text">{{item.course_created|date:"j M (D)"}} {{item.course_created|time:"g:i a"}}</div>
                     </div>
                 </div>
             </div>
@@ -65,8 +65,8 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-3 px-2 mb-3">
-            <div class="card bg-light-subtle border-secondary-subtle h-100">
+        <div class="col-sm-4 px-2 mb-3">
+            <div class="card border-secondary-subtle h-100">
                 <div class="card-body d-flex justify-content-around align-items-center">
                     <div><i class="bi bi-calendar-date fs-1"></i></div>
                     <div class="text-center">
@@ -76,8 +76,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 px-2 mb-3">
-            <div class="card bg-light-subtle border-secondary-subtle h-100">
+        <div class="col-sm-4 px-2 mb-3">
+            <div class="card border-secondary-subtle h-100">
                 <div class="card-body d-flex justify-content-around align-items-center">
                     <div><i class="bi bi-calendar-range fs-1"></i></div>
                     <div class="text-center">
@@ -87,24 +87,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 px-2 mb-3">
-            <div class="card bg-light-subtle border-secondary-subtle h-100">
+        <div class="col-sm-4 px-2 mb-3">
+            <div class="card border-secondary-subtle h-100">
                 <div class="card-body d-flex justify-content-around align-items-center">
                     <div><i class="bi bi-clock-history fs-1"></i></div>
                     <div class="text-center">
                         <h4 class="card-title fw-bold border-bottom border-dark">Interval</h4>
                         <div class="card-text">{{item.interval}} hourly per dose</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 px-2 mb-3">
-            <div class="card bg-light-subtle border-secondary-subtle h-100">
-                <div class="card-body d-flex justify-content-around align-items-center">
-                    <div><i class="bi bi-pencil-square fs-1"></i></div>
-                    <div class="text-center">
-                        <h4 class="card-title fw-bold border-bottom border-dark">Entry Created</h4>
-                        <div class="card-text">{{item.course_created|date:"j M (D)"}} {{item.course_created|time:"g:i a"}}</div>
                     </div>
                 </div>
             </div>
@@ -116,22 +105,24 @@
     <div class="row g-0">
 
         <h2 class="mb-4 mt-5"><i class="bi bi-2-square-fill"></i>&nbsp;Add Dose Timings</h2>
-        <div class="d-flex justify-content-center align-items-center border bg-light-subtle border-secondary-subtle rounded mt-2 pt-3 pb-3">    
+        <div class="d-flex justify-content-center align-items-center border border-secondary-subtle rounded mt-2 pt-3 pb-3">    
             <div class="col-sm-4 text-center">
                 <form action="{% url 'htmx_create_dose_auto' courseinfo.0.id %}" method="POST">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-success" value="Automatic Add Doses">
-                    <i class="bi bi-question-circle-fill fs-5" data-bs-toggle="tooltip" title="Fill in your doses using course start date, interval and duration you already provided"></i>
+                    <input type="submit" class="btn btn-success rounded-pill fw-bold px-3 text-white" value="Automatic Add Doses">
+                    <i class="bi bi-question-circle-fill text-secondary fs-5" data-bs-toggle="tooltip" title="Fill in your doses using course start date, interval and duration you already provided"></i>
                 </form>
             </div>
-            <div class="col-sm-3 ps-5 text-center"><span class="btn btn-dark rounded-pill text-white"><strong>OR</strong></span></div>
+            <div class="col-sm-3 ps-5 text-center">
+                <span class="btn btn-secondary rounded-pill text-white"><strong>OR</strong></span>
+            </div>
             <div class="col-sm-3">
                 <form hx-post="{% url 'htmx_create_dose' courseinfo.0.id %}" hx-target="#htmx_view_dose" hx-swap="innerHTML">
                     {% csrf_token %}
                     {{htmx_create_dose.dose_timing}}
             </div>
             <div class="col-sm-2">
-                <input type="submit" class="btn btn-success" value="Add Dose">
+                <input type="submit" class="btn btn-success rounded-pill fw-bold px-3 text-white" value="Add">
                 </form>
             </div>
         </div>
@@ -144,7 +135,7 @@
             <div class="accordion mt-3" id="dosecalendar">
                 <div class="accordion-item border-secondary-subtle">
                     <h2 class="accordion-header">
-                    <button class="accordion-button collapsed bg bg-light text-emphasis-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#calviewOne" aria-expanded="true" aria-controls="calviewOne">
+                    <button class="accordion-button collapsed bg bg-light-subtle text-emphasis-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#calviewOne" aria-expanded="true" aria-controls="calviewOne">
                         <strong>Calendar View</strong>
                     </button>
                     </h2>
@@ -168,7 +159,7 @@
     <div class="accordion" id="medinfo">
         <div class="accordion-item border-secondary-subtle">
             <h2 class="accordion-header">
-            <button class="accordion-button collapsed bg bg-light text-emphasis" type="button" data-bs-toggle="collapse" data-bs-target="#medinfoOne" aria-expanded="true" aria-controls="medinfoOne">
+            <button class="accordion-button collapsed bg bg-light-subtle text-emphasis" type="button" data-bs-toggle="collapse" data-bs-target="#medinfoOne" aria-expanded="true" aria-controls="medinfoOne">
                 <strong>{{item.medicine}}</strong>
             </button>
             </h2>

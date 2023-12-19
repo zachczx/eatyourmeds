@@ -1,26 +1,42 @@
 {% if not doseinfo %}
-<div class="col d-flex justify-content-center bg-light-subtle border border-secondary-subtle rounded">
+<div class="col d-flex justify-content-center border border-secondary-subtle rounded">
     <form action="{% url 'htmx_create_dose_auto' courseinfo.0.id %}" method="POST">
     {% csrf_token %}
     <div class="align-items-center pt-5 pb-5">Oops, there's no data here. Try <input type="submit" class="btn btn-outline-success" value="adding doses automatically"></div>
 </form>
 </div>
 {% else %}
-<div class="col d-flex p-2 justify-content-start bg-light-subtle border border-secondary-subtle rounded">
-<ol class="list-group list-group-numbered list-group-flush">
-{% for item in doseinfo %}
-<li class="list-group-item bg-light-subtle">
-    {% if item.dose_timing < datetoday %}
-    <span class="border border-dark opacity-50 p-1 ms-3 mt-2 mb-2"><i class="bi bi-calendar-minus-fill"></i>&nbsp;&nbsp;{{item.dose_timing|date:"j M (D), Y"}}</span>
-    <span class="border border-dark opacity-50 p-1 mt-2 mb-2"><i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.dose_timing|time:"g:i a"}}</span>&nbsp;&nbsp;&nbsp;
-    <a hx-delete="{% url 'htmx_delete_dose' id=courseinfo.0.id doseid=item.id %}" hx-target="#htmx_view_dose" hx-swap="innerHTML"><i class="bi bi-trash3 text-danger opacity-50"></i></a>
-    {% else %}
-    <span class="border border-dark p-1 ms-3 mt-2 mb-2"><i class="bi bi-calendar-minus-fill"></i>&nbsp;&nbsp;{{item.dose_timing|date:"j M (D), Y"}}</span>
-    <span class="border border-dark p-1 mt-2 mb-2"><i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.dose_timing|time:"g:i a"}}</span>&nbsp;&nbsp;&nbsp;
-    <a hx-delete="{% url 'htmx_delete_dose' id=courseinfo.0.id doseid=item.id %}" hx-target="#htmx_view_dose" hx-swap="innerHTML"><i class="bi bi-trash3 text-danger"></i></a>
-    {% endif %}
-</li>
+<div class="col d-flex justify-content-start border border-secondary-subtle rounded p-1">
+    <table class="table table-responsive-sm table-hover">
+        <thead>
+            <tr class="fw-bold">
+                <td class="col-2">#</td>
+                <td class="col-4">Date</td>
+                <td class="col-4">Timing</td>
+                <td class="col-2">Del</td>
+            </tr>
+        </thead>
+        <tbody>
+    {% for item in doseinfo %}
+
+        {% if item.dose_timing < datetoday %}
+        <tr class="opacity-50">
+            <td class="col-2 fw-lighter">{{forloop.counter}}</td>
+            <td class="col-4 fw-lighter">{{item.dose_timing|date:"j M (D), Y"}}</td>
+            <td class="col-4">{{item.dose_timing|time:"g:i a"}}</td>
+            <td class="col-2"><a hx-delete="{% url 'htmx_delete_dose' id=courseinfo.0.id doseid=item.id %}" hx-target="#htmx_view_dose" hx-swap="innerHTML"><i class="bi bi-trash3 text-danger opacity-50"></i></a></td>
+        </tr>
+        {% else %}
+        <tr>
+            <td class="col-2 fw-bold">{{forloop.counter}}</td>
+            <td class="col-4 fw-bold">{{item.dose_timing|date:"j M (D), Y"}}</td>
+            <td class="col-4 fw-bold">{{item.dose_timing|time:"g:i a"}}</td>
+            <td class="col-2 fw-bold"><a hx-delete="{% url 'htmx_delete_dose' id=courseinfo.0.id doseid=item.id %}" hx-target="#htmx_view_dose" hx-swap="innerHTML"><i class="bi bi-trash3 text-danger opacity-50"></i></a></td>
+        </tr>
+        {% endif %}
 {% endfor %}
+</tbody>
+</table>
 </ol>
 </div>
 {% endif %}

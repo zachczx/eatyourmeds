@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'trackerapp.apps.TrackerappConfig',
     'aboutme.apps.AboutmeConfig',
     'debug_toolbar',
+    'compressor',
 ]
 
 MIDDLEWARE = [
@@ -116,8 +117,8 @@ CACHES = {
     }
 }
 
-#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-#SESSION_CACHE_ALIAS = "default"
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 
 ############## end redis ############## 
 
@@ -158,6 +159,25 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+######## for sass bootstrap ######## 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+COMPRESS_ENABLED = 'True'
+COMPRESS_OFFLINE = 'True'
+
+LIBSASS_OUTPUT_STYLE = 'compressed'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
+######## for sass bootstrap ######## 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
