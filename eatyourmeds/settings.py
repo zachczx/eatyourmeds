@@ -45,7 +45,17 @@ INSTALLED_APPS = [
     'aboutme.apps.AboutmeConfig',
     'debug_toolbar',
     'compressor',
+    'crispy_forms',
+    "crispy_bootstrap5",
 ]
+
+######## crispy ########
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+######## crispy ########
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -162,6 +172,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 ######## for sass bootstrap ######## 
 STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
     'compressor.finders.CompressorFinder',
 )
 
