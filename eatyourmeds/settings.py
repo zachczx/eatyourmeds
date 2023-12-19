@@ -162,9 +162,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 ######## for sass bootstrap ######## 
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    # other finders..
     'compressor.finders.CompressorFinder',
 )
 
