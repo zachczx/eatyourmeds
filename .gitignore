@@ -10,3 +10,5 @@ eatyourmeds/settings.py
 staticfiles/*
 *.sqlite3
 data.json
+eatyourmeds/.gitattributes
+eatyourmeds/.gitignore
