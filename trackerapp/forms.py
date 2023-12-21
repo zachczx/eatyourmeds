@@ -2,7 +2,7 @@ from django import forms
 from .models import CourseInfo, DoseInfo, Patient
 #crispy forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Field, MultiField, Submit, Div, Button
+from crispy_forms.layout import Layout, Fieldset, Field,  Submit, Reset, Div, Button
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -42,7 +42,7 @@ class BetaCourseForm(forms.ModelForm):
             ),
             FormActions(
                 Submit('submit', 'Submit', css_class='text-white fw-bold'),
-                Button('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
+                Reset('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
             ),
         )
 
@@ -88,7 +88,7 @@ class BetaUserCreateForm(UserCreationForm):
             ),
             FormActions(
                 Submit('Register', 'Submit', css_class='text-white fw-bold'),
-                Button('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
+                Reset('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
             ),
         )
 
@@ -117,7 +117,7 @@ class BetaLoginForm(AuthenticationForm):
             ),
             FormActions(
                 Submit('submit', 'Login', css_class='text-white fw-bold'),
-                Button('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
+                Reset('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
             ),
         )
 
@@ -132,17 +132,24 @@ class BetaPatientUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_show_labels = False
         self.helper.layout = Layout(
             Div(
                 Div(
-                    'name',
-                    css_class='col-auto d-flex align-items-center',
+                    css_class='col-2',
+                ),
+                Div(
+                    Field('name', placeholder='Add a name'),
+                    css_class='col-4',
                 ),
                 Div(
                     Submit('submit', 'Add Kid', css_class='text-white fw-bold'),
-                    Button('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
-                    css_class='col-auto d-flex align-items-center',
+                    Reset('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
+                    css_class='col-4',
                 ),
-                css_class="row",                
+                Div(
+                    css_class='col-2',
+                ),
+                css_class="row g-2",                
             )
         )

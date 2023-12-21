@@ -8,3 +8,4 @@ templates/trackerapp/JStest.html
 eatyourmeds/settings.py
 eatyourmeds/settings.py
 staticfiles/*
+*.sqlite3

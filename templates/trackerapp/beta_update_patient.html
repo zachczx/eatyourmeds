@@ -15,20 +15,32 @@
         </div>
     </div>
     <h2 class="text-center mb-5 mt-5">Add the people eating the medicine here:</h2>
-    <div class="w-75">
-        <form action="" method="POST">
-            {% crispy form %}
-        </form>
+    <div class="row">
+        <div class="col-2">
+        </div>
+        <div class="col-8 text-start">
+            <form action="" method="POST">
+                {% crispy form %}
+            </form>
+        </div>
+        <div class="col-2">
+        </div>
     </div>
     <div class="row">
         <div class="col">
+            
+        </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 mt-4">
             <p>These are the people who are tagged to you:</p>
-            <ul>
+            <ul class="list-group list-group-numbered">
             {% for person in patient_list %}
-            <li>{{person.name}}</li>
+            <li class="list-group-item">{{person.name}}</li>
             {% endfor %}
             </ul>
         </div>
+        <div class="col-3"></div>
     </div>
 </div>
 {% endblock %}
