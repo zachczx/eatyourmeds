@@ -176,7 +176,10 @@ class BetaViewCourse(LoginRequiredMixin, ListView):
         #### end calendar render ####
         total_doses = dose_qs.count()
         pending_doses = dose_qs.filter(dose_timing__gte=localtime()).count()
-        context['progress'] = round((total_doses-pending_doses)/total_doses*100)
+        if total_doses is 0:
+            context['progress'] = 0
+        else:
+            context['progress'] = round((total_doses-pending_doses)/total_doses*100)
         return context
 
 class BetaDeleteCourse(LoginRequiredMixin, DeleteView):
