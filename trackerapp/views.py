@@ -113,7 +113,10 @@ class BetaMain(LoginRequiredMixin, ListView):
         
         # do division
         for key in progress:
-            progress[key] = round((len(finishedlist[key])/len(newlist[key])) * 100)
+            if len(newlist[key]) is 0:
+                progress[key] = 0
+            else: 
+                progress[key] = round((len(finishedlist[key])/len(newlist[key])) * 100)
         
         context['progress'] = progress
                
