@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .views import EatLogin, EatRegister, EatCreate
 from .views import htmx_delete_course, htmx_create_dose, htmx_delete_dose, htmx_create_dose_auto, logout_view
-from .views import BetaCreateCourse, BetaCreateDose, BetaViewCourse, BetaMain, BetaDeleteCourse, BetaUpdateCourse
+from .views import BetaCreateCourse, BetaCreateDose, BetaViewCourse, BetaMain, BetaDeleteCourse, BetaUpdateCourse, betapatientupdate
 
 urlpatterns = [
     path('login/', EatLogin.as_view(), name='eatlogin'),
@@ -17,6 +17,7 @@ newversion = [
     path('course/dose/create/', BetaCreateDose.as_view(), name="betacreatedose"),
     path('course/<int:pk>/delete_p/', BetaDeleteCourse.as_view(), name="betadelete"),
     path('course/<int:pk>/update/', BetaUpdateCourse.as_view(), name='betaupdatecourse'),
+    path('profile/', views.betapatientupdate, name='betapatientupdate'),
 ]
 
 htmxpatterns = [

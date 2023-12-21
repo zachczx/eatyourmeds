@@ -77,7 +77,7 @@ class Patient(models.Model):
     parent = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.name
+        return str(self.name)  
     
 class CourseInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)

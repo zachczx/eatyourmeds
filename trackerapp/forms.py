@@ -1,11 +1,11 @@
 from django import forms
-from .models import CourseInfo, DoseInfo
+from .models import CourseInfo, DoseInfo, Patient
 #crispy forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, MultiField, Submit, Div, Button
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 #from django.urls import reverse_lazy, reverse
 
 class BetaCourseForm(forms.ModelForm):
@@ -87,7 +87,62 @@ class BetaUserCreateForm(UserCreationForm):
                 css_class='row pb-4',
             ),
             FormActions(
-                Submit('submit', 'Submit', css_class='text-white fw-bold'),
+                Submit('Register', 'Submit', css_class='text-white fw-bold'),
                 Button('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
             ),
+        )
+
+class BetaLoginForm(AuthenticationForm):
+    
+    class Meta:
+        fields = ['username', 'password']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Div(
+              css_class='row',  
+            ),
+            Div(
+                'username',
+                css_class='col pb-4',
+            ),
+            Div(
+              css_class='row',  
+            ),
+            Div(
+                'password',
+                css_class='col pb-4',
+            ),
+            FormActions(
+                Submit('submit', 'Login', css_class='text-white fw-bold'),
+                Button('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
+            ),
+        )
+
+class BetaPatientUpdateForm(forms.ModelForm):
+    
+    name = forms.CharField(required=True)
+    
+    class Meta:
+        model = Patient
+        fields = ['name','parent']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Div(
+                Div(
+                    'name',
+                    css_class='col-auto d-flex align-items-center',
+                ),
+                Div(
+                    Submit('submit', 'Add Kid', css_class='text-white fw-bold'),
+                    Button('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
+                    css_class='col-auto d-flex align-items-center',
+                ),
+                css_class="row",                
+            )
         )

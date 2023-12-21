@@ -18,12 +18,13 @@ from django.urls import reverse_lazy, reverse
 from .models import EatModel, MedicalInfo
 
 #beta version stuff
-from .models import CourseInfo, DoseInfo
-from .forms import BetaCourseForm, BetaDoseForm, BetaDoseHtmxForm, BetaDoseAutoForm, BetaUserCreateForm
-from django.views.generic.list import ListView
+from .models import CourseInfo, DoseInfo, Patient
+from .forms import BetaCourseForm, BetaDoseForm, BetaDoseHtmxForm, BetaDoseAutoForm, BetaUserCreateForm, BetaLoginForm, BetaPatientUpdateForm
+from django.views.generic import ListView, DetailView 
 from .utils import Calendar
 from django.utils.safestring import mark_safe
 import copy
+from django.contrib.auth.decorators import login_required
 
 #caching
 from django.db.models.signals import post_save, post_delete
@@ -36,6 +37,7 @@ from django.utils.timezone import datetime, timedelta, localtime #localtime to d
 # Create your views here.
 
 class EatLogin(LoginView):
+    authentication_form = BetaLoginForm
     template_name = 'trackerapp/registration/login.html'
     fields = '__all__'
     redirect_authenticated_user = True
@@ -194,10 +196,29 @@ class BetaUpdateCourse(LoginRequiredMixin, UpdateView):
     template_name = 'trackerapp/betaupdatecourse.html'
     fields = "__all__"
     context_object_name = 'courseinfo'
-    fields = "__all__"
 
     def get_success_url(self):
         return reverse('betaviewcourse', kwargs={"pk": self.kwargs.get('pk')})
+
+@login_required
+def betapatientupdate(request):
+    
+    if request.method == "POST":
+        # create a form instance and populate it with data from the request:
+        form = BetaPatientUpdateForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.parent = request.user          
+            profile.save()       
+    
+    form = BetaPatientUpdateForm()
+    patient_list = Patient.objects.filter(parent_id=request.user.id).select_related()
+    context = {
+        'patient_list': patient_list,
+        'form': form, 
+    }            
+    return render(request, 'trackerapp/beta_update_patient.html', context)
 
 def htmx_create_dose(request, id):
     
