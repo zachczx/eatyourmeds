@@ -1,15 +1,26 @@
 {% extends 'trackerapp/base.html' %}
 
 {% block content %}
+{% load crispy_forms_tags %}
+<div class="container px-4">
+    <div class="row mt-5">
+        <div class="col-sm">
+            <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'betamain' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Register</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
 
-<h2 class="text-center">Register</h2>
+<h2 class="text-center mb-5 mt-5">Hello! Let's get started with registration:</h2>
 
 <div class="row">
     <div class="d-flex justify-content-center fw-bold">
         <form action="" method="POST">
             {% csrf_token %}
-            {{ form.as_div }}
-            <input type="submit" value="Register" class="btn btn-success mt-3">
+            {% crispy form %}
         </form>
     </div>
 </div>

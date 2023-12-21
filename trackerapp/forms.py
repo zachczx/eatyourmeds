@@ -5,6 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, MultiField, Submit, Div, Button
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 #from django.urls import reverse_lazy, reverse
 
 class BetaCourseForm(forms.ModelForm):
@@ -59,3 +60,34 @@ class BetaDoseAutoForm(forms.ModelForm):
     class Meta:
         fields = []
         model = DoseInfo
+        
+class BetaUserCreateForm(UserCreationForm):
+
+    email = forms.EmailField(required=False)
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Div(
+                'username',
+                css_class='row pb-4',
+            ),
+            Div(
+                'email',
+                css_class='row pb-4',
+            ),
+            Div(
+                Div('password1', css_class='col-sm-6'),
+                Div('password2', css_class='col-sm-6'),
+                css_class='row pb-4',
+            ),
+            FormActions(
+                Submit('submit', 'Submit', css_class='text-white fw-bold'),
+                Button('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
+            ),
+        )

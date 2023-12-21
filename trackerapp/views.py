@@ -12,7 +12,6 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import login, logout #new django 5.0 logout # to login right after creating account
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 
 from django.urls import reverse_lazy, reverse
@@ -20,10 +19,11 @@ from .models import EatModel, MedicalInfo
 
 #beta version stuff
 from .models import CourseInfo, DoseInfo
-from .forms import BetaCourseForm, BetaDoseForm, BetaDoseHtmxForm, BetaDoseAutoForm
+from .forms import BetaCourseForm, BetaDoseForm, BetaDoseHtmxForm, BetaDoseAutoForm, BetaUserCreateForm
 from django.views.generic.list import ListView
 from .utils import Calendar
 from django.utils.safestring import mark_safe
+import copy
 
 #caching
 from django.db.models.signals import post_save, post_delete
@@ -50,8 +50,9 @@ def logout_view(request):
 
 class EatRegister(FormView):
     template_name = 'trackerapp/registration/register.html'
-    form_class = UserCreationForm
+    form_class = BetaUserCreateForm
     success_url = reverse_lazy('betamain')
+    context_object_name = 'form'
     
     def form_valid(self, form):
         user = form.save() # this is user cos we are working with usercreationform 
@@ -86,19 +87,36 @@ class BetaMain(LoginRequiredMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        ########## start class based notif ########## 
-        #datetoday = localtime()
-        #context['datetoday'] = datetoday
-        qs_id = CourseInfo.objects.filter(user=self.request.user).values('id')
-        #context['notif'] = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(
-        #    dose_timing__year=datetoday.year,
-        #    dose_timing__month=datetoday.month,
-        #    dose_timing__day=datetoday.day
-        #    ).select_related() #for notif
-        #context['notif_count'] = len(context['notif'])
-        ########## end class based notif ##########
-        upcomingoneday = localtime() + timedelta(hours=8) #for main page content display 
+        qs_id = CourseInfo.objects.filter(user=self.request.user).values_list('id', flat=True)
+        #qs_id2 = CourseInfo.objects.filter(user=self.request.user).values_list('id', flat=True)
+        upcomingoneday = localtime() + timedelta(hours=6) #for main page content display 
         context['doseinfo'] = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(dose_timing__gte=localtime()).filter(dose_timing__lte=upcomingoneday).select_related() #for main page content display        
+        qs_dose = DoseInfo.objects.filter(courseinfo_id__in=qs_id)
+        
+        #convert queryset dict to dict with list inside
+        qs_id_list = {}
+        for i in qs_id:
+            qs_id_list[i] = []
+        
+        newlist = copy.deepcopy(qs_id_list)
+        finishedlist = copy.deepcopy(qs_id_list)
+        progress = copy.deepcopy(qs_id_list)
+        timenow = localtime()
+              
+        for item in qs_dose:
+            #grab all relevant items based on courseinfo_id
+            if item.courseinfo_id in qs_id:
+                newlist[item.courseinfo_id].append(item.dose_timing)
+            #grab the items that were in the past
+            if item.courseinfo_id in qs_id and item.dose_timing < timenow:
+                finishedlist[item.courseinfo_id].append(item.dose_timing)
+        
+        # do division
+        for key in progress:
+            progress[key] = round((len(finishedlist[key])/len(newlist[key])) * 100)
+        
+        context['progress'] = progress
+               
         return context
 
 class BetaCreateCourse(LoginRequiredMixin, CreateView):
@@ -120,13 +138,13 @@ class BetaCreateCourse(LoginRequiredMixin, CreateView):
         return reverse_lazy('betaviewcourse', kwargs={'pk': self.object.id})
     
 class BetaCreateDose(CreateView):
-    template_name = 'trackerapp/betacreatedose.html'
+    template_name = 'trackerapp/beta_create_dose.html'
     form_class = BetaDoseForm
 
 class BetaViewCourse(LoginRequiredMixin, ListView):
 
     model = CourseInfo
-    template_name = 'trackerapp/betaviewcourse.html'
+    template_name = 'trackerapp/beta_view_course.html'
     login_url = 'eatlogin'
     context_object_name = 'courseinfo'
 
@@ -241,7 +259,7 @@ def htmx_delete_course(request, id):
     CourseInfo.objects.filter(id=id).delete()
     courseinfo = CourseInfo.objects.filter(user=request.user).prefetch_related()
     qs_id = CourseInfo.objects.filter(user=request.user).values('id')
-    upcomingoneday = localtime() + timedelta(hours=8) 
+    upcomingoneday = localtime() + timedelta(hours=6) 
     doseinfo = DoseInfo.objects.filter(courseinfo_id__in=qs_id).filter(dose_timing__gte=localtime()).filter(dose_timing__lte=upcomingoneday).select_related()                              
     context = {
         'courseinfo': courseinfo,
