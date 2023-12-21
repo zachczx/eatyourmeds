@@ -9,3 +9,4 @@ eatyourmeds/settings.py
 eatyourmeds/settings.py
 staticfiles/*
 *.sqlite3
+data.json
