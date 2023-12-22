@@ -27,4 +27,19 @@
         <div>Or just use this test account - User: <strong><u>test</u></strong>, Password: <strong><u>testing12345</u></strong></div>
 </div>
 
+<script>
+    const togglePassword1 = document.querySelector('#togglePassword1');
+    const password1 = document.querySelector('#id_password');
+    
+    togglePassword1.addEventListener('click', () => {
+        // Toggle the type attribute using
+        // getAttribure() method
+        const type = password1
+            .getAttribute('type') === 'password' ?
+            'text' : 'password';
+        password1.setAttribute('type', type);
+        // Toggle the eye and bi-eye icon
+        togglePassword1.classList.toggle('bi-eye');
+    });
+</script>
 {% endblock %}

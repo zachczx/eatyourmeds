@@ -21,7 +21,6 @@
         <form action="" method="POST">
             {% csrf_token %}
             {% crispy form %}
-            <i class="bi bi-eye-slash" id="togglePassword"></i>
         </form>
     </div>
 </div>
@@ -35,18 +34,28 @@
 </div>
 
 <script>
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#id_password1');
-    togglePassword.addEventListener('click', () => {
+    const togglePassword1 = document.querySelector('#togglePassword1');
+    const password1 = document.querySelector('#id_password1');
+    
+    togglePassword1.addEventListener('click', () => {
         // Toggle the type attribute using
         // getAttribure() method
-        const type = password
+        const type = password1
             .getAttribute('type') === 'password' ?
             'text' : 'password';
-        password.setAttribute('type', type);
+        password1.setAttribute('type', type);
         // Toggle the eye and bi-eye icon
-        this.classList.toggle('bi-eye');
-        this.classList.toggle('bi-eye-slash');
+        togglePassword1.classList.toggle('bi-eye');
+    });
+    
+    const togglePassword2 = document.querySelector('#togglePassword2');
+    const password2 = document.querySelector('#id_password2');
+    togglePassword2.addEventListener('click', () => {
+        const type = password2
+            .getAttribute('type') === 'password' ?
+            'text' : 'password';
+        password2.setAttribute('type', type);
+        togglePassword2.classList.toggle('bi-eye');
     });
 </script>
 {% endblock %}

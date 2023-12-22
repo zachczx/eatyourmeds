@@ -4,6 +4,7 @@ from .models import CourseInfo, DoseInfo, Patient
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field,  Submit, Reset, Div, Button
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
+from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 #from django.urls import reverse_lazy, reverse
@@ -84,8 +85,16 @@ class BetaUserCreateForm(UserCreationForm):
                 css_class='row pb-4',
             ),
             Div(
-                Div('password1', css_class='col-sm-6'),
-                Div('password2', css_class='col-sm-6'),
+                Div(
+                    AppendedText('password1', mark_safe('<i class="bi bi-eye-slash" id="togglePassword1"></i>')),
+                    css_class='col-sm-6',
+                    id='#id_password1',    
+                ),
+                Div(
+                    AppendedText('password2', mark_safe('<i class="bi bi-eye-slash" id="togglePassword2"></i>')),
+                    css_class='col-sm-6',
+                    id='#id_password2',    
+                ),
                 css_class='row pb-4',
             ),
             FormActions(
@@ -114,7 +123,9 @@ class BetaLoginForm(AuthenticationForm):
               css_class='row',  
             ),
             Div(
-                Field('password', id='password1'),
+                Div(
+                    AppendedText('password', mark_safe('<i class="bi bi-eye-slash" id="togglePassword1"></i>')),
+                ),
                 css_class='col pb-4',
             ),
             FormActions(
