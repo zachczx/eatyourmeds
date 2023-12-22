@@ -21,6 +21,7 @@
                     <div class="col-sm">
                         <form action="" method="POST">
                             {% csrf_token %}
+                            <!-- {{form}} -->
                             {% crispy form %}
                         </form>
                     </div>
@@ -30,13 +31,13 @@
         </div>
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    flatpickr('#id_course_start', {
-        enableTime: true,
-        altInput: true,
-        altFormat: "j F Y, h:i K",
-        dateFormat: "Y-m-d H:i",
-    });
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr('#id_course_start', {
+            enableTime: true,
+            altInput: true,
+            altFormat: "j F Y, h:i K",
+            dateFormat: "Y-m-d H:i",
+        });
+    </script>
 {% endblock %}

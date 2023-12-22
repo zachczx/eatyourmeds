@@ -10,7 +10,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 class BetaCourseForm(forms.ModelForm):
     class Meta:
-        fields = "__all__"
+        fields = ['medicine', 'interval', 'course_duration', 'course_start', 'patient']
         model = CourseInfo
         labels = {
             'interval': 'Number of hours in between each dose:',
@@ -19,8 +19,10 @@ class BetaCourseForm(forms.ModelForm):
             "patient": "Who's eating the medicine?",
         }
         
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, user=None, *args, **kwargs):
+        self.patient = Patient.objects.filter(parent=user)
+        super(BetaCourseForm, self).__init__(*args, **kwargs)
+        self.fields['patient'].queryset = self.patient
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Fieldset(
@@ -37,7 +39,7 @@ class BetaCourseForm(forms.ModelForm):
                 css_class='row pb-4',
             ),
             Div(
-                'course_start',
+                Field('course_start', id='id_course_start'),
                 css_class='row pb-4',
             ),
             FormActions(
@@ -87,7 +89,7 @@ class BetaUserCreateForm(UserCreationForm):
                 css_class='row pb-4',
             ),
             FormActions(
-                Submit('Register', 'Submit', css_class='text-white fw-bold'),
+                Submit('submit', 'Submit', css_class='text-white fw-bold'),
                 Reset('cancel', 'Cancel', css_class='btn btn-outline-secondary'),
             ),
         )
@@ -112,7 +114,7 @@ class BetaLoginForm(AuthenticationForm):
               css_class='row',  
             ),
             Div(
-                'password',
+                Field('password', id='password1'),
                 css_class='col pb-4',
             ),
             FormActions(

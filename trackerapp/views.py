@@ -127,21 +127,42 @@ class BetaMain(LoginRequiredMixin, ListView):
 class BetaCreateCourse(LoginRequiredMixin, CreateView):
     template_name = 'trackerapp/beta_create_course.html'
     form_class = BetaCourseForm
-    success_url = reverse_lazy('betaviewdose')
     
     #to auto populate the form user created
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(BetaCreateCourse, self).form_valid(form)
-    
+    '''
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form_user'] = self.request.user
         return context
+    '''
+    def get_form_kwargs(self):
+        kwargs = super(BetaCreateCourse, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
     
     def get_success_url(self):
         return reverse_lazy('betaviewcourse', kwargs={'pk': self.object.id})
+
+'''
+def beta_create_course(request):
+    form = BetaCreateCourse(request.POST or None)
     
+    #if request.method == 'GET':    
+    #    return render(request, 'trackerapp/htmx_create_dose.html', {'form': form})
+    
+    if request.method == 'POST':
+ 
+        if form.is_valid():
+            #fill in the course info automatically
+            filled = form.save(commit=False)
+            filled.courseinfo_id = id
+            filled.save()
+            
+    return HttpResponseRedirect('betaviewcourse', kwargs="")
+''' 
 class BetaCreateDose(CreateView):
     template_name = 'trackerapp/beta_create_dose.html'
     form_class = BetaDoseForm
