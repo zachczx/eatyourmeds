@@ -35,9 +35,9 @@
                         <h4 class="card-title fw-bold border-bottom border-dark">Medicine</h4>
                         <div class="card-text">
                         {% if item.patient is None %}
-                        {{item.medicine}} for {{item.patient}}
-                        {% else %}
                         {{item.medicine}}
+                        {% else %}
+                        {{item.medicine}} for {{item.patient}}
                         {% endif %}
                         </div>
                     </div>
