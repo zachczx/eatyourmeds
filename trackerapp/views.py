@@ -53,7 +53,7 @@ def logout_view(request):
 class EatRegister(FormView):
     template_name = 'trackerapp/registration/register.html'
     form_class = BetaUserCreateForm
-    success_url = reverse_lazy('betamain')
+    success_url = reverse_lazy('betapatientupdate')
     context_object_name = 'form'
     
     def form_valid(self, form):
@@ -125,7 +125,7 @@ class BetaMain(LoginRequiredMixin, ListView):
         return context
 
 class BetaCreateCourse(LoginRequiredMixin, CreateView):
-    template_name = 'trackerapp/betacreatecourse.html'
+    template_name = 'trackerapp/beta_create_course.html'
     form_class = BetaCourseForm
     success_url = reverse_lazy('betaviewdose')
     
@@ -202,15 +202,6 @@ class BetaUpdateCourse(LoginRequiredMixin, UpdateView):
 
 @login_required
 def betapatientupdate(request):
-    
-    if request.method == "POST":
-        # create a form instance and populate it with data from the request:
-        form = BetaPatientUpdateForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.parent = request.user          
-            profile.save()       
     
     form = BetaPatientUpdateForm()
     patient_list = Patient.objects.filter(parent_id=request.user.id).select_related()
@@ -305,3 +296,30 @@ def htmx_delete_dose(request, id, doseid):
         'doseinfo': doseinfo,
     }
     return render(request, 'trackerapp/htmx_view_dose.html', context)            
+
+@login_required
+def htmx_create_kid(request):
+    if request.method == "POST":
+        # create a form instance and populate it with data from the request:
+        form = BetaPatientUpdateForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.parent = request.user          
+            profile.save()       
+    
+    patient_list = Patient.objects.filter(parent_id=request.user.id).select_related()
+    context = {
+        'patient_list': patient_list,
+    }            
+    return render(request, 'trackerapp/htmx_view_kid.html', context)
+
+@login_required
+@require_http_methods(['DELETE'])
+def htmx_delete_kid(request, kidid):
+    Patient.objects.filter(id=kidid).delete()
+    patient_list = Patient.objects.filter(parent_id=request.user.id).select_related()
+    context = {
+        'patient_list': patient_list,
+    }            
+    return render(request, 'trackerapp/htmx_view_kid.html', context)

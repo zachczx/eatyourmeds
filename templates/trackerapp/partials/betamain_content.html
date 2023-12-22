@@ -73,11 +73,11 @@
     {% endif %}
     {% endfor %}
     {% if not courseinfo %}
-    <div class="row bg border border-secondary rounded p-1 mt-3">
+    <div class="row bg border border-secondary-subtle rounded p-1 mt-3">
         <div class="col-sm text-center pt-5 pb-5">
-            <h2 class="fw-bold">This place's empty.</h2>
+            <h2 class="fw-bold">It's an empty nest over here.</h2>
             <p class="fs-5">Start by <a href="{% url 'betacreatecourse' %}">adding a dose or two here</a>!</p>
-            <img src="{% static 'trackerapp/startup.webp' %}" class="img-fluid rounded" height="600" width="600" alt="Start here">
+            <img src="{% static 'trackerapp/empty-nest.webp' %}" class="img-fluid rounded" height="600" width="600" alt="Start here">
         </div>
     </div>
     {% endif %}

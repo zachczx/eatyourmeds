@@ -261,6 +261,7 @@
                         <i class="bi bi-bell-fill fs-6 text-white"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{notif_count}}<span class="visually-hidden">upcoming doses</span></span>
                     </button>
+                    {% if notif %}
                     <ol class="dropdown-menu list-group-numbered" aria-labelledby="notifbutton">
                         <li class="dropdown-header text-dark fw-bold">Doses today - {{notif.0.dose_timing|date:'d M (D)'}}</li>
                         {% for dose in notif %}
@@ -271,6 +272,9 @@
                         {% endif %}
                         {% endfor %}
                     </ol>
+                    {% else %}
+                    <span class="dropdown-menu px-2 text-center">Nothing's here!</span>
+                    {% endif %}
                 </span>
             </div>
             <div class="col-12 col-lg-2 text-center">

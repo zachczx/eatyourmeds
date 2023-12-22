@@ -24,7 +24,7 @@ class BetaCourseForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Fieldset(
-                'Hi {{form_user}}! Give me some details of the medicine to start:',
+                'Hi {{form_user}}! Let\'s start with some details of your medicine:',
             ),
             Div(
                 Div('medicine', css_class='col-sm-6'),

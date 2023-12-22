@@ -1,5 +1,4 @@
 {% extends 'trackerapp/base.html' %}
-
 {% block content %}
 
 {% load crispy_forms_tags %}
@@ -14,12 +13,22 @@
             </nav>
         </div>
     </div>
-    <h2 class="text-center mb-5 mt-5">Add the people eating the medicine here:</h2>
+    <h2 class="text-center mb-5 mt-5">Add names of people taking the medicine</h2>
+    <div class="row mb-3">
+        <div class="col-2">
+        </div>
+        <div class="col-8">
+            <p>This is useful if you have a few kids eating the same medication.</p> 
+            <p>If it's just you, <a href="{% url 'betacreatecourse' %}">skip this and start creating a new course of medicine</a>.</p>        
+        </div>
+        <div class="col-2">
+        </div>
+    </div>
     <div class="row">
         <div class="col-2">
         </div>
         <div class="col-8 text-start">
-            <form action="" method="POST">
+            <form hx-post="{% url 'htmx_create_kid' %}" hx-target="#htmx_view_kid" hx-swap="innerHTML">
                 {% crispy form %}
             </form>
         </div>
@@ -27,20 +36,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col">
-            
+        <div class="col-2"></div>
+        <div class="col-8 mt-4" id="htmx_view_kid">
+            <hr>
+            {% include './htmx_view_kid.html' %}
         </div>
-    <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6 mt-4">
-            <p>These are the people who are tagged to you:</p>
-            <ul class="list-group list-group-numbered">
-            {% for person in patient_list %}
-            <li class="list-group-item">{{person.name}}</li>
-            {% endfor %}
-            </ul>
-        </div>
-        <div class="col-3"></div>
+        <div class="col-2"></div>
     </div>
 </div>
 {% endblock %}
