@@ -17,13 +17,13 @@
         <div class="h-100 fs-5"><a href="{% url 'betaviewcourse' item.id %}">{{item.medicine}}</a></div>  
     </div>
     <div class="col-lg-3 col-sm-12 d-flex justify-content-center">
-        <i class="bi bi-clock-fill"></i>&nbsp;&nbsp;{{item.interval}} hourly&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-calendar-range-fill"></i>&nbsp;&nbsp;{{item.course_duration}} days
+        <i class="bi bi-clock-fill text-secondary"></i>&nbsp;&nbsp;{{item.interval}} hourly&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-calendar-range-fill text-secondary"></i>&nbsp;&nbsp;{{item.course_duration}} days
     </div>
     <div class="col-lg-5 col-sm-12 d-flex justify-content-center">
             <div class="flex-grow-1">
                 {% for x in doseinfo %}
                 {% if x.courseinfo.id == item.id %}
-                <span class="me-2"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-arrow-right-circle-fill text-success"></i> {{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i A"}}</span>
+                <span class="me-2"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-arrow-right-circle-fill text-secondary"></i>&nbsp;&nbsp;{{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i A"}}</span>
                 {% endif %}
                 {% endfor %}
             </div>         
@@ -55,7 +55,7 @@
         <div class="flex-grow-1 opacity-25">
             {% for x in doseinfo %}
             {% if x.courseinfo.id == item.id %}
-            <span class="me-2"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-arrow-right-circle-fill text-success"></i> {{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i A"}}</span>
+            <span class="me-2"><a href="{% url 'betaviewcourse' item.id %}" class="link-no-line"><i class="bi bi-arrow-right-circle-fill text-dark"></i> {{x.dose_timing|date:"d M"}}, {{x.dose_timing|time:"g:i A"}}</span>
             {% endif %}
             {% endfor %}
         </div>         

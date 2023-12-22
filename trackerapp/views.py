@@ -66,7 +66,7 @@ class EatRegister(FormView):
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:      
             #import redirect
-            return redirect('newlist')
+            return redirect('betamain')
         return super(EatRegister, self).get(*args, **kwargs)
 
 class EatCreate(LoginRequiredMixin, CreateView):
