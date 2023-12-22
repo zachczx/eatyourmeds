@@ -2,7 +2,7 @@
 <div class="col d-flex justify-content-center border border-secondary-subtle rounded">
     <form action="{% url 'htmx_create_dose_auto' courseinfo.0.id %}" method="POST">
     {% csrf_token %}
-    <div class="align-items-center pt-5 pb-5">Oops, there's no data here. Try <input type="submit" class="btn btn-outline-success" value="adding doses automatically"></div>
+    <div class="align-items-center pt-5 pb-5">Oops, there's no data here. Try <input type="submit" class="btn btn-primary" value="adding doses automatically"></div>
 </form>
 </div>
 {% else %}
