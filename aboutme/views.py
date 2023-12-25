@@ -5,3 +5,6 @@ from django.http import HttpRequest, HttpResponse
 
 def home(request):
     return render(request, 'aboutme/home.html')
+
+def retro(request):
+    return render(request, 'aboutme/retro_home.html')

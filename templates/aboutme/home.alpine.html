@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="800, initial-scale=1">
+<meta charset="utf-8">
+<title>Hello world! This is Zixian's webpage.</title>
+<link rel="stylesheet" href="{% static 'aboutme/css/bootstrap.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body>
+<div class="container mt-5 rounded border border-secondary-subtle shadow">
+    <div class="row">
+        <div class="col g-0">
+            <nav class="navbar navbar-expand flex-grow-1 bg-light">
+                <div class="container d-flex justify-content-center">
+                    <div class="navbar-nav">
+                        <span class="nav-item mx-3"><a href="#" x-data @click="$dispatch('aboutsection')">About</a></span>
+                        <span class="nav-item mx-3"><a href="#" x-data @click="$dispatch('experiencesection')">Experience</a></span>
+                        <span class="navbar-brand mx-3 fs-1">Zixian Chen</span>
+                        <span class="nav-item mx-3"><a href="#" x-data @click="$dispatch('hobbiessection')">Hobbies</a></span>
+                        <span class="nav-item mx-3"><a href="#" x-data @click="$dispatch('doggosection')">Doggo</a></span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 p-5">
+            <img src="{% static 'aboutme/kitandi.jpg' %}" class="img-fluid rounded-circle">
+        </div>
+        <div class="col-6 mt-5 pe-5">
+                        <!-- Start About -->
+                        <div x-data="{ open: 1 }" @aboutsection.window="open=!open">
+                            <div x-show="open == 1" x-transition.duration.500ms>
+                            <h2>Hello, I am Zixian.</h2>
+                            <p class="lead">I work in the public service. I enjoy working on using tech to tackle problems.</p>
+                            <p>I write emails, create powerpoint presentations, write long-form papers. These occupy me most of the time.</p>
+                            </div>
+                        </div>
+                        <!-- End About -->
+                        <!-- Start Experience -->
+                        <div x-data="{ open: false }" @experiencesection.window="open=!open">
+                            <div x-show="open" x-transition.duration.500ms>        
+                            <h2>I've worked in the public sector.</h2>
+                            <p>In the past, I worked in the Singapore Ministry of Defence on</p>
+                            <ul>
+                                <li>National Service policy</li>
+                                <li>Run media events, pitch features, write/execute media plans</li>
+                                <li>Run DSTA/DSO projects to build analytic systems for media analysts</li>
+                                <li>Raise investments internally and oversee NLP/CV research projects</li>
+                            </ul>
+                            <p>More recently, I worked at Smart Nation SG notably on</p>
+                            <ul>
+                                <li>Government on Commercial Cloud</li>
+                                <li>Singapore Government Tech Stack</li>
+                                <li>Central on-premises hosting</li>
+                            </ul>
+                            </div>
+                        </div>
+                        <!-- End Experience -->
+                        <!-- Start Hobbies -->
+                        <div x-data="{ open: false }" @hobbiessection.window="open=!open">
+                            <div x-show="open" x-transition.duration.500ms>
+                            <h2>Hobbies</h2>
+                            <p class="lead">In my free time, I learn and build stuff on the web to solve my problems IRL. Using Django-Python-Htmx-plain JS because I didn't click the frontend coursera course back then.</p>
+                            <p>My recent personal projects are:</p>
+                            <ul>
+                                <li><a href="{% url 'betamain' %}">My webapp Eat Your Medicine to learn django</a></li>
+                                <li><a href="https://www.linkedin.com/in/zixianchen/">LinkedIn profile</a></li>
+                                <li><a href="https://btonomics.com/">My home renovation blog, BTOnomics</a></li>
+                                <li><a href="https://github.com/zachczx">Github</a></li>
+                            </ul>
+                            </div>
+                        </div>
+                        <!-- End Hobbies -->
+                        <!-- Start Doggo -->
+                        <div x-data="{ open: false }" @doggosection.window="open=!open">
+                            <div x-show="open" x-transition.duration.500ms>
+                            <h2>Here is my doggo friend, Kit.</h2>
+                            <p>She's 4 years old. A Corgi x Spitz.</p>
+                            <img src="{% static 'aboutme/kit.webp' %}" class="img-fluid" width="1080" height="720" alt="Good doggo" />
+                            <p>We all love Kit, though sometimes she's naughty and will chew paper lying around. But it's great she doesn't eat anything on the floor or chew cables, though she used to.</p>
+                            <img src="{% static 'aboutme/kit_chew.webp' %}" class="img-fluid" width="720" height="826" alt="Bad doggo" />
+                            </div>
+                        </div>
+                        <!-- End Doggo -->                        
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

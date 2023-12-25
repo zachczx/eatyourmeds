@@ -1,65 +1,256 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta name="viewport" content="800, initial-scale=1">
-        <meta charset="utf-8">
-        <title>Hello world! This is Zixian's webpage.</title>
-        <!-- <link rel="stylesheet" href="{% static 'aboutme/geocities_bootstrap.css' %}"> -->
-        <link rel="stylesheet" href="{% static 'aboutme/css/bootstrap.css' %}">
-    </head>
-    <body style="background-image: url('{% static 'aboutme/library2.gif' %}')">
-    <div class="container1 px-3"> <!-- lazy to change all the geocities css references to container -->
-        <div class="row">
-                <div class="col-sm">
-                    <p class="text-center"><img src="{% static 'aboutme/welcome.gif' %}" class="img-fluid" alt="The rocket looks cool!" /></p>
-                    <h1 class="text-center">Welcome to Zixian's website!</h1>
-                    <p class="text-center"><img src="{% static 'aboutme/HeHeartlandPrairie6170construct1.gif' %}"><br><img src="{% static 'aboutme/Dungeon4206underconstruction_004.gif' %}"><br><img src="{% static 'aboutme/Hollow7752Construction.gif' %}"></p>
-                </div>
-            </div>
-        <div class="row">
-                <div class="col-sm-4">
-                    <h2>About me</h2>
-                    <div class="bg-light border border-dark p-3">
-                        <p class="fs-4">Hello, I am Zixian. I am old. Welcome to my personal website.</p>
-                        <p class="fs-4">I did this in the nostalgic feeling of Geocities/Angelfires webpage ages ago, like fanpages I created</a>. The days of nesting tables, opening Paintshop Pro and Frontpage/notepad!</p>
-                        <img src="{% static 'aboutme/float1.gif' %}">
-                        <img src="{% static 'aboutme/float2.gif' %}">     
+<head>
+<meta name="viewport" content="800, initial-scale=1">
+<meta charset="utf-8">
+<title>Hello world! This is Zixian's webpage.</title>
+{% load compress %}
+
+{% compress css %}
+<link type="text/x-scss" href="{% static 'about_theme.scss' %}" rel="stylesheet" media="screen">
+{% endcompress %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<style>
+    body {
+        font-family: 'Rubik', sans-serif;
+        background-color: #FFE6F7;
+    }
+
+    a, a:visited {
+        text-decoration: none;
+        font-weight: bold;
+        color: #937DC2; 
+    }
+
+    a:hover {
+        color: #C689C6;
+        text-decoration: underline;
+    }
+
+    [x-cloak] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="container mt-5 mb-5 pb-4 rounded bg-white border border-secondary-subtle shadow" x-data="{ selected: 1 }">
+    <div class="row">
+        <div class="col g-0">
+            <nav class="navbar navbar-expand rounded-top flex-grow-1">
+                <div class="container d-flex justify-content-center">
+                    <div class="navbar-nav">
+                        <span class="nav-item mx-3"><a href="#" x-data @click="selected !== 1 ? selected = 1 : selected = null">About</a></span>
+                        <span class="nav-item mx-3"><a href="#" x-data @click="selected !== 2 ? selected = 2 : selected = null">Experience</a></span>
+                        <span class="navbar-brand mx-3 fs-1">Zixian</span>
+                        <span class="nav-item mx-3"><a href="#" x-data @click="selected !== 3 ? selected = 3 : selected = null">Stack</a></span>
+                        <span class="nav-item mx-3"><a href="#" x-data @click="selected !== 4 ? selected = 4 : selected = null">Projects</a></span>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <h2>Here is my doggo friend, Kit</h2>
-                    <div class="bg-light border border-dark p-3">
-                        <img src="{% static 'aboutme/kit.webp' %}" class="img-fluid" width="1080" height="720" alt="Good doggo" />
-                        <p>We all love Kit, though sometimes she's naughty.</p>
-                        <img src="{% static 'aboutme/kit_chew.webp' %}" class="img-fluid" width="720" height="826" alt="Bad doggo" />
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <h2>These are my other webpages</h2>
-                    <div class="bg-light border border-dark p-3">
-                        <ul>
-                            <li class="fs-3"><a href="{% url 'betamain' %}">My webapp Eat Your Medicine to learn django</a></li>
-                            <li class="fs-3"><a href="https://www.linkedin.com/in/zixianchen/">LinkedIn profile</a></li>
-                            <li class="fs-3"><a href="https://btonomics.com/">My home renovation blog, BTOnomics</a></li>
-                            <li><a href="https://github.com/zachczx">Github</a></li>
-                        </ul>
-                    </div>
-                </div>
-        </div>
-        <div class="row">
-            <div class="col-sm text-center mt-5">
-                <p class="fw-bolder">Best viewed in:</p>
-                <!-- source https://anlucas.neocities.org/88x31Buttons -->
-                <img src="{% static 'aboutme/free_microsoft_internet_exploder.gif' %}" class="img-fluid">
-                <img src="{% static 'aboutme/netscapebanner.gif' %}">
-                <img src="{% static 'aboutme/geocitieswww.gif' %}">
-                <img src="{% static 'aboutme/hotmail2.gif' %}">
-                <img src="{% static 'aboutme/gc_icon2.gif' %}">
-                <img src="{% static 'aboutme/lol.gif' %}"><br>
-                <img src="{% static 'aboutme/banner.gif' %}">
-            </div>
+            </nav>
         </div>
     </div>
-    </body>
+    <div class="row">
+        <div class="col-sm-12 col-md-5 p-5">
+            <a href="#" x-data @click="selected !== 5 ? selected = 5 : selected = null"><img src="{% static 'aboutme/kitandi.webp' %}" class="img-fluid rounded-circle"></a>
+        </div>
+        <div class="col-sm-12 col-md-7 mt-5 pe-5">
+            
+            <!-- Start 1. About -->
+            <div 
+                x-show="selected == 1"
+                x-transition:enter.duration.500ms
+                x-transition:leave.duration.50ms
+            >
+                <h2 class="text-success mb-5">Hello, I am <mark class="bg-light">Zixian</mark> Chen.</h2>
+                <p class="lead">
+                    I work in the public service.
+                    <span x-data="{ dxoopen: false }">
+                    <sup>
+                        <a @click="dxoopen =! dxoopen" href="#" class="fw-normal">#</a>
+                        <span x-show="dxoopen" ><a href="https://www.careers.gov.sg/employers/security/mindef" class="fw-normal">If a Defence Executive Officer career is your thing</a></span>
+                    </sup>
+                    </span>
+                </p>
+                <p>I like to get hands on and do stuff. I enjoy working on tech related problems and ideas. That said, much of work is neither interesting nor meaningful.</p>
+                <p>At work, I attend Skype meetings (unfortunately often not even Teams!), write Outlook emails, create .pptx presentations, write .docx papers.</p>
+                <p>Not groundbreaking, but such is work in a really large place.</p>
+                <p class="mt-5"><a href="https://www.linkedin.com/in/zixianchen/"><i class="bi bi-linkedin fs-1 me-3"></i></a><a href="https://github.com/zachczx"><i class="bi bi-github fs-1"></i></a></p>
+            </div>
+            <!-- End 1. About -->
+            <!-- Start 2. Experience -->
+            <div 
+                x-show="selected == 2"
+                x-transition:enter.duration.500ms
+                x-transition:leave.duration.50ms
+                x-cloak
+            >        
+                <h2 class="text-success mb-5">I've been working in the public service.</h2>
+                <p>Some of my work in the past (memes may or may not be based on reality)</p>
+                
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="card mb-3">
+                                <img src="{% static 'aboutme/323453240_6103202813032074_7939088152911080943_n.webp' %}" class="card-img-top border-bottom" loading="lazy">
+                                <div class="card-body">
+                                  <h5 class="card-title">Government digital infrastructure policy</h5>
+                                  <p class="card-text">Did some paper work for Government's commercial cloud, tech stack, on-prem hosting</p>
+                                </div>
+                            </div>
+                        </div>                        
+                        <div class="col-sm-12 col-md-6">
+                            <div class="card mb-3">
+                                <img src="{% static 'aboutme/jim_optimised.webp' %}" class="card-img-top border-bottom" loading="lazy">
+                                <div class="card-body">
+                                  <h5 class="card-title">Helped build platforms for media analysts</h5>
+                                  <p class="card-text">Ran DSTA/DSO projects to build analytic systems for media analysts. Raised investments internally and oversaw NLP/CV research projects.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="card mb-3">
+                                <img src="{% static 'aboutme/rick_optimised.webp' %}" class="card-img-top border-bottom" loading="lazy">
+                                <div class="card-body">
+                                  <h5 class="card-title">Media and public relations</h5>
+                                  <p class="card-text">On call alot, ran media events, pitched features, wrote/executed comms plans</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="card mb-3">
+                                <img src="{% static 'aboutme/T4gHbyJ.webp' %}" class="card-img-top border-bottom" loading="lazy">
+                                <div class="card-body">
+                                  <h5 class="card-title">National Service policy</h5>
+                                  <p class="card-text">Did a bunch of meaningful paper work</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- End 2. Experience -->
+            <!-- Start 3. Stack -->
+            <div 
+                x-show="selected == 3"
+                x-transition:enter.duration.500ms
+                x-transition:leave.duration.50ms
+                x-cloak
+            >
+                <h2 class="text-success mb-5">Portfolio</h2>
+                <p>In my free time, I learn and build stuff on the web to solve my problems IRL. Ended up here after clicking on Meta's backend dev course back then.</p>
+                <h3 class="mt-4">Using</h3>
+                <p>
+                    Django<i class="bi bi-dot text-success"></i>
+                    Python<i class="bi bi-dot text-success"></i>
+                    Htmx<i class="bi bi-dot text-success"></i>
+                    Alpine JS<i class="bi bi-dot text-success"></i>
+                    Bootstrap<i class="bi bi-dot text-success"></i>
+                    DO Droplet
+                    <sup>
+                        Ubuntu<i class="bi bi-droplet-fill text-success"></i>
+                        Nginx<i class="bi bi-droplet-fill text-success"></i>
+                        Cloudflare
+                    </sup>
+                </p>
+                <h3 class="mt-4">Dabbled with</h3>
+                <p>
+                    Django Rest Framework<i class="bi bi-dot text-success"></i>
+                    SQL<i class="bi bi-dot text-success"></i>
+                    plain JS
+                </p>
+                <h3 class="mt-4">Courses/Certificates</h3>
+                <p>
+                    Meta Back-end Developer Specialization<i class="bi bi-dot text-success"></i>
+                    AWS Fundamentals Specialization<i class="bi bi-dot text-success"></i>
+
+                    Google UX
+                    <span x-data="{ googleopen: false }">
+                        <a @click="googleopen = ! googleopen" href="#">(<i class="bi bi-three-dots"></i>)</a>
+                        <span x-show="googleopen" class="text-warning">Foundations of UX Design <i class='bi bi-plus-circle text-success'></i> Wireframes/Low-fi Prototypes <i class='bi bi-plus-circle text-success'></i> Empathize/Define/Ideate</span>
+                    </span>
+                </p>
+                <h3 class="mt-4">Erm...</h3>
+                <p>
+                    Certified ScrumMaster<i class="bi bi-dot text-success"></i>
+                    LeSS Basics <a href="https://www.youtube.com/watch?v=vSnCeJEka_s"><i class="bi bi-emoji-smile-upside-down-fill"></i></a>
+                </p>
+            </div>
+            <!-- End 3. Stack -->
+            <!-- Start 4. Projects -->
+            <div 
+                x-show="selected == 4"
+                x-transition:enter.duration.500ms
+                x-transition:leave.duration.50ms
+                x-cloak
+            >
+                <h2 class="text-success mb-5">Projects I'm working on</h2>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="card">
+                                <div style="width:100%; height:15em; background-position: center 30%; background-size: cover; background-repeat: no-repeat; background-image: url('{% static 'trackerapp/logo.webp' %}')" class="rounded-top"></div>
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">Eat Your Medicine webapp</h5>
+                                    <p class="card-text">I'm a parent and whenever my kid fell sick, I needed to know when the next dose of medicine was due.</p>
+                                    <p>It was tedious. I constantly had to copy-paste on Telegram saved messages.</p>
+                                    <p class="card-text">I wrote a webapp to track dose timings and easily access info on the medicine.</p>
+                                    <div class="text-center"><a href="{% url 'betamain' %}" class="btn btn-success text-white">Try it out</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="card">
+                                <div style="width:100%; height:10em; background-position: center center; background-size: auto; background-repeat: no-repeat; background-image: url('{% static 'aboutme/btonomics-header-logo-4.webp' %}')" class="rounded-top border-bottom"></div>
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">BTOnomics.com</h5>
+                                    <p class="card-text">I was a new home owner - I didn't know how to buy/ship from Taobao, design my home, choose lights, pick flooring, select fans, decide taps.</p>
+                                    <p class="card-text">I wrote a blog documenting my HDB home renovation on a budget, with guides on choosing an ID, buying and shipping from Taobao, DIY assembly, and just generally getting stuff done.</p>
+                                    <div class="text-center"><a href="https://btonomics.com/" class="btn btn-success text-white">Check it out</a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="card">
+                                <div style="width:100%; height:15em; background-position: center 70%; background-size: cover; background-repeat: no-repeat; background-image: url('{% static 'aboutme/_16b879e5-f390-4924-9335-50964e37ba36.webp' %}')" class="rounded-top"></div>
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">Appraisal ranking app</h5>
+                                    <p class="card-text">It's such an inefficient process staring at an Excel sheet and the various columns.</p> 
+                                    <p class="card-text">Need to dust myself off and go through the empathy and user journey process.</p>
+                                    <div class="text-center"><a href="https://btonomics.com/" class="btn btn-secondary text-white disabled">Dawdling</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            <!-- End 4. Projects -->              
+            <!-- Start 5. Doggo -->
+            <div 
+                x-show="selected == 5"
+                x-transition:enter.duration.500ms
+                x-transition:leave.duration.50ms
+                x-cloak
+            >
+                <h2 class="text-success mb-5">Here is my doggo, Kitkit.</h2>
+                <p>She's 4 years old. A Corgi x Spitz.</p>
+                <img src="{% static 'aboutme/kit.webp' %}" class="img-fluid" width="1080" height="720" alt="Good doggo" loading="lazy" />
+                <p>We love Kit, though sometimes she's naughty and will chew paper lying around. She looks like this when she does something wrong.</p>
+                <img src="{% static 'aboutme/kit_chew.webp' %}" class="img-fluid" width="720" height="826" alt="Bad doggo" loading="lazy" />
+                But it's great she doesn't eat anything on the floor or chew cables, though she used to.
+            </div>
+            <!-- End 5. Doggo -->                        
+        </div>
+    </div>
+</div>
+
+
+</body>
 </html>
