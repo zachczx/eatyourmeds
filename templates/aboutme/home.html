@@ -4,17 +4,17 @@
 <head>
 <meta name="viewport" content="800, initial-scale=1">
 <meta charset="utf-8">
-<title>Hello world! This is Zixian's webpage.</title>
+<title>Zixian's website</title>
 {% load compress %}
 
 {% compress css %}
 <link type="text/x-scss" href="{% static 'about_theme.scss' %}" rel="stylesheet" media="screen">
 {% endcompress %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'bootstrap-icons.min.css' %}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script defer src="{% static 'alpine.min.js' %}"></script>
 <style>
     body {
         font-family: 'Rubik', sans-serif;
@@ -33,10 +33,36 @@
     }
 
     [x-cloak] { display: none !important; }
+
+    .curve::before {
+        content: '';
+        border-radius: 50%;
+        position: fixed;
+        bottom: -5%;
+        left: 10%;
+        z-index: -2;
+        width: 150em;
+        height: 150em;
+        background-color: #FFABE1;
+    }
+
+    .curve2::after {
+        content: '';
+        border-radius: 50%;
+        position: fixed;
+        bottom: -5%;
+        left: -20%;
+        z-index: -3;
+        width: 200em;
+        background-color: #C689C6;
+        height: 200em;
+    }
+    
 </style>
 </head>
 <body>
-<div class="container mt-5 mb-5 pb-4 rounded bg-white border border-secondary-subtle shadow" x-data="{ selected: 1 }">
+<main>
+<div class="container mt-5 mb-5 rounded bg-white" x-data="{ selected: 1 }">
     <div class="row">
         <div class="col g-0">
             <nav class="navbar navbar-expand rounded-top flex-grow-1">
@@ -53,10 +79,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 col-md-5 p-5">
+        <div class="col-sm-12 col-md-5 p-5 curve curve2">
             <a href="#" x-data @click="selected !== 5 ? selected = 5 : selected = null"><img src="{% static 'aboutme/kitandi.webp' %}" class="img-fluid rounded-circle"></a>
         </div>
-        <div class="col-sm-12 col-md-7 mt-5 pe-5">
+        <div class="col-sm-12 col-md-7 mt-5 pe-5 pb-4">
             
             <!-- Start 1. About -->
             <div 
@@ -75,8 +101,8 @@
                     </span>
                 </p>
                 <p>I like to get hands on and do stuff. I enjoy working on tech related problems and ideas. That said, much of work is neither interesting nor meaningful.</p>
-                <p>At work, I attend Skype meetings (unfortunately sometimes not even Teams!), write Outlook emails, create .pptx presentations, write .docx papers.</p>
-                <p>Not groundbreaking, but such is work in a really large place.</p>
+                <p>At work, I go for meetings (sometimes unfortunately not even on Teams!), write Outlook emails, create .pptx presentations, write .docx papers.</p>
+                <p>Work is seldom groundbreaking, but there're interesting problems to work on most of the time.</p>
                 <p class="mt-5"><a href="https://www.linkedin.com/in/zixianchen/"><i class="bi bi-linkedin fs-1 me-3"></i></a><a href="https://github.com/zachczx"><i class="bi bi-github fs-1"></i></a></p>
             </div>
             <!-- End 1. About -->
@@ -126,7 +152,7 @@
                                 <img src="{% static 'aboutme/T4gHbyJ.webp' %}" class="card-img-top border-bottom" loading="lazy">
                                 <div class="card-body">
                                   <h5 class="card-title">National Service policy</h5>
-                                  <p class="card-text">Did a bunch of meaningful paper work</p>
+                                  <p class="card-text">Did a bunch of meaningful paper work (meme I created above may or may not be real)</p>
                                 </div>
                             </div>
                         </div>
@@ -250,7 +276,6 @@
         </div>
     </div>
 </div>
-
-
+</main>
 </body>
 </html>
