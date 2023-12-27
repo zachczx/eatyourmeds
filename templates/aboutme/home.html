@@ -21,7 +21,6 @@
 
     a, a:visited {
         text-decoration: none;
-        font-weight: bold;
         color: #937DC2; 
     }
 
@@ -55,33 +54,24 @@
         background-color: #C689C6;
         height: 200em;
     }
-    
+
 </style>
 </head>
 <body>
 <main>
 <div class="container mt-5 mb-5 rounded bg-white" x-data="{ selected: 1 }">
-    <div class="row">
-        <div class="col g-0">
-            <nav class="navbar navbar-expand rounded-top flex-grow-1">
-                <div class="container d-flex justify-content-center">
-                    <div class="navbar-nav">
-                        <span class="nav-item mx-3"><a href="#" x-data @click="selected !== 1 ? selected = 1 : selected = null">About</a></span>
-                        <span class="nav-item mx-3"><a href="#" x-data @click="selected !== 2 ? selected = 2 : selected = null">Experience</a></span>
-                        <span class="navbar-brand mx-3 fs-1">Zixian</span>
-                        <span class="nav-item mx-3"><a href="#" x-data @click="selected !== 3 ? selected = 3 : selected = null">Stack</a></span>
-                        <span class="nav-item mx-3"><a href="#" x-data @click="selected !== 4 ? selected = 4 : selected = null">Projects</a></span>
-                    </div>
-                </div>
-            </nav>
-        </div>
+    <div class="row pt-4 pb-3 text-center d-flex justify-content-center g-0">
+        <div class="col-sm-12 col-md-2 fs-6"><a href="#" x-data @click="selected !== 1 ? selected = 1 : selected = 1">#About</a></div>
+        <div class="col-sm-12 col-md-2 fs-6"><a href="#" x-data @click="selected !== 2 ? selected = 2 : selected = 2">#Experience</a></div>
+        <div class="col-sm-12 col-md-3 fs-1 fw-bold"><span class="border-bottom border-5 border-primary">Zixian</span></div>
+        <div class="col-sm-12 col-md-2 fs-6"><a href="#" x-data @click="selected !== 3 ? selected = 3 : selected = 3">#Stack</a></div>
+        <div class="col-sm-12 col-md-2 fs-6"><a href="#" x-data @click="selected !== 4 ? selected = 4 : selected = 4">#Projects</a></div>
     </div>
     <div class="row">
         <div class="col-sm-12 col-md-5 p-5 curve curve2">
-            <a href="#" x-data @click="selected !== 5 ? selected = 5 : selected = null"><img src="{% static 'aboutme/kitandi.webp' %}" class="img-fluid rounded-circle"></a>
+            <a href="#" x-data @click="selected !== 5 ? selected = 5 : selected = 5"><img src="{% static 'aboutme/kitandi.webp' %}" class="img-fluid rounded-circle"></a>
         </div>
         <div class="col-sm-12 col-md-7 mt-5 pe-5 pb-4">
-            
             <!-- Start 1. About -->
             <div 
                 x-show="selected == 1"
