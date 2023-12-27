@@ -54,17 +54,23 @@
         height: 200em;
     }
 
+    .hash::before, h2::before, h3::before, h5::before {
+        content: '#';
+        color: #FFABE1;
+        margin-right: 0.2em;
+    }
+
 </style>
 </head>
 <body>
 <main>
 <div class="container mt-5 mb-5 rounded bg-white" x-data="{ selected: 1 }">
     <div class="row pt-4 pb-3 text-center d-flex justify-content-center g-0">
-        <div class="col-sm-12 col-md-2 fs-6"><a href="#about" x-data @click="selected !== 1 ? selected = 1 : selected = 1">#About</a></div>
-        <div class="col-sm-12 col-md-2 fs-6"><a href="#experience" x-data @click="selected !== 2 ? selected = 2 : selected = 2">#Experience</a></div>
+        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#about" x-data @click="selected !== 1 ? selected = 1 : selected = 1">About</a></div>
+        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#experience" x-data @click="selected !== 2 ? selected = 2 : selected = 2">Experience</a></div>
         <div class="col-sm-12 col-md-3 fs-1 fw-bold"><span class="border-bottom border-5 border-primary">Zixian</span></div>
-        <div class="col-sm-12 col-md-2 fs-6"><a href="#stack" x-data @click="selected !== 3 ? selected = 3 : selected = 3">#Stack</a></div>
-        <div class="col-sm-12 col-md-2 fs-6"><a href="#projects" x-data @click="selected !== 4 ? selected = 4 : selected = 4">#Projects</a></div>
+        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#stack" x-data @click="selected !== 3 ? selected = 3 : selected = 3">Stack</a></div>
+        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#projects" x-data @click="selected !== 4 ? selected = 4 : selected = 4">Projects</a></div>
     </div>
     <div class="row">
         <div class="col-sm-12 col-md-5 p-5 curve curve2">
@@ -77,7 +83,7 @@
                 x-transition:enter.duration.500ms
                 x-transition:leave.duration.50ms
             >
-                <h2 class="text-success mb-5">Hello, I am <mark class="bg-light">Zixian</mark> Chen.</h2>
+                <h2 class="mb-5">Hello, I am <mark class="bg-light">Zixian</mark> Chen.</h2>
                 <p class="lead">
                     I work in the public service.
                     <span x-data="{ dxoopen: false }">
@@ -100,7 +106,7 @@
                 x-transition:leave.duration.50ms
                 x-cloak
             >        
-                <h2 class="text-success mb-5">I've been working in the public service.</h2>
+                <h2 class="mb-5">I've been working in the public service.</h2>
                 <p>Some of my work in the past (memes may or may not be based on reality)</p>
                 
                 <div class="container">
@@ -155,9 +161,9 @@
                 x-transition:leave.duration.50ms
                 x-cloak
             >
-                <h2 class="text-success mb-5">Portfolio</h2>
+                <h2 class="mb-5">Portfolio</h2>
                 <p>In my free time, I learn and build stuff on the web to solve my problems IRL. Ended up here after clicking on Meta's backend dev course back then.</p>
-                <h3 class="mt-4">Using</h3>
+                <h5 class="mt-4">Using</h3>
                 <p>
                     Django<i class="bi bi-dot text-success"></i>
                     Python<i class="bi bi-dot text-success"></i>
@@ -171,13 +177,13 @@
                         Cloudflare
                     </sup>
                 </p>
-                <h3 class="mt-4">Dabbled with</h3>
+                <h5 class="mt-4">Dabbled with</h3>
                 <p>
                     Django Rest Framework<i class="bi bi-dot text-success"></i>
                     SQL<i class="bi bi-dot text-success"></i>
                     plain JS
                 </p>
-                <h3 class="mt-4">Courses/Certificates</h3>
+                <h5 class="mt-4">Courses/Certificates</h3>
                 <p>
                     Meta Back-end Developer Specialization<i class="bi bi-dot text-success"></i>
                     AWS Fundamentals Specialization<i class="bi bi-dot text-success"></i>
@@ -188,7 +194,7 @@
                         <span x-show="googleopen" class="text-warning">Foundations of UX Design <i class='bi bi-plus-circle text-success'></i> Wireframes/Low-fi Prototypes <i class='bi bi-plus-circle text-success'></i> Empathize/Define/Ideate</span>
                     </span>
                 </p>
-                <h3 class="mt-4">Erm...</h3>
+                <h5 class="mt-4">Erm...</h3>
                 <p>
                     Certified ScrumMaster<i class="bi bi-dot text-success"></i>
                     LeSS Basics <a href="https://www.youtube.com/watch?v=vSnCeJEka_s"><i class="bi bi-emoji-smile-upside-down-fill"></i></a>
@@ -202,7 +208,7 @@
                 x-transition:leave.duration.50ms
                 x-cloak
             >
-                <h2 class="text-success mb-5">Projects I'm working on</h2>
+                <h2 class="mb-5">Projects I'm working on</h2>
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12">
@@ -252,7 +258,7 @@
                 x-transition:leave.duration.50ms
                 x-cloak
             >
-                <h2 class="text-success mb-5">Here is my doggo, Kitkit.</h2>
+                <h2 class="mb-5">Here is my doggo, Kitkit.</h2>
                 <p>She's 4 years old. A Corgi x Spitz.</p>
                 <img src="{% static 'aboutme/kit.webp' %}" class="img-fluid" width="1080" height="720" alt="Good doggo" loading="lazy" />
                 <p>We love Kit, though sometimes she's naughty and will chew paper lying around. She looks like this when she does something wrong.</p>
