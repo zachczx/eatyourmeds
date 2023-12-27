@@ -7,7 +7,7 @@ templates/trackerapp/test.html
 templates/trackerapp/JStest.html
 eatyourmeds/settings.py
 eatyourmeds/settings.py
-staticfiles/*
+staticfiles/
 *.sqlite3
 data.json
 eatyourmeds/.gitattributes
