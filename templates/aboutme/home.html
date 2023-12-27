@@ -8,8 +8,8 @@
 {% load compress %}
 {% compress css %}
 <link type="text/x-scss" href="{% static 'about_theme.scss' %}" rel="stylesheet" media="all">
-<link href="{% static 'aboutme/css/fonts.css' %}" rel="stylesheet" media="all">
-<link href="{% static 'aboutme/css/standard.css' %}" rel="stylesheet" media="all">
+<link rel="stylesheet" href="{% static 'aboutme/css/fonts.css' %}" media="all">
+<link rel="stylesheet" href="{% static 'aboutme/css/standard.css' %}" media="all">
 <link rel="stylesheet" href="{% static 'bootstrap_icons/bootstrap-icons.min.css' %}" media="all">
 {% endcompress %}
 <script defer src="{% static 'alpine.min.js' %}"></script>
