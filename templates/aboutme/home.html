@@ -17,16 +17,16 @@
 <body>
 <main>
 <div class="container mt-5 mb-5 rounded bg-white" x-data="{ selected: 1 }">
-    <div class="row pt-4 pb-3 text-center d-flex justify-content-center g-0">
-        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#about" x-data @click="selected !== 1 ? selected = 1 : selected = 1">About</a></div>
-        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#experience" x-data @click="selected !== 2 ? selected = 2 : selected = 2">Experience</a></div>
+    <div class="row pt-4 pb-3 text-center d-flex justify-content-center g-0" x-data="{ bolded : 1 }">
+        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#about" x-data @click="selected = 1; bolded = 1"><span x-bind:class="bolded == 1 ? bolded = 'p-1 bg-success text-white rounded' : '' ">About</span></a></div>
+        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#experience" x-data @click="selected = 2; bolded = 2"><span x-bind:class="bolded == 2 ? bolded = 'p-1 bg-success text-white rounded' : '' ">Experience</span></a></div>
         <div class="col-sm-12 col-md-3 fs-1 fw-bold"><span class="border-bottom border-5 border-primary">Zixian</span></div>
-        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#stack" x-data @click="selected !== 3 ? selected = 3 : selected = 3">Stack</a></div>
-        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#projects" x-data @click="selected !== 4 ? selected = 4 : selected = 4">Projects</a></div>
+        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#stack" x-data @click="selected = 3; bolded = 3"><span x-bind:class="bolded == 3 ? bolded = 'p-1 bg-success text-white rounded' : '' ">Stack</span></a></div>
+        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#projects" x-data @click="selected = 4; bolded = 4"><span x-bind:class="bolded == 4 ? bolded = 'p-1 bg-success text-white rounded' : '' ">Projects</span></a></div>
     </div>
     <div class="row">
         <div class="col-sm-12 col-md-5 p-5 curve curve2">
-            <a href="#kit" x-data @click="selected !== 5 ? selected = 5 : selected = 5"><img src="{% static 'aboutme/kitandi.webp' %}" class="img-fluid rounded-circle"></a>
+            <a href="#kit" x-data @click="selected = 5"><img src="{% static 'aboutme/kitandi.webp' %}" class="img-fluid rounded-circle"></a>
         </div>
         <div class="col-sm-12 col-md-7 mt-5 pe-5 pb-4">
             <!-- Start 1. About -->
