@@ -210,7 +210,14 @@
                 x-transition:leave.duration.50ms
                 x-cloak
             >
-                <h2 class="mb-5">Here is my doggo, Kitkit.</h2>
+                <h2 class="">Here is my doggo, Kitkit.</h2>
+
+                <div x-data="{ scroll: 1 }" class="vh-50">
+                    <div x-data x-show="scroll == 1" x-transition:enter.duration.800ms x-transition:leave.duration.0ms><img class="d-block w-100" src="{% static 'aboutme/DSC01012.webp' %}" alt="First pic"></div>
+                    <div x-data x-show="scroll == 2" x-transition:enter.duration.800ms x-transition:leave.duration.0ms><img class="d-block w-100" src="{% static 'aboutme/PXL_20231029_120334733.webp' %}" alt="Second pic"></div>
+                    <div x-data x-show="scroll == 3" x-transition:enter.duration.800ms x-transition:leave.duration.0ms><img class="d-block w-100" src="{% static 'aboutme/PXL_20231025_130824607.PORTRAIT.webp' %}" alt="Third pic"></div>
+                <span x-data @click="scroll -= 1">Prev</span> | <span x-data @click="scroll += 1">Next</span> 
+                </div>
                 <p>She's 4 years old. A Corgi x Spitz.</p>
                 <img src="{% static 'aboutme/kit.webp' %}" class="img-fluid" width="1080" height="720" alt="Good doggo" loading="lazy" />
                 <p>We love Kit, though sometimes she's naughty and will chew paper lying around. She looks like this when she does something wrong.</p>
