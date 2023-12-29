@@ -1,12 +1,8 @@
 *.env
 *.pyc
-trackerapp/migrations/
-aboutme/migrations/
 trackerapp/old/
 templates/trackerapp/test.html
 templates/trackerapp/JStest.html
-eatyourmeds/settings.py
-eatyourmeds/settings.py
 staticfiles/
 *.sqlite3
 data.json
