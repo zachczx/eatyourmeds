@@ -12,26 +12,29 @@
 <link rel="stylesheet" href="{% static 'aboutme/css/standard.css' %}" media="all">
 <link rel="stylesheet" href="{% static 'bootstrap_icons/bootstrap-icons.min.css' %}" media="all">
 {% endcompress %}
+{% compress js %}
 <script defer src="{% static 'alpine.min.js' %}"></script>
+<script defer src="{% static 'bootstrap.bundle.min.js' %}"></script>
+{% endcompress %}
 </head>
 <body>
 <main>
-<div class="container mt-5 mb-5 rounded bg-white" x-data="{ selected: 1 }">
+<div class="container mt-5 mb-5 rounded bg-white" x-data="{ selected_section: 1 }">
     <div class="row pt-4 pb-3 text-center d-flex justify-content-center g-0" x-data="{ bolded : 1 }">
-        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#about" x-data @click="selected = 1; bolded = 1"><span x-bind:class="bolded == 1 ? bolded = 'p-1 bg-light' : '' ">About</span></a></div>
-        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#experience" x-data @click="selected = 2; bolded = 2"><span x-bind:class="bolded == 2 ? bolded = 'p-1 bg-light' : '' ">Experience</span></a></div>
+        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#about" x-data @click="selected_section = 1; bolded = 1"><span x-bind:class="bolded == 1 ? bolded = 'p-1 bg-light' : '' ">About</span></a></div>
+        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#experience" x-data @click="selected_section = 2; bolded = 2"><span x-bind:class="bolded == 2 ? bolded = 'p-1 bg-light' : '' ">Experience</span></a></div>
         <div class="col-sm-12 col-md-3 fs-1 fw-bold"><span class="border-bottom border-5 border-primary">Zixian</span></div>
-        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#stack" x-data @click="selected = 3; bolded = 3"><span x-bind:class="bolded == 3 ? bolded = 'p-1 bg-light' : '' ">Stack</span></a></div>
-        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#projects" x-data @click="selected = 4; bolded = 4"><span x-bind:class="bolded == 4 ? bolded = 'p-1 bg-light' : '' ">Projects</span></a></div>
+        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#stack" x-data @click="selected_section = 3; bolded = 3"><span x-bind:class="bolded == 3 ? bolded = 'p-1 bg-light' : '' ">Stack</span></a></div>
+        <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#projects" x-data @click="selected_section = 4; bolded = 4"><span x-bind:class="bolded == 4 ? bolded = 'p-1 bg-light' : '' ">Projects</span></a></div>
     </div>
     <div class="row">
         <div class="col-sm-12 col-md-5 p-5 curve curve2">
-            <a href="#kit" x-data @click="selected = 5"><img src="{% static 'aboutme/kitandi.webp' %}" class="img-fluid rounded-circle"></a>
+            <a href="#kit" x-data @click="selected_section = 5"><img src="{% static 'aboutme/kitandi.webp' %}" class="img-fluid rounded-circle"></a>
         </div>
         <div class="col-sm-12 col-md-7 mt-5 pe-5 pb-4">
             <!-- Start 1. About -->
             <div 
-                x-show="selected == 1"
+                x-show="selected_section == 1"
                 x-transition:enter.duration.500ms
                 x-transition:leave.duration.50ms
             >
@@ -53,7 +56,7 @@
             <!-- End 1. About -->
             <!-- Start 2. Experience -->
             <div 
-                x-show="selected == 2"
+                x-show="selected_section == 2"
                 x-transition:enter.duration.500ms
                 x-transition:leave.duration.50ms
                 x-cloak
@@ -108,7 +111,7 @@
             <!-- End 2. Experience -->
             <!-- Start 3. Stack -->
             <div 
-                x-show="selected == 3"
+                x-show="selected_section == 3"
                 x-transition:enter.duration.500ms
                 x-transition:leave.duration.50ms
                 x-cloak
@@ -155,7 +158,7 @@
             <!-- End 3. Stack -->
             <!-- Start 4. Projects -->
             <div 
-                x-show="selected == 4"
+                x-show="selected_section == 4"
                 x-transition:enter.duration.500ms
                 x-transition:leave.duration.50ms
                 x-cloak
@@ -205,19 +208,47 @@
             <!-- End 4. Projects -->              
             <!-- Start 5. Doggo -->
             <div 
-                x-show="selected == 5"
+                x-show="selected_section == 5"
                 x-transition:enter.duration.500ms
                 x-transition:leave.duration.50ms
                 x-cloak
             >
-                <h2 class="">Here is my doggo, Kitkit.</h2>
-
-                <div x-data="{ scroll: 1 }" class="vh-50">
-                    <div x-data x-show="scroll == 1" x-transition:enter.duration.800ms x-transition:leave.duration.0ms><img class="d-block w-100" src="{% static 'aboutme/DSC01012.webp' %}" alt="First pic"></div>
-                    <div x-data x-show="scroll == 2" x-transition:enter.duration.800ms x-transition:leave.duration.0ms><img class="d-block w-100" src="{% static 'aboutme/PXL_20231029_120334733.webp' %}" alt="Second pic"></div>
-                    <div x-data x-show="scroll == 3" x-transition:enter.duration.800ms x-transition:leave.duration.0ms><img class="d-block w-100" src="{% static 'aboutme/PXL_20231025_130824607.PORTRAIT.webp' %}" alt="Third pic"></div>
-                <span x-data @click="scroll -= 1">Prev</span> | <span x-data @click="scroll += 1">Next</span> 
-                </div>
+                <h2 class="mb-3">Here is my doggo, Kitkit.</h2>
+                <div id="carousel" class="carousel slide mh-50">
+                    <div class="carousel-indicators">
+                      <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                      <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                      <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img class="d-block w-100 img-fluid" src="{% static 'aboutme/PXL_20231025_130824607.PORTRAIT.webp' %}" alt="First pic" loading="lazy">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100 img-fluid" src="{% static 'aboutme/PXL_20231029_120334733.webp' %}" alt="Second pic" loading="lazy">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100 img-fluid" src="{% static 'aboutme/IMG_20200124_134033.webp' %}" alt="Third pic" loading="lazy">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100 img-fluid" src="{% static 'aboutme/20211211_115950.webp' %}" alt="Fourth pic" loading="lazy">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100 img-fluid" src="{% static 'aboutme/IMG_20200205_211332.webp' %}" alt="Fifth pic" loading="lazy">
+                      </div>
+                      <div class="carousel-item">
+                        <img class="d-block w-100 img-fluid" src="{% static 'aboutme/IMG_20200314_143553.webp' %}" alt="Sixth pic" loading="lazy">
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
                 <p>She's 4 years old. A Corgi x Spitz.</p>
                 <img src="{% static 'aboutme/kit.webp' %}" class="img-fluid" width="1080" height="720" alt="Good doggo" loading="lazy" />
                 <p>We love Kit, though sometimes she's naughty and will chew paper lying around. She looks like this when she does something wrong.</p>
