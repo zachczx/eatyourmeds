@@ -75,6 +75,7 @@ class EatModel(models.Model):
 class Patient(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True, default=None)
     parent = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.CASCADE)
+    hehe = models.CharField(max_length=50, blank=True, null=True, default=None)
     
     def __str__(self):
         return str(self.name)  
