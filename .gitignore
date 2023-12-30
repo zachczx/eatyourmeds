@@ -8,3 +8,6 @@ staticfiles/
 data.json
 eatyourmeds/.gitattributes
 eatyourmeds/.gitignore
+trackerapp/migrations/
+aboutme/migrations/
+rankingapp/migrations/
