@@ -11,3 +11,4 @@ eatyourmeds/.gitignore
 trackerapp/migrations/
 aboutme/migrations/
 rankingapp/migrations/
+CACHE/
