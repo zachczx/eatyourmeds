@@ -4,7 +4,7 @@
 <head>
 <meta name="viewport" content="800, initial-scale=1">
 <meta charset="utf-8">
-<title>I am Zixian</title>
+<title>Hi, I am Zixian</title>
 {% load compress %}
 {% compress css %}
 <link type="text/x-scss" href="{% static 'about_theme.scss' %}" rel="stylesheet" media="all">
@@ -20,10 +20,10 @@
 <body>
 <main>
 <div class="container mt-5 mb-5 rounded bg-white" x-data="{ selected_section: 1 }">
-    <div class="row pt-4 pb-3 text-center d-flex justify-content-center g-0" x-data="{ bolded : 1 }">
+    <div class="row pt-4 pb-3 text-center d-flex justify-content-center align-items-center g-0" x-data="{ bolded : 1 }">
         <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#about" x-data @click="selected_section = 1; bolded = 1"><span x-bind:class="bolded == 1 ? bolded = 'p-1 bg-light' : '' ">About</span></a></div>
         <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#experience" x-data @click="selected_section = 2; bolded = 2"><span x-bind:class="bolded == 2 ? bolded = 'p-1 bg-light' : '' ">Experience</span></a></div>
-        <div class="col-sm-12 col-md-3 fs-1 fw-bold"><span class="border-bottom border-5 border-primary">Zixian</span></div>
+        <div class="col-sm-12 col-md-3 fs-1 fw-bold"><span class="border-bottom border-5 border-primary">Zixian <img src="{% static 'aboutme/_33885488-07ac-40eb-82b4-6a7a8e81d9de(80).webp' %}" height="50" width="50" class="img-fluid pb-3"> Chen</span></div>
         <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#stack" x-data @click="selected_section = 3; bolded = 3"><span x-bind:class="bolded == 3 ? bolded = 'p-1 bg-light' : '' ">Stack</span></a></div>
         <div class="col-sm-12 col-md-2 fs-6 hash"><a href="#projects" x-data @click="selected_section = 4; bolded = 4"><span x-bind:class="bolded == 4 ? bolded = 'p-1 bg-light' : '' ">Projects</span></a></div>
     </div>
@@ -38,7 +38,7 @@
                 x-transition:enter.duration.500ms
                 x-transition:leave.duration.50ms
             >
-                <h2 class="mb-5">Hello, I am <mark class="bg-light">Zixian</mark> Chen.</h2>
+                <h2 class="mb-5">Hello, I am <mark class="bg-light">Zixian</mark>.</h2>
                 <p class="lead">
                     I work in the public service.
                     <span x-data="{ dxoopen: false }">
@@ -61,7 +61,7 @@
                 x-transition:leave.duration.50ms
                 x-cloak
             >        
-                <h2 class="mb-5">I've been working in the public service.</h2>
+                <h2 class="mb-5">Zixian's work in the public service.</h2>
                 <p>Some of my work in the past (memes may or may not be based on reality)</p>
                 
                 <div class="container">
@@ -116,7 +116,7 @@
                 x-transition:leave.duration.50ms
                 x-cloak
             >
-                <h2 class="mb-5">Portfolio</h2>
+                <h2 class="mb-5">Zixian's Portfolio</h2>
                 <p>In my free time, I learn and build stuff on the web to solve my problems IRL. Ended up here after clicking on Meta's backend dev course back then.</p>
                 <h5 class="mt-4">Using</h3>
                 <p>
@@ -163,7 +163,7 @@
                 x-transition:leave.duration.50ms
                 x-cloak
             >
-                <h2 class="mb-5">Projects I'm working on</h2>
+                <h2 class="mb-5">Zixian's Projects</h2>
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12">
@@ -259,6 +259,9 @@
                 But it's great she doesn't eat anything on the floor or chew cables, though she used to.
             </div>
             <!-- End 5. Doggo -->                        
+        </div>
+        <div class="row">
+            <div class="col text-center mb-3 mt-4">© 2023-24 Zixian Chen. All rights reserved.</div>
         </div>
     </div>
 </div>
