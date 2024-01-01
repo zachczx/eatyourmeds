@@ -45,3 +45,10 @@ a:hover {
     margin-right: 0.2em;
 }
 
+/*for nav links */
+.linker {
+    text-decoration: none;
+    background-color: #FFE6F7;
+    transform: scale(2,2);
+    transition: ease-out all 0.5s
+ }
