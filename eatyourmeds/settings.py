@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'trackerapp.apps.TrackerappConfig',
     'aboutme.apps.AboutmeConfig',
+    'rankingapp.apps.RankingappConfig',
     'debug_toolbar',
     'compressor',
     'crispy_forms',
