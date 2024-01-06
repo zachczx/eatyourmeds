@@ -39,7 +39,7 @@ a:hover {
     height: 200em;
 }
 
-.hash::before, h2::before, h3::before, h5::before {
+.hash::before, h2::before {
     content: '#';
     color: #FFABE1;
     margin-right: 0.2em;
