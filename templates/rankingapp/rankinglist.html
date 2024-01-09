@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="800, initial-scale=1">
+<meta charset="utf-8">
+<title>Rank-a-Mate</title>
+{% load compress %}
+{% compress css %}
+<link type="text/x-scss" href="{% static 'rankingapp_theme.scss' %}" rel="stylesheet" media="all">
+<link rel="stylesheet" href="{% static 'aboutme/css/fonts.css' %}" media="all">
+<link rel="stylesheet" href="{% static 'rankingapp/css/standard.css' %}" media="all">
+<link rel="stylesheet" href="{% static 'bootstrap_icons/bootstrap-icons.min.css' %}" media="all">
+{% endcompress %}
+
+<style>
+    .handle {
+        cursor: url({% static 'rankingapp/hand-grab.svg' %}), auto;
+
+    }
+</style>
+</head>
+
+<body>
+<main>
+<div class="container">
+    <div class="row">
+        <div class="col text-center"><h1>Rate-a-Mate</h1></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-0 col-md-3"></div>
+        <div class="col">
+            <ol class="p-0">
+            <div id="sortable_list">
+                {% for person in worker %}
+                <div id="{{person.rank_id}}" class="ps-4 py-2 my-2 rounded bg-light border border-1 border-primary d-flex justify-content-center align-items-center">
+                    <li class="flex-grow-1">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-4">{{person.name}}</div>
+                                <div class="col-4">{{person.dept}}</div>
+                                <div class="col-4">/prev grade/</div>
+                            </div>    
+                        </div>
+                    </li>
+                    <i class="bi bi-grip-vertical handle"></i>
+                </div>
+                {% endfor %}
+            </div>
+            </ol>
+        </div>
+        <div class="col-sm-0 col-md-3"></div>
+    </div>
+    <div class="row">
+        <div class="col text-center mt-5 pt-3">
+            <p class="mb-0"><a href="https://www.linkedin.com/in/zixianchen/"><i class="bi bi-linkedin fs-2 me-3"></i></a><a href="https://github.com/zachczx"><i class="bi bi-github fs-2"></i></a></p>
+            <p>© 2023-24 Zixian Chen. All rights reserved.</p>
+        </div>
+    </div>    
+</div>
+
+
+
+{% compress js %}
+<script src="{% static 'rankingapp/js/Sortable.min.js' %}"></script>
+<script>
+const sortableList = document.getElementById('sortable_list');
+let sortable = Sortable.create(sortableList, {
+    animation: 450,
+    ghostClass: 'sortable-ghost',
+    //handle: '.handle',
+    group: "localStorage-sortableList",
+    store: {
+        /**
+        * Get the order of elements. Called once during initialization.
+        * @param   {Sortable}  sortable
+        * @returns {Array}
+        */
+        get: function (sortable) {
+            var order = localStorage.getItem(sortable.options.group.name);
+            return order ? order.split('|') : [];
+        },
+
+        /**
+        * Save the order of elements. Called onEnd (when the item is dropped).
+        * @param {Sortable}  sortable
+        */
+        set: function (sortable) {
+            var order = sortable.toArray();
+            localStorage.setItem(sortable.options.group.name, order.join('|'));
+        }
+    } 
+});
+
+//let getSortingSequence = document.querySelectorAll('.sorted')
+//let pushSortedSequence = []
+//for (item=0; item<getSortingSequence.length; item++) {
+//    console.log(getSortingSequence[item].id);
+//    pushSortedSequence.push(getSortingSequence[item].id)
+//}
+//console.log(pushSortedSequence)
+</script>
+{% endcompress %}
+</main>
+</body>
+</html>
