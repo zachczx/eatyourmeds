@@ -5,51 +5,54 @@
 <meta name="viewport" content="800, initial-scale=1">
 <meta charset="utf-8">
 <title>Rank-a-Mate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
 {% load compress %}
 {% compress css %}
 <link type="text/x-scss" href="{% static 'rankingapp_theme.scss' %}" rel="stylesheet" media="all">
-<link rel="stylesheet" href="{% static 'aboutme/css/fonts.css' %}" media="all">
 <link rel="stylesheet" href="{% static 'rankingapp/css/standard.css' %}" media="all">
 <link rel="stylesheet" href="{% static 'bootstrap_icons/bootstrap-icons.min.css' %}" media="all">
 {% endcompress %}
 
 <style>
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
     .handle {
         cursor: url({% static 'rankingapp/hand-grab.svg' %}), auto;
-
     }
 </style>
 </head>
 
 <body>
+
 <main>
 <div class="container">
-    <div class="row">
-        <div class="col text-center"><h1>Rate-a-Mate</h1></div>
+    <div class="row mt-3 mb-5">
+        <div class="col text-center"><h1><i class="bi bi-stars me-2"></i>Rate-a-Mate<i class="bi bi-stars ms-2"></i></h1></div>
     </div>
     <div class="row">
-        <div class="col-sm-0 col-md-3"></div>
+        <div class="col-sm-0 col-md-1"></div>
+        <div class="col">
+            {% load crispy_forms_tags %}
+            <form hx-post="{% url 'htmx_add_worker' worker.0.session %}" hx-target="#sortable_list" hx-swap="innerHTML">
+            {% csrf_token %}
+            {% crispy htmx_add_worker %}
+            </form>
+        </div>
+        <div class="col-sm-0 col-md-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-0 col-md-1"></div>
         <div class="col">
             <ol class="p-0">
             <div id="sortable_list">
-                {% for person in worker %}
-                <div id="{{person.rank_id}}" class="ps-4 py-2 my-2 rounded bg-light border border-1 border-primary d-flex justify-content-center align-items-center">
-                    <li class="flex-grow-1">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-4">{{person.name}}</div>
-                                <div class="col-4">{{person.dept}}</div>
-                                <div class="col-4">/prev grade/</div>
-                            </div>    
-                        </div>
-                    </li>
-                    <i class="bi bi-grip-vertical handle"></i>
-                </div>
-                {% endfor %}
+                {% include 'rankingapp/partials/htmx_view_worker.html' %}
             </div>
             </ol>
         </div>
-        <div class="col-sm-0 col-md-3"></div>
+        <div class="col-sm-0 col-md-1"></div>
     </div>
     <div class="row">
         <div class="col text-center mt-5 pt-3">
@@ -63,6 +66,7 @@
 
 {% compress js %}
 <script src="{% static 'rankingapp/js/Sortable.min.js' %}"></script>
+<script src="{% static 'trackerapp/js/htmx.min.js' %}"></script>
 <script>
 const sortableList = document.getElementById('sortable_list');
 let sortable = Sortable.create(sortableList, {
