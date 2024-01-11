@@ -201,9 +201,10 @@
                                 <div style="width:100%; height:15em; background-position: center 70%; background-size: cover; background-repeat: no-repeat; background-image: url('{% static 'aboutme/_16b879e5-f390-4924-9335-50964e37ba36.webp' %}')" class="rounded-top"></div>
                                 <div class="card-body">
                                     <h5 class="card-title fw-bold">Appraisal ranking app</h5>
-                                    <p class="card-text">It's such an inefficient process staring at an Excel sheet and the various columns.</p> 
-                                    <p class="card-text">Need to dust myself off and go through the empathy and user journey process.</p>
-                                    <div class="text-center"><a href="https://btonomics.com/" class="btn btn-secondary text-white disabled">Dawdling</a></div>
+                                    <p class="card-text"><strong>{ Context }</strong>&nbsp;&nbsp;Officers are ranked and sorted on an Excel sheet with rank order, but it's not in sequence of the order.</p> 
+                                    <p class="card-text"><strong>{ Context }</strong>&nbsp;&nbsp;It's inefficient using Excel, it doesn't change sequence based on rank order. Also doesn't show the grades assigned and the quotas.</p>
+                                    <p class="card-text"><strong>{ Solution }</strong>&nbsp;&nbsp;A drag-and-drop list for now, with some state management using localStorage and backend DB. To be complemented with toggleable grade visualisation.</p>
+                                    <div class="text-center"><a href="{% url 'rankinghome' %}" class="btn btn-success text-white">Check it out</a></div>
                                 </div>
                             </div>
                         </div>
