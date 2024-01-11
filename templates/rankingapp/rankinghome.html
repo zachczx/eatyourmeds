@@ -1,0 +1,27 @@
+{% extends 'rankingapp/base.html' %}
+
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-0 col-md-1"></div>
+        <div class="col-sm-12 col-md-5 px-4 border-end border-3 border-warning"><h2 class="mb-5">New session</h2>
+            <p>Start a session using a unique ID:</p>
+            {% load crispy_forms_tags %}
+            <form action="{% url 'new_session' %}" method="POST">
+                {% csrf_token %}
+                {% crispy form_session %}
+            </form>
+        </div>
+        <div class="col-sm-12 col-md-5 px-4"><h2 class="mb-5">Continue</h2>
+            <p>Continue where you left out last time:</p>
+            <form action="{% url 'rankingredirect' %}" method="GET">
+                {% csrf_token %}
+                {% crispy form %}
+            </form>
+        </div>
+        <div class="col-sm-0 col-md-1"></div>
+    </div>
+</div>
+{% endblock %}

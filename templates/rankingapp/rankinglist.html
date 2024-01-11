@@ -1,42 +1,14 @@
+{% extends 'rankingapp/base.html' %}
+
+{% block content %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta name="viewport" content="800, initial-scale=1">
-<meta charset="utf-8">
-<title>Rank-a-Mate</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
-{% load compress %}
-{% compress css %}
-<link type="text/x-scss" href="{% static 'rankingapp_theme.scss' %}" rel="stylesheet" media="all">
-<link rel="stylesheet" href="{% static 'rankingapp/css/standard.css' %}" media="all">
-<link rel="stylesheet" href="{% static 'bootstrap_icons/bootstrap-icons.min.css' %}" media="all">
-{% endcompress %}
 
-<style>
-    body {
-        font-family: 'Poppins', sans-serif;
-    }
-    .handle {
-        cursor: url({% static 'rankingapp/hand-grab.svg' %}), auto;
-    }
-</style>
-</head>
-
-<body>
-
-<main>
 <div class="container">
-    <div class="row mt-3 mb-5">
-        <div class="col text-center"><h1><i class="bi bi-stars me-2"></i>Rate-a-Mate<i class="bi bi-stars ms-2"></i></h1></div>
-    </div>
     <div class="row">
         <div class="col-sm-0 col-md-1"></div>
         <div class="col">
             {% load crispy_forms_tags %}
-            <form hx-post="{% url 'htmx_add_worker' worker.0.session %}" hx-target="#sortable_list" hx-swap="innerHTML">
+            <form hx-post="{% url 'htmx_add_worker' id %}" hx-target="#sortable_list" hx-swap="innerHTML">
             {% csrf_token %}
             {% crispy htmx_add_worker %}
             </form>
@@ -53,20 +25,12 @@
             </ol>
         </div>
         <div class="col-sm-0 col-md-1"></div>
-    </div>
-    <div class="row">
-        <div class="col text-center mt-5 pt-3">
-            <p class="mb-0"><a href="https://www.linkedin.com/in/zixianchen/"><i class="bi bi-linkedin fs-2 me-3"></i></a><a href="https://github.com/zachczx"><i class="bi bi-github fs-2"></i></a></p>
-            <p>© 2023-24 Zixian Chen. All rights reserved.</p>
-        </div>
-    </div>    
+    </div>   
 </div>
 
-
-
+{% load compress %}
 {% compress js %}
 <script src="{% static 'rankingapp/js/Sortable.min.js' %}"></script>
-<script src="{% static 'trackerapp/js/htmx.min.js' %}"></script>
 <script>
 const sortableList = document.getElementById('sortable_list');
 let sortable = Sortable.create(sortableList, {
@@ -105,6 +69,5 @@ let sortable = Sortable.create(sortableList, {
 //console.log(pushSortedSequence)
 </script>
 {% endcompress %}
-</main>
-</body>
-</html>
+
+{% endblock %}

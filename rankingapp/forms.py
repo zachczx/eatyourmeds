@@ -62,7 +62,6 @@ class HtmxAddWorker(forms.ModelForm):
                 Column(Submit('submit', 'Submit', css_class='btn-primary fw-bold col-4')),
                 css_class='d-flex align-items-top'
             ),
-
         )
         self.helper.form_show_labels = False
 '''
@@ -75,3 +74,47 @@ Div(
     css_class='row',
 ),
 '''
+
+class GetSessionForm(forms.ModelForm):
+    class Meta:
+        fields = ['user_defined']
+        model = Session
+        labels = {
+            'user_defined': 'Session ID:',
+        }
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column(
+                    Field('user_defined', placeholder='Existing ID', css_class='form-group col-8 mx-0'),
+                ),
+                Column(Submit('submit', 'Go!', css_class='btn-primary fw-bold col-4 mx-0')),
+                css_class='d-flex align-items-top g-0'
+            ),
+        )
+        self.helper.form_show_labels = False
+
+class NewSession(forms.ModelForm):
+    class Meta:
+        fields = ['user_defined']
+        model = Session
+        labels = {
+            'user_defined': 'Session ID:',
+        }
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column(
+                    Field('user_defined', placeholder='New ID', css_class='form-group col-8 mx-0'),
+                ),
+                Column(Submit('submit', 'Create!', css_class='btn-primary fw-bold col-4 mx-0')),
+                css_class='d-flex align-items-top g-0'
+            ),
+        )
+        self.helper.form_show_labels = False

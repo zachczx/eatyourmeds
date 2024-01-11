@@ -11,7 +11,7 @@ class Sequence(models.Model):
         return self.lookup_id
 
 class Session(models.Model):
-    user_defined = models.CharField(primary_key=True, null=False, blank=False)
+    user_defined = models.CharField(primary_key=True, null=False, blank=False, max_length=200,unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
