@@ -1,5 +1,5 @@
 body {
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: #f7ffe6;
 }
 
@@ -11,4 +11,38 @@ a, a:visited {
 a:hover {
     color: #DC3535;
     text-decoration: underline;
+}
+
+.handle {
+    cursor: url({% static 'rankingapp/hand-grab.svg' %}), auto;
+}
+a:hover.no-hover {
+    text-decoration: none;
+}
+.line {
+    border-right: dashed #838383;
+}
+.newsession {
+    border-style: dotted;
+    border-color: #f7ffe6;
+    border-width: thin;
+}
+:hover.newsession {
+    border-style: dashed;
+    border-color: #B01E68;
+    border-width: thin; 
+    border-radius: 2em;
+    background-color: #FFF78A;
+}
+.existingsession {
+    border-style: dotted;
+    border-color: #f7ffe6;
+    border-width: thin; 
+}
+:hover.existingsession {
+    border-style: dashed;
+    border-color: #B01E68;
+    border-width: thin; 
+    border-radius: 2em;
+    background-color: #FFE15D;
 }
