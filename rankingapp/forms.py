@@ -3,11 +3,11 @@ from .models import Sequence, Session, Worker
 #crispy forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, Submit, Reset, Div, Row, Column
-from crispy_forms.bootstrap import FormActions
+from crispy_forms.bootstrap import FormActions, FieldWithButtons, StrictButton
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-#from django.urls import reverse_lazy, reverse
+from django.urls import reverse, reverse_lazy 
 
 class WorkerForm(forms.ModelForm):
     class Meta:
@@ -82,18 +82,19 @@ class GetSessionForm(forms.ModelForm):
         labels = {
             'user_defined': 'Session ID:',
         }
+        widgets = {
+            'user_defined': forms.TextInput(attrs={
+                'hx-get': reverse_lazy('htmx_existing_session'),
+                'hx-target': '#htmx_existing_session',
+                'hx-trigger': 'keyup[target.value.length > 1] delay:0.3s'
+            })
+        }
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Row(
-                Column(
-                    Field('user_defined', placeholder='Existing ID', css_class='form-group col-8 mx-0'),
-                ),
-                Column(Submit('submit', 'Go!', css_class='btn-primary fw-bold col-4 mx-0')),
-                css_class='d-flex align-items-top g-0'
-            ),
+            FieldWithButtons('user_defined', StrictButton("Return", css_class="btn-warning", type="submit", id="button-existing"), input_size="input-group-sm"),
         )
         self.helper.form_show_labels = False
 
@@ -104,7 +105,23 @@ class NewSession(forms.ModelForm):
         labels = {
             'user_defined': 'Session ID:',
         }
+        widgets = {
+            'user_defined': forms.TextInput(attrs={
+                'hx-get': reverse_lazy('htmx_validate_session'),
+                'hx-target': '#htmx_validate_session',
+                'hx-trigger': 'keyup[target.value.length > 1] delay:0.3s'
+            })
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            FieldWithButtons('user_defined', StrictButton("Start", css_class="btn-primary", type="submit", id="button-new"), input_size="input-group-sm")
+        )
+        self.helper.form_show_labels = False
         
+    '''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -117,4 +134,6 @@ class NewSession(forms.ModelForm):
                 css_class='d-flex align-items-top g-0'
             ),
         )
+        
         self.helper.form_show_labels = False
+    '''

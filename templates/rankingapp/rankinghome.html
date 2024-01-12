@@ -6,22 +6,31 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-0 col-md-1"></div>
-        <div class="col-sm-12 col-md-5 px-4 border-end border-3 border-warning"><h2 class="mb-5">New session</h2>
+        <div class="col-sm-12 col-md-5 line">
+            <div class="newsession px-4 py-4 ">
+            <h2 class="mb-5"><i class="bi bi-plus-circle-fill me-3 text-primary"></i>New session</h2>
             <p>Start a session using a unique ID:</p>
             {% load crispy_forms_tags %}
             <form action="{% url 'new_session' %}" method="POST">
                 {% csrf_token %}
                 {% crispy form_session %}
+                <div id="htmx_validate_session" class="text-secondary form-text fst-italic" style="font-size:0.8rem">Use letters or numbers.</div>
             </form>
+            </div>
         </div>
-        <div class="col-sm-12 col-md-5 px-4"><h2 class="mb-5">Continue</h2>
+        <div class="col-sm-12 col-md-5">
+            <div class="existingsession px-4 py-4">
+            <h2 class="mb-5"><i class="bi bi-arrow-right-circle-fill me-3 text-warning"></i>Continue</h2>
             <p>Continue where you left out last time:</p>
             <form action="{% url 'rankingredirect' %}" method="GET">
                 {% csrf_token %}
                 {% crispy form %}
+                <div id="htmx_existing_session" class="text-secondary form-text fst-italic" style="font-size:0.8rem">Use the ID you created previously.</div>
             </form>
+            </div>
         </div>
         <div class="col-sm-0 col-md-1"></div>
     </div>
 </div>
+
 {% endblock %}

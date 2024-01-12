@@ -7,12 +7,15 @@
 <title>Rank-a-Mate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 {% load compress %}
 {% compress css %}
 <link type="text/x-scss" href="{% static 'rankingapp_theme.scss' %}" rel="stylesheet" media="all">
 <link rel="stylesheet" href="{% static 'rankingapp/css/standard.css' %}" media="all">
 <link rel="stylesheet" href="{% static 'bootstrap_icons/bootstrap-icons.min.css' %}" media="all">
+
+{% endcompress %}
+<script src="{% static 'trackerapp/js/htmx.min.js' %}"></script>
 <style>
     body {
         font-family: 'Poppins', sans-serif;
@@ -23,10 +26,34 @@
     a:hover.no-hover {
         text-decoration: none;
     }
+    .line {
+        border-right: dashed #838383;
+    }
+    .newsession {
+        border-style: dotted;
+        border-color: #f7ffe6;
+        border-width: thin;
+    }
+    :hover.newsession {
+        border-style: dashed;
+        border-color: #B01E68;
+        border-width: thin; 
+        border-radius: 2em;
+        background-color: #FFF78A;
+    }
+    .existingsession {
+        border-style: dotted;
+        border-color: #f7ffe6;
+        border-width: thin; 
+    }
+    :hover.existingsession {
+        border-style: dashed;
+        border-color: #B01E68;
+        border-width: thin; 
+        border-radius: 2em;
+        background-color: #FFE15D;
+    }
 </style>
-{% endcompress %}
-<script src="{% static 'trackerapp/js/htmx.min.js' %}"></script>
-
 
 </head>
 

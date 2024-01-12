@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView
-from .models import Worker
+from .models import Worker, Session
 from django.views.decorators.http import require_http_methods
 from .forms import HtmxAddWorker, GetSessionForm, NewSession
 from time import localtime
+from django.urls import reverse
 
 # Create your views here.
 
@@ -17,6 +18,18 @@ def rankingredirect(request):
     sanitize = str(request.GET['user_defined'])
     return redirect('rankinglist', id=sanitize)
 
+def htmx_validate_session(request):
+    if Session.objects.filter(user_defined=request.GET['user_defined']).exists():
+        return HttpResponse("<span class='text-primary' id='blocker'>Choose something else, this is already taken.</span>")
+    else:
+        return HttpResponse("")
+
+def htmx_existing_session(request):
+    if Session.objects.filter(user_defined=request.GET['user_defined']).exists():
+        return HttpResponse("")
+    else:
+        return HttpResponse("<span class='text-primary' id='blocker2'>There's no such session, are you sure this is correct?</span>")
+
 @require_http_methods(['POST'])
 def new_session(request):
     new_session = NewSession(request.POST or None)
@@ -28,7 +41,9 @@ def new_session(request):
         if new_session.is_valid():
             sanitized = new_session.cleaned_data['user_defined']
             new_session.save()
-            return redirect('rankinglist', id=sanitized)            
+            return redirect('rankinglist', id=sanitized)    
+        else:
+            return redirect('rankinghome')       
 
 class RankingList(ListView):
     model = Worker
