@@ -36,7 +36,7 @@ const sortableList = document.getElementById('sortable_list');
 let sortable = Sortable.create(sortableList, {
     animation: 450,
     ghostClass: 'sortable-ghost',
-    //handle: '.handle',
+    handle: '.handle',
     group: "localStorage-sortableList",
     store: {
         /**
