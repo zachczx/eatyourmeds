@@ -92,8 +92,6 @@ def htmx_add_worker(request, id):
 
 @require_http_methods(['DELETE'])
 def htmx_delete_worker(request, sessionid, workerid):
-    print(sessionid)
-    print(workerid)
     Worker.objects.filter(id=workerid).delete()
     worker = Worker.objects.filter(session_id=sessionid)
     context = {
