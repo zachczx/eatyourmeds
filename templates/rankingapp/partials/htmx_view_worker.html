@@ -1,6 +1,7 @@
 {% for person in worker %}
-<div id="{{person.rank_id}}" class="ps-5 py-2 my-2 bg-success-subtle rounded border border-1 border-primary d-flex justify-content-center align-items-center handle">
-    <li class="flex-grow-1">
+<div class="py-2 my-2 bg-success-subtle rounded border border-1 border-primary d-flex justify-content-center align-items-center" id='person.rank_id'>
+    <i class="bi bi-grip-vertical handle me-5"></i>
+    <li class="flex-grow-1 handle">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-4 fw-bold">{{person.name}}</div>
@@ -9,6 +10,6 @@
             </div>    
         </div>
     </li>
-    <i class="bi bi-grip-vertical handle"></i>
+    <a hx-delete="{% url 'htmx_del_worker' sessionid=person.session_id workerid=person.id %}" hx-target="#sortable_list" hx-swap="innerHTML transition:true"><i class="bi bi-x-circle-fill me-3"></i></a>
 </div>
 {% endfor %}

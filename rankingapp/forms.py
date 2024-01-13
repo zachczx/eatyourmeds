@@ -60,7 +60,7 @@ class HtmxAddWorker(forms.ModelForm):
                     Field('dept', placeholder='Dept', css_class='form-group col-4 mx-0'),
                 ),
                 Column(Submit('submit', 'Add', css_class='btn-primary fw-bold col-4')),
-                css_class='d-flex align-items-top'
+                css_class='d-flex align-items-top',
             ),
         )
         self.helper.form_show_labels = False

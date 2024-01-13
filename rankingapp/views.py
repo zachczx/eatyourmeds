@@ -85,3 +85,16 @@ def htmx_add_worker(request, id):
             }
             
     return render(request, 'rankingapp/partials/htmx_view_worker.html', context)
+
+
+@require_http_methods(['DELETE'])
+def htmx_delete_worker(request, sessionid, workerid):
+    print(sessionid)
+    print(workerid)
+    Worker.objects.filter(id=workerid).delete()
+    worker = Worker.objects.filter(session_id=sessionid)
+    context = {
+        'worker': worker,
+    }
+    return render(request, 'rankingapp/partials/htmx_view_worker.html', context)
+#    return HttpResponse('ok')

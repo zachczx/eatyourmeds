@@ -22,11 +22,11 @@
 
 </head>
 
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 
 <main>
     <div class="container">
-        <div class="row mt-3">
+        <div class="row mt-1">
             <div class="col text-center"><a href="{% url 'rankinghome' %}" class="no-hover text-white"><img src="{% static 'rankingapp/_c7ad51c4-e9f8-4b1f-b142-4699f1d96a8f.webp' %}" width="120" height="120" class="img-fluid"></a></div>
         </div>
     </div>
