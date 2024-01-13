@@ -59,7 +59,7 @@ class HtmxAddWorker(forms.ModelForm):
                 Column(
                     Field('dept', placeholder='Dept', css_class='form-group col-4 mx-0'),
                 ),
-                Column(Submit('submit', 'Submit', css_class='btn-primary fw-bold col-4')),
+                Column(Submit('submit', 'Add', css_class='btn-primary fw-bold col-4')),
                 css_class='d-flex align-items-top'
             ),
         )
@@ -86,7 +86,8 @@ class GetSessionForm(forms.ModelForm):
             'user_defined': forms.TextInput(attrs={
                 'hx-get': reverse_lazy('htmx_existing_session'),
                 'hx-target': '#htmx_existing_session',
-                'hx-trigger': 'keyup[target.value.length > 1] delay:0.3s'
+                'hx-trigger': 'keyup[target.value.length > 1] delay:0.3s',
+                'placeholder': 'Continue where you left out last time',
             })
         }
         
@@ -94,7 +95,7 @@ class GetSessionForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            FieldWithButtons('user_defined', StrictButton("Return", css_class="btn-warning", type="submit", id="button-existing"), input_size="input-group-sm"),
+            FieldWithButtons('user_defined', StrictButton("Return", css_class="btn-primary", type="submit", id="button-existing"), input_size="input-group-sm"),
         )
         self.helper.form_show_labels = False
 
@@ -109,7 +110,8 @@ class NewSession(forms.ModelForm):
             'user_defined': forms.TextInput(attrs={
                 'hx-get': reverse_lazy('htmx_validate_session'),
                 'hx-target': '#htmx_validate_session',
-                'hx-trigger': 'keyup[target.value.length > 1] delay:0.3s'
+                'hx-trigger': 'keyup[target.value.length > 1] delay:0.3s',
+                'placeholder': 'Start a session using a unique ID',
             })
         }
 
@@ -117,7 +119,7 @@ class NewSession(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            FieldWithButtons('user_defined', StrictButton("Start", css_class="btn-primary", type="submit", id="button-new"), input_size="input-group-sm")
+            FieldWithButtons('user_defined', StrictButton("Start", css_class="btn-primary", type="submit", id="button-new"), )
         )
         self.helper.form_show_labels = False
         
