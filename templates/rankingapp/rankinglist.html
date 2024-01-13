@@ -25,6 +25,13 @@
             </ol>
         </div>
         <div class="col-sm-0 col-md-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-0 col-md-1"></div>
+        <div class="col">
+            <div id="sortable_delete" class="py-2 my-2 bg-primary-subtle rounded border border-1 border-primary d-flex justify-content-center align-items-center text-center dropzone "><i class="bi bi-trash3 fs-4"></i></div>
+        </div>
+        <div class="col-sm-0 col-md-1"></div>
     </div>   
 </div>
 
@@ -60,13 +67,14 @@ let sortable = Sortable.create(sortableList, {
     } 
 });
 
-//let getSortingSequence = document.querySelectorAll('.sorted')
-//let pushSortedSequence = []
-//for (item=0; item<getSortingSequence.length; item++) {
-//    console.log(getSortingSequence[item].id);
-//    pushSortedSequence.push(getSortingSequence[item].id)
-//}
-//console.log(pushSortedSequence)
+const sortableDelete = document.getElementById('sortable_delete');
+let sortableDeleteVar = Sortable.create(sortableDelete, {
+    group: "localStorage-sortableList",
+      
+    onAdd: function (evt) {
+        this.el.removeChild(evt.item);
+    }
+});  
 </script>
 {% endcompress %}
 
