@@ -10,6 +10,6 @@
             </div>    
         </div>
     </li>
-    <a hx-delete="{% url 'htmx_del_worker' sessionid=person.session_id workerid=person.id %}" hx-target="#sortable_list" hx-swap="innerHTML transition:true"><i class="bi bi-x-circle-fill me-3"></i></a>
+    <a hx-delete="{% url 'htmx_del_worker' sessionid=person.session_id workerid=person.id %}" hx-target="#sortable_list" hx-swap="innerHTML transition:true" href="#"><i class="bi bi-x-circle-fill me-3"></i></a>
 </div>
 {% endfor %}
