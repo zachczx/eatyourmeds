@@ -20,15 +20,16 @@ def rankingredirect(request):
 
 def htmx_validate_session(request):
     if Session.objects.filter(user_defined=request.GET['user_defined']).exists():
-        return HttpResponse("<span class='text-dark ms-1' id='blocker'><i class='bi bi-x-circle-fill text-primary'></i>&nbsp;&nbsp;Choose something else, this is already taken.</span>")
+        return HttpResponse("<span class='text-dark ms-1'><i class='bi bi-x-circle-fill text-primary'></i>&nbsp;&nbsp;Choose something else, this is already taken.</span>")
     else:
-        return HttpResponse("<span class='text-dark ms-1' id='blocker'><i class='bi bi-check-circle-fill' style='color:#64c10b'></i>&nbsp;&nbsp;This is ok, it's not taken.</span>")
+        return HttpResponse("<span class='text-dark ms-1'><i class='bi bi-check-circle-fill' style='color:#64c10b'></i>&nbsp;&nbsp;This is ok, it's not taken.</span>")
 
 def htmx_existing_session(request):
     if Session.objects.filter(user_defined=request.GET['user_defined']).exists():
         return HttpResponse("Use the ID you created previously.")
     else:
         return HttpResponse("<span class='text-dark ms-1' id='blocker2'><i class='bi bi-x-circle-fill text-primary'></i>&nbsp;&nbsp;There's no such session, are you sure this is correct?</span>")
+
 
 @require_http_methods(['POST'])
 def new_session(request):
@@ -44,6 +45,7 @@ def new_session(request):
             return redirect('rankinglist', id=sanitized)    
         else:
             return redirect('rankinghome')       
+
 
 class RankingList(ListView):
     model = Worker
@@ -61,6 +63,7 @@ class RankingList(ListView):
         context['worker'] = Worker.objects.filter(session_id=self.kwargs.get('id'))
         context['htmx_add_worker'] = HtmxAddWorker()
         return context
+
 
 @require_http_methods(["POST"])
 def htmx_add_worker(request, id):
