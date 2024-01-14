@@ -41,11 +41,12 @@ class WorkerForm(forms.ModelForm):
 
 class HtmxAddWorker(forms.ModelForm):
     class Meta:
-        fields = ['name', 'dept']
+        fields = ['name', 'dept', 'prev']
         model = Worker
         labels = {
             'name': 'Name:',
             'dept': 'Dept:',
+            'prev': 'Prev Grade',
         }
         
     def __init__(self, *args, **kwargs):
@@ -54,12 +55,15 @@ class HtmxAddWorker(forms.ModelForm):
         self.helper.layout = Layout(
             Row(
                 Column(
-                    Field('name', placeholder='Name', css_class='form-group col-4 mx-0'),
+                    Field('name', placeholder='Name', css_class='form-group col-3 mx-0'),
                 ),
                 Column(
-                    Field('dept', placeholder='Dept', css_class='form-group col-4 mx-0'),
+                    Field('dept', placeholder='Dept', css_class='form-group col-3 mx-0'),
                 ),
-                Column(Submit('submit', 'Add', css_class='btn-primary fw-bold col-4')),
+                Column(
+                    Field('prev', placeholder='2023 grade', css_class='form-group col-3 mx-0'),
+                ),
+                Column(Submit('submit', 'Add', css_class='btn-primary fw-bold col-3')),
                 css_class='d-flex align-items-top',
             ),
         )

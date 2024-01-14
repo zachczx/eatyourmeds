@@ -1,15 +1,28 @@
+<!-- <h2>Grade A</h2> -->
 {% for person in worker %}
-<div class="py-2 my-2 bg-success-subtle rounded border border-1 border-primary d-flex justify-content-center align-items-center" id='person.rank_id'>
+
+<div class="py-2 my-2 bg-success-subtle rounded border border-1 border-primary d-flex justify-content-center align-items-center" data-id='{{person.rank_id}}'>
     <i class="bi bi-grip-vertical handle me-5"></i>
     <li class="flex-grow-1 handle">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-4 fw-bold">{{person.name}}</div>
                 <div class="col-12 col-md-4">{{person.dept}}</div>
-                <div class="col-12 col-md-4">/prev grade/</div>
+                <div class="col-12 col-md-4">2023: {{person.prev}}</div>
             </div>    
         </div>
     </li>
     <a hx-delete="{% url 'htmx_del_worker' sessionid=person.session_id workerid=person.id %}" hx-target="#sortable_list" hx-swap="innerHTML transition:true" href="#"><i class="bi bi-x-circle-fill ms-4 me-3"></i></a>
 </div>
+
+<!-- 
+{% if forloop.counter == cumulative_quotas.quotaB %}
+<h2 class="mt-4">Grade B</h2>
+{% elif forloop.counter == cumulative_quotas.quotaC %}
+<h2 class="mt-4">Grade C</h2>
+{% elif forloop.counter == cumulative_quotas.quotaD %}
+<h2 class="mt-4">Grade D</h2>
+{% endif %}
+-->
+
 {% endfor %}

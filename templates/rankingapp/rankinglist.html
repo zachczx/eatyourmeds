@@ -24,19 +24,12 @@
             </div>
             </ol>
         </div>
-        <div class="col-sm-0 col-md-1"></div>
-    </div>
-    <div class="row">
-        <div class="col-sm-0 col-md-1"></div>
-        <div class="col">
-            <div id="sortable_delete" class="py-2 my-2 bg-primary-subtle rounded border border-1 border-primary d-flex justify-content-center align-items-center text-center dropzone "><i class="bi bi-trash3 fs-4"></i></div>
+        <div class="col-sm-0 col-md-1">
         </div>
-        <div class="col-sm-0 col-md-1"></div>
     </div>   
 </div>
 
-{% load compress %}
-{% compress js %}
+
 <script src="{% static 'rankingapp/js/Sortable.min.js' %}"></script>
 <script>
 const sortableList = document.getElementById('sortable_list');
@@ -44,7 +37,40 @@ let sortable = Sortable.create(sortableList, {
     animation: 450,
     ghostClass: 'sortable-ghost',
     handle: '.handle',
+    pull: 'clone',
     group: "localStorage-sortableList",
+    //dataIdAttr: 'data-id',
+    store: {
+        /**
+        * Get the order of elements. Called once during initialization.
+        * @param   {Sortable}  sortable
+        * @returns {Array}
+        */
+        get: function (sortable) {
+            var order = localStorage.getItem(sortable.options.group.name);
+            return order ? order.split('|') : [];
+        },
+
+        /**
+        * Save the order of elements. Called onEnd (when the item is dropped).
+        * @param {Sortable}  sortable
+        */
+        set: function (sortable) {
+            var order = sortable.toArray();
+            console.log(sortable.options.group.name)
+            localStorage.setItem(sortable.options.group.name, order.join('|'));
+        }
+    } 
+});
+
+const sortableListC = document.getElementById('sortable_listC');
+let sortableC = Sortable.create(sortableListC, {
+    animation: 450,
+    ghostClass: 'sortable-ghost',
+    handle: '.handle',
+    pull: 'clone',
+    group: "localStorage-sortableList",
+    //dataIdAttr: 'data-id',
     store: {
         /**
         * Get the order of elements. Called once during initialization.
@@ -67,34 +93,18 @@ let sortable = Sortable.create(sortableList, {
     } 
 });
 
-const sortableDelete = document.getElementById('sortable_delete');
-let sortableDeleteVar = Sortable.create(sortableDelete, {
-    group: "localStorage-sortableList",
-    store: {
-        /**
-        * Get the order of elements. Called once during initialization.
-        * @param   {Sortable}  sortable
-        * @returns {Array}
-        */
-        get: function (sortable) {
-            var order = localStorage.getItem(sortable.options.group.name);
-            return order ? order.split('|') : [];
-        },
-
-        /**
-        * Save the order of elements. Called onEnd (when the item is dropped).
-        * @param {Sortable}  sortable
-        */
-        set: function (sortable) {
-            var order = sortable.toArray();
-            localStorage.setItem(sortable.options.group.name, order.join('|'));
-        }
-    }   
-    onAdd: function (evt) {
-        this.el.removeChild(evt.item);
-    }
-});  
+//const sortableDelete = document.getElementById('sortable_delete');
+//let sortableDeleteVar = Sortable.create(sortableDelete, {
+//    group: "localStorage-sortableList",
+//      
+//    onAdd: function (evt) {
+//        var el = evt.item;
+//        el.parentNode.removeChild(el);
+//    }
+//});  
 </script>
+{% load compress %}
+{% compress js %}
 {% endcompress %}
 
 {% endblock %}

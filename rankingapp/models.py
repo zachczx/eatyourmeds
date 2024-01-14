@@ -22,6 +22,7 @@ class Worker(models.Model):
     session = models.ForeignKey(Session, blank=False, null=False, default=None, on_delete=models.CASCADE)
     dept = models.CharField(null=True, blank=True, default=None)
     rank_id = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
+    prev = models.CharField(null=True, blank=True, max_length=5)
     
     def __str__(self):
         return self.name

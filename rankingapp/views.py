@@ -6,6 +6,7 @@ from django.views.decorators.http import require_http_methods
 from .forms import HtmxAddWorker, GetSessionForm, NewSession
 from time import localtime
 from django.urls import reverse
+import math
 
 # Create your views here.
 
@@ -59,8 +60,22 @@ class RankingList(ListView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
         context = super().get_context_data(**kwargs)
+
         context['id'] = self.kwargs.get('id')
-        context['worker'] = Worker.objects.filter(session_id=self.kwargs.get('id'))
+        worker_qs = Worker.objects.filter(session_id=self.kwargs.get('id'))
+        worker_total = worker_qs.count()
+
+        quotaB = math.ceil(0.05 * worker_total)
+        quotaC = math.floor(0.4 * worker_total) + quotaB
+        quotaD = math.floor(0.5 * worker_total) + quotaC
+        context['worker_total'] = worker_total
+        context['cumulative_quotas'] = {
+            'quotaB': quotaB, 
+            'quotaC': quotaC,
+            'quotaD': quotaD,
+        }
+        print(context['cumulative_quotas'])
+        context['worker'] = worker_qs
         context['htmx_add_worker'] = HtmxAddWorker()
         return context
 
@@ -81,10 +96,22 @@ def htmx_add_worker(request, id):
             filled.save()
             worker = Worker.objects.filter(session=id)
             form = HtmxAddWorker()
+            
+            worker_total = worker.count()
+            quotaB = math.ceil(0.05 * worker_total)
+            quotaC = math.floor(0.4 * worker_total) + quotaB
+            quotaD = math.floor(0.5 * worker_total) + quotaC
+            cumulative_quotas = {
+                'quotaB': quotaB, 
+                'quotaC': quotaC,
+                'quotaD': quotaD,
+            }
                 
             context = {
                 'worker': worker,
                 'form': form,
+                'worker_total': worker_total,
+                'cumulative_quotas': cumulative_quotas,
             }
             
     return render(request, 'rankingapp/partials/htmx_view_worker.html', context)
@@ -94,8 +121,19 @@ def htmx_add_worker(request, id):
 def htmx_delete_worker(request, sessionid, workerid):
     Worker.objects.filter(id=workerid).delete()
     worker = Worker.objects.filter(session_id=sessionid)
+    worker_total = worker.count()
+    quotaB = math.ceil(0.05 * worker_total)
+    quotaC = math.floor(0.4 * worker_total) + quotaB
+    quotaD = math.floor(0.5 * worker_total) + quotaC
+    cumulative_quotas = {
+        'quotaB': quotaB, 
+        'quotaC': quotaC,
+        'quotaD': quotaD,
+    }
     context = {
         'worker': worker,
+        'worker_total': worker_total,
+        'cumulative_quotas': cumulative_quotas,
     }
     return render(request, 'rankingapp/partials/htmx_view_worker.html', context)
 #    return HttpResponse('ok')
