@@ -4,7 +4,7 @@ from django.views.decorators.cache import cache_page
 
 # Create your views here.
 
-@cache_page(60 * 15)
+@cache_page(60 * 7200)
 def home(request):
     return render(request, 'aboutme/home.html')
 
