@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views.generic import ListView
 from .models import Worker, Session
 from django.views.decorators.http import require_http_methods
-from .forms import HtmxAddWorker, GetSessionForm, NewSession
+from .forms import HtmxAddWorker, GetSessionForm, NewSession, HtmxSaveSequence
 from time import localtime
 from django.urls import reverse
 import math
@@ -74,7 +74,6 @@ class RankingList(ListView):
             'quotaC': quotaC,
             'quotaD': quotaD,
         }
-        print(context['cumulative_quotas'])
         context['worker'] = worker_qs
         context['htmx_add_worker'] = HtmxAddWorker()
         return context
@@ -116,6 +115,19 @@ def htmx_add_worker(request, id):
             
     return render(request, 'rankingapp/partials/htmx_view_worker.html', context)
 
+@require_http_methods(["POST"])
+def htmx_save_sequence (request, sessionid):
+
+    rank_order = request.POST.getlist('sort_order')
+    print(rank_order)
+    for idx, form_rank_id in enumerate(rank_order, start=1):
+        entry = Worker.objects.get(rank_id=form_rank_id)
+        entry.order = idx
+        entry.save()
+        
+    worker = Worker.objects.filter(session_id=sessionid)
+
+    return render(request, 'rankingapp/partials/htmx_view_worker.html', {'worker': worker})
 
 @require_http_methods(['DELETE'])
 def htmx_delete_worker(request, sessionid, workerid):

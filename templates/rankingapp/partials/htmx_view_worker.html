@@ -1,4 +1,12 @@
 <!-- <h2>Grade A</h2> -->
+
+
+<div class="htmx-indicator">
+    <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+        <span class="visually-hidden">Saving...</span>
+      </div>
+      <i>Auto-Saving</i>...
+</div>
 {% for person in worker %}
 
 <div class="py-2 my-2 bg-success-subtle rounded border border-1 border-primary d-flex justify-content-center align-items-center" data-id='{{person.rank_id}}'>
@@ -6,7 +14,7 @@
     <li class="flex-grow-1 handle">
         <div class="container">
             <div class="row">
-                <div class="col-12 col-md-4 fw-bold">{{person.name}}</div>
+                <div class="col-12 col-md-4 fw-bold">{{person.name}}<input type='hidden' name='sort_order' value='{{person.rank_id}}'/></div>
                 <div class="col-12 col-md-4">{{person.dept}}</div>
                 <div class="col-12 col-md-4">2023: {{person.prev}}</div>
             </div>    

@@ -143,3 +143,8 @@ class NewSession(forms.ModelForm):
         
         self.helper.form_show_labels = False
     '''
+
+class HtmxSaveSequence(forms.ModelForm):
+    class Meta:
+        fields = ['sequence']
+        model = Session

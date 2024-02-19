@@ -19,9 +19,9 @@
         <div class="col-sm-0 col-md-1"></div>
         <div class="col">
             <ol class="p-0">
-                <form class="sortable" id="sortable_list" hx-post="{% url 'htmx_save_sequence' sessionid=worker.0.session_id %}" hx-trigger="end delay:1s">
-                    {% include 'rankingapp/partials/htmx_view_worker.html' %}
-                </form>
+            <div id="sortable_list">
+                {% include 'rankingapp/partials/htmx_view_worker.html' %}
+            </div>
             </ol>
         </div>
         <div class="col-sm-0 col-md-1">
@@ -33,27 +33,6 @@
 <script src="{% static 'rankingapp/js/Sortable.min.js' %}"></script>
 
 <script>
-htmx.onLoad(function(content) {
-    var sortables = content.querySelectorAll(".sortable");
-    for (var i = 0; i < sortables.length; i++) {
-        var sortable = sortables[i];
-        var sortableInstance = new Sortable(sortable, {
-            animation: 350,
-            ghostClass: 'blue-background-class',
-
-            // Make the `.htmx-indicator` unsortable
-            filter: ".htmx-indicator",
-            onMove: function (evt) {
-            return evt.related.className.indexOf('htmx-indicator') === -1;
-            },
-
-        });
-    }
-})
-
-</script>
-
-<!-- <script>
 const sortableList = document.getElementById('sortable_list');
 let sortable = Sortable.create(sortableList, {
     animation: 450,
@@ -124,7 +103,7 @@ let sortableC = Sortable.create(sortableListC, {
 //        el.parentNode.removeChild(el);
 //    }
 //});  
-</script>-->
+</script>
 {% load compress %}
 {% compress js %}
 {% endcompress %}
