@@ -29,7 +29,8 @@
     </div>   
 </div>
 
-
+{% load compress %}
+{% compress js %}
 <script src="{% static 'rankingapp/js/Sortable.min.js' %}"></script>
 
 <script>
@@ -52,7 +53,7 @@ htmx.onLoad(function(content) {
 })
 
 </script>
-
+{% endcompress %}
 <!-- <script>
 const sortableList = document.getElementById('sortable_list');
 let sortable = Sortable.create(sortableList, {
@@ -125,8 +126,6 @@ let sortableC = Sortable.create(sortableListC, {
 //    }
 //});  
 </script>-->
-{% load compress %}
-{% compress js %}
-{% endcompress %}
+
 
 {% endblock %}
