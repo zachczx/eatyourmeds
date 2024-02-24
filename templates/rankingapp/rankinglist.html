@@ -2,6 +2,26 @@
 
 {% block content %}
 {% load static %}
+<style>
+    /* noUIslider css */
+    #slider-round {
+        height: 10px;
+    }
+    
+    #slider-round .noUi-handle {
+        height: 18px;
+        width: 18px;
+        top: -5px;
+        right: -9px; /* half the width */
+        border-radius: 9px;
+    }
+
+    .c-1-color { background: #b5ff6f; }
+    .c-2-color { background: #bceec3; }
+    .c-3-color { background: #f3f3d0; }
+    .c-4-color { background: #e8a7a7; }
+    .c-5-color { background: purple; }
+</style>
 
 <div class="container mt-5">
     <div class="row">
@@ -15,6 +35,14 @@
         </div>
         <div class="col-sm-0 col-md-1"></div>
     </div>
+    <div class="row mt-5">
+        <div class="col-sm-0 col-md-1"></div>
+        <div class="col">
+            <div id="slider-round"></div>
+        </div>
+        <div class="col-sm-0 col-md-1">
+        </div>
+    </div>  
     <div class="row">
         <div class="col-sm-0 col-md-1"></div>
         <div class="col">
@@ -32,7 +60,6 @@
 {% load compress %}
 {% compress js %}
 <script src="{% static 'rankingapp/js/Sortable.min.js' %}"></script>
-
 <script>
 htmx.onLoad(function(content) {
     var sortables = content.querySelectorAll(".sortable");
@@ -54,78 +81,57 @@ htmx.onLoad(function(content) {
 
 </script>
 {% endcompress %}
-<!-- <script>
-const sortableList = document.getElementById('sortable_list');
-let sortable = Sortable.create(sortableList, {
-    animation: 450,
-    ghostClass: 'sortable-ghost',
-    handle: '.handle',
-    pull: 'clone',
-    group: "localStorage-sortableList",
-    //dataIdAttr: 'data-id',
-    store: {
-        /**
-        * Get the order of elements. Called once during initialization.
-        * @param   {Sortable}  sortable
-        * @returns {Array}
-        */
-        get: function (sortable) {
-            var order = localStorage.getItem(sortable.options.group.name);
-            return order ? order.split('|') : [];
-        },
 
-        /**
-        * Save the order of elements. Called onEnd (when the item is dropped).
-        * @param {Sortable}  sortable
-        */
-        set: function (sortable) {
-            var order = sortable.toArray();
-            console.log(sortable.options.group.name)
-            localStorage.setItem(sortable.options.group.name, order.join('|'));
-        }
-    } 
+<script src="{% static 'rankingapp/js/nouislider.min.js' %}"></script>
+<script src="{% static 'rankingapp/js/wNumb.min.js' %}"></script>
+<script>
+//init noUIslider
+    var slider = document.getElementById('slider-round');
+
+    noUiSlider.create(slider, {
+        start: [0, 5, 40, 95, 100],
+        connect: true,
+        tooltips: true,
+        snap: true,
+        range: {
+            'min': 0,
+            '5%': 5,
+            '10%': 10,
+            '15%': 15,            
+            '20%': 20,
+            '25%': 25,         
+            '30%': 30,
+            '35%': 35,            
+            '40%': 40,
+            '45%': 45,            
+            '50%': 50,
+            '55%': 55,            
+            '60%': 60,
+            '65%': 65,            
+            '70%': 70,
+            '75%': 75,            
+            '80%': 80,
+            '85%': 85,            
+            '90%': 90,
+            '95%': 95,            
+            'max': 100,
+        },
+        // dependency for wNumb for the decimals
+        format: wNumb({
+            decimals: 0,
+            thousand: ',',
+            suffix: '%'
+        }),
 });
 
-const sortableListC = document.getElementById('sortable_listC');
-let sortableC = Sortable.create(sortableListC, {
-    animation: 450,
-    ghostClass: 'sortable-ghost',
-    handle: '.handle',
-    pull: 'clone',
-    group: "localStorage-sortableList",
-    //dataIdAttr: 'data-id',
-    store: {
-        /**
-        * Get the order of elements. Called once during initialization.
-        * @param   {Sortable}  sortable
-        * @returns {Array}
-        */
-        get: function (sortable) {
-            var order = localStorage.getItem(sortable.options.group.name);
-            return order ? order.split('|') : [];
-        },
+slider.noUiSlider.disable(0);
+slider.noUiSlider.disable(4);
 
-        /**
-        * Save the order of elements. Called onEnd (when the item is dropped).
-        * @param {Sortable}  sortable
-        */
-        set: function (sortable) {
-            var order = sortable.toArray();
-            localStorage.setItem(sortable.options.group.name, order.join('|'));
-        }
-    } 
-});
+let connect = slider.querySelectorAll('.noUi-connect');
+let classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
 
-//const sortableDelete = document.getElementById('sortable_delete');
-//let sortableDeleteVar = Sortable.create(sortableDelete, {
-//    group: "localStorage-sortableList",
-//      
-//    onAdd: function (evt) {
-//        var el = evt.item;
-//        el.parentNode.removeChild(el);
-//    }
-//});  
-</script>-->
-
-
+for (let i = 0; i < connect.length; i++) {
+    connect[i].classList.add(classes[i]);
+}
+</script>
 {% endblock %}

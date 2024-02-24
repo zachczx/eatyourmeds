@@ -74,6 +74,8 @@ class RankingList(ListView):
             'quotaC': quotaC,
             'quotaD': quotaD,
         }
+        print(context['cumulative_quotas'])
+        print(context['worker_total'])
         context['worker'] = worker_qs
         context['htmx_add_worker'] = HtmxAddWorker()
         return context
@@ -126,8 +128,23 @@ def htmx_save_sequence (request, sessionid):
         entry.save()
         
     worker = Worker.objects.filter(session_id=sessionid)
+    
+    worker_total = worker.count()
+    quotaB = math.ceil(0.05 * worker_total)
+    quotaC = math.floor(0.4 * worker_total) + quotaB
+    quotaD = math.floor(0.5 * worker_total) + quotaC
+    cumulative_quotas = {
+        'quotaB': quotaB, 
+        'quotaC': quotaC,
+        'quotaD': quotaD,
+    }
+        
+    context = {
+        'worker': worker,
+        'cumulative_quotas': cumulative_quotas,
+    }
 
-    return render(request, 'rankingapp/partials/htmx_view_worker.html', {'worker': worker})
+    return render(request, 'rankingapp/partials/htmx_view_worker.html', context)
 
 @require_http_methods(['DELETE'])
 def htmx_delete_worker(request, sessionid, workerid):

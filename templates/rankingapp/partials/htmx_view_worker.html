@@ -9,7 +9,8 @@
 </div>
 {% for person in worker %}
 
-<div class="py-2 my-2 bg-success-subtle rounded border border-1 border-primary d-flex justify-content-center align-items-center" data-id='{{person.rank_id}}'>
+{% if person.order <= cumulative_quotas.quotaB %}
+<div class="py-2 my-2 rounded border border-1 border-primary d-flex justify-content-center align-items-center" style="background-color: #cfffa2" data-id='{{person.rank_id}}'>
     <i class="bi bi-grip-vertical handle me-5"></i>
     <li class="flex-grow-1 handle">
         <div class="container">
@@ -22,6 +23,49 @@
     </li>
     <a hx-delete="{% url 'htmx_del_worker' sessionid=person.session_id workerid=person.id %}" hx-target="#sortable_list" hx-swap="innerHTML transition:true" href="#"><i class="bi bi-x-circle-fill ms-4 me-3"></i></a>
 </div>
+{% elif person.order <= cumulative_quotas.quotaC and forloop.counter > cumulative_quotas.quotaB %}
+<div class="py-2 my-2 rounded border border-1 border-primary d-flex justify-content-center align-items-center" style="background-color: #e4f8e7" data-id='{{person.rank_id}}'>
+    <i class="bi bi-grip-vertical handle me-5"></i>
+    <li class="flex-grow-1 handle">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4 fw-bold">{{person.name}}<input type='hidden' name='sort_order' value='{{person.rank_id}}'/></div>
+                <div class="col-12 col-md-4">{{person.dept}}</div>
+                <div class="col-12 col-md-4">2023: {{person.prev}}</div>
+            </div>    
+        </div>
+    </li>
+    <a hx-delete="{% url 'htmx_del_worker' sessionid=person.session_id workerid=person.id %}" hx-target="#sortable_list" hx-swap="innerHTML transition:true" href="#"><i class="bi bi-x-circle-fill ms-4 me-3"></i></a>
+</div>
+{% elif person.order <= cumulative_quotas.quotaD and forloop.counter > cumulative_quotas.quotaC %}
+<div class="py-2 my-2 rounded border border-1 border-primary d-flex justify-content-center align-items-center" style="background-color: #f8f8e4" data-id='{{person.rank_id}}'>
+    <i class="bi bi-grip-vertical handle me-5"></i>
+    <li class="flex-grow-1 handle">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4 fw-bold">{{person.name}}<input type='hidden' name='sort_order' value='{{person.rank_id}}'/></div>
+                <div class="col-12 col-md-4">{{person.dept}}</div>
+                <div class="col-12 col-md-4">2023: {{person.prev}}</div>
+            </div>    
+        </div>
+    </li>
+    <a hx-delete="{% url 'htmx_del_worker' sessionid=person.session_id workerid=person.id %}" hx-target="#sortable_list" hx-swap="innerHTML transition:true" href="#"><i class="bi bi-x-circle-fill ms-4 me-3"></i></a>
+</div>
+{% elif person.order > cumulative_quotas.quotaD %}
+<div class="py-2 my-2 rounded border border-1 border-primary d-flex justify-content-center align-items-center" style="background-color: #f8e4e4" data-id='{{person.rank_id}}'>
+    <i class="bi bi-grip-vertical handle me-5"></i>
+    <li class="flex-grow-1 handle">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4 fw-bold">{{person.name}}<input type='hidden' name='sort_order' value='{{person.rank_id}}'/></div>
+                <div class="col-12 col-md-4">{{person.dept}}</div>
+                <div class="col-12 col-md-4">2023: {{person.prev}}</div>
+            </div>    
+        </div>
+    </li>
+    <a hx-delete="{% url 'htmx_del_worker' sessionid=person.session_id workerid=person.id %}" hx-target="#sortable_list" hx-swap="innerHTML transition:true" href="#"><i class="bi bi-x-circle-fill ms-4 me-3"></i></a>
+</div>
+{% endif %}
 
 <!-- 
 {% if forloop.counter == cumulative_quotas.quotaB %}
