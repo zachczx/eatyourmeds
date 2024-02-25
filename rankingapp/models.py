@@ -13,7 +13,7 @@ class Sequence(models.Model):
 class Session(models.Model):
     user_defined = models.CharField(primary_key=True, null=False, blank=False, max_length=200, unique=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    sequence = models.CharField(null=True, max_length=10000)
+    sequence = models.CharField(null=True, blank=True, max_length=10000)
     user_quotaB = models.IntegerField(null=True, blank=True)
     user_quotaC = models.IntegerField(null=True, blank=True)
     user_quotaD = models.IntegerField(null=True, blank=True)
