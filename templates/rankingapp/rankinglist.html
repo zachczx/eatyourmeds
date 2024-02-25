@@ -86,13 +86,23 @@ htmx.onLoad(function(content) {
         });
     }
 })
-
 </script>
+{% endcompress %}
 
-
-<!-- noUISlider -->
+{% compress js %}
+<!-- tippy and popper -->
+<script src="{% static 'rankingapp/js/popper.min.js' %}"></script>
+<script src="{% static 'rankingapp/js/tippy-bundle.umd.js' %}"></script>
+<script>
+    tippy('#gradingTooltip', {
+        content: 'These may be rounding errors. In this case, no one will be assigned band D. To work around this, try adding dummy entries and shifting them before those you want to grade band D.',
+      });
+</script>
 <script src="{% static 'rankingapp/js/nouislider.min.js' %}"></script>
 <script src="{% static 'rankingapp/js/wNumb.min.js' %}"></script>
+{% endcompress %}
+<!-- noUISlider -->
+
 <script>
 //init noUIslider
     var slider = document.getElementById('slider-round');
@@ -162,13 +172,4 @@ slider.noUiSlider.on('update', function(values, handle) {
 });
 </script>
 
-<!-- tippy and popper -->
-<script src="{% static 'rankingapp/js/popper.min.js' %}"></script>
-<script src="{% static 'rankingapp/js/tippy-bundle.umd.js' %}"></script>
-<script>
-    tippy('#gradingTooltip', {
-        content: 'These may be rounding errors. In this case, no one will be assigned band D. To work around this, try adding dummy entries and shifting them before those you want to grade band D.',
-      });
-</script>
-{% endcompress %}
 {% endblock %}
