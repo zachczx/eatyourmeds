@@ -38,7 +38,15 @@
     <div class="row mt-5">
         <div class="col-sm-0 col-md-1"></div>
         <div class="col">
-            <div id="slider-round"></div>
+            <div class="pb-5 pt-2 px-5 rounded-pill" style="background-color: #FBFFF2">
+                <h2>Adjust Grading Percentile&nbsp;<span id="gradingTooltip"><i class="bi bi-question-circle-fill fs-5 align-top"></i></span></h2>
+                <form id="slider_form" hx-target="#sortable_list" hx-swap="innerHTML" hx-post="{% url 'htmx_save_quota' sessionid=worker.0.session_id %}" hx-trigger="click delay:1s">
+                    <div id="slider-round"></div>
+                    <input type="hidden" name="quotaB-input" value="" id="quotaB-input">
+                    <input type="hidden" name="quotaC-input" value="" id="quotaC-input">
+                    <input type="hidden" name="quotaD-input" value="" id="quotaD-input">
+                </form>
+            </div>
         </div>
         <div class="col-sm-0 col-md-1">
         </div>
@@ -82,6 +90,7 @@ htmx.onLoad(function(content) {
 </script>
 {% endcompress %}
 
+<!-- noUISlider -->
 <script src="{% static 'rankingapp/js/nouislider.min.js' %}"></script>
 <script src="{% static 'rankingapp/js/wNumb.min.js' %}"></script>
 <script>
@@ -89,9 +98,8 @@ htmx.onLoad(function(content) {
     var slider = document.getElementById('slider-round');
 
     noUiSlider.create(slider, {
-        start: [0, 5, 40, 95, 100],
+        start: [0, {{nouislider_quotas.user_quotaB}}, {{nouislider_quotas.user_quotaC}}, {{nouislider_quotas.user_quotaD}}, 100],
         connect: true,
-        tooltips: true,
         snap: true,
         range: {
             'min': 0,
@@ -120,8 +128,13 @@ htmx.onLoad(function(content) {
         format: wNumb({
             decimals: 0,
             thousand: ',',
-            suffix: '%'
+            suffix: ''
         }),
+        pips: {
+            mode: 'positions',
+            values: [10, 20, 30, 40, 50, 60, 70, 80, 90],
+            density: 5,
+        }
 });
 
 slider.noUiSlider.disable(0);
@@ -133,5 +146,30 @@ let classes = ['c-1-color', 'c-2-color', 'c-3-color', 'c-4-color', 'c-5-color'];
 for (let i = 0; i < connect.length; i++) {
     connect[i].classList.add(classes[i]);
 }
+
+let quotaB = document.getElementById("quotaB-input");
+let quotaC = document.getElementById("quotaC-input");
+let quotaD = document.getElementById("quotaD-input");
+
+// get value from update and put into hidden input fields
+slider.noUiSlider.on('update', function(values, handle) {
+    quotaB.value = values[1]
+    console.log(quotaB.value)
+    quotaC.value = values[2]
+    console.log(quotaC.value)
+    quotaD.value = values[3]
+    console.log(quotaD.value)
+});
+</script>
+
+<!-- tippy and popper -->
+<script src="{% static 'rankingapp/js/popper.min.js' %}"></script>
+<script src="{% static 'rankingapp/js/tippy-bundle.umd.js' %}"></script>
+<script>
+    tippy('#gradingTooltip', {
+        content: 'These may be rounding errors. In this case, no one will be assigned band D. To work around this, try adding dummy entries and shifting them before those you want to grade band D.',
+      });
+</script>
+
 </script>
 {% endblock %}
