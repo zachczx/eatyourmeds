@@ -88,7 +88,7 @@ htmx.onLoad(function(content) {
 })
 
 </script>
-{% endcompress %}
+
 
 <!-- noUISlider -->
 <script src="{% static 'rankingapp/js/nouislider.min.js' %}"></script>
@@ -170,6 +170,5 @@ slider.noUiSlider.on('update', function(values, handle) {
         content: 'These may be rounding errors. In this case, no one will be assigned band D. To work around this, try adding dummy entries and shifting them before those you want to grade band D.',
       });
 </script>
-
-</script>
+{% endcompress %}
 {% endblock %}
