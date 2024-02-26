@@ -58,7 +58,7 @@
         <div class="col-sm-0 col-md-1"></div>
         <div class="col">
             <ol class="p-0">
-                <form class="sortable" id="sortable_list" hx-post="{% url 'htmx_save_sequence' sessionid=worker.0.session_id %}" hx-trigger="end delay:1s">
+                <form class="sortable" id="sortable_list" hx-post="{% url 'htmx_save_sequence' sessionid=worker.0.session_id %}" hx-trigger="end delay:0.5s">
                     {% include 'rankingapp/partials/htmx_view_worker.html' %}
                 </form>
             </ol>

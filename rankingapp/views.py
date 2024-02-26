@@ -7,9 +7,11 @@ from .forms import HtmxAddWorker, GetSessionForm, NewSession, HtmxSaveSequence
 from time import localtime
 from django.urls import reverse
 import math
+from django.views.decorators.cache import cache_page
 
 # Create your views here.
 
+@cache_page(864000)
 def home(request):
     form = GetSessionForm()
     form_session = NewSession()
