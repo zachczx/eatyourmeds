@@ -12,3 +12,4 @@ trackerapp/migrations/
 aboutme/migrations/
 rankingapp/migrations/
 CACHE/
+*.old
