@@ -2,6 +2,8 @@
 
 {% block content %}
 {% load static %}
+{% load compress %}
+{% compress css %}
 <style>
     /* noUIslider css */
     #slider-round {
@@ -23,7 +25,7 @@
     .c-5-color { background: #416D19; }
 
 </style>
-
+{% endcompress %}
 <div class="container mt-2 pt-5 pb-5 rounded bg-body shadow-lg">
     <div class="row">
         <div class="col-sm-0 col-md-1"></div>
@@ -66,7 +68,7 @@
     </div>   
 </div>
 
-{% load compress %}
+
 {% compress js %}
 <script src="{% static 'rankingapp/js/Sortable.min.js' %}"></script>
 <script>
