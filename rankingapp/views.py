@@ -95,6 +95,22 @@ class RankingList(ListView):
         context['htmx_add_worker'] = HtmxAddWorker()
         return context
 
+def process_quotas_workertotal(sessionid):
+    worker = Worker.objects.filter(session_id=sessionid)
+    worker_total = Worker.objects.filter(session=sessionid).values('rank_id').count()
+    
+    user_quota = Session.objects.filter(user_defined=sessionid).values('user_quotaB', 'user_quotaC', 'user_quotaD')
+    quotaB = math.ceil(user_quota[0]['user_quotaB']/100 * worker_total)
+    quotaC = math.ceil(user_quota[0]['user_quotaC']/100 * worker_total)
+    quotaD = math.ceil(user_quota[0]['user_quotaD']/100 * worker_total)
+
+    cumulative_quotas = {
+        'quotaB': quotaB, 
+        'quotaC': quotaC,
+        'quotaD': quotaD,
+    }
+
+    return worker, worker_total, cumulative_quotas 
 
 @require_http_methods(["POST"])
 def htmx_add_worker(request, sessionid):
@@ -113,18 +129,7 @@ def htmx_add_worker(request, sessionid):
             worker = Worker.objects.filter(session=sessionid)
             form = HtmxAddWorker()
             
-            worker_total = worker.count()
-            
-            user_quota = Session.objects.filter(user_defined=sessionid).values()
-            quotaB = math.ceil(user_quota[0]['user_quotaB']/100 * worker_total)
-            quotaC = math.ceil(user_quota[0]['user_quotaC']/100 * worker_total)
-            quotaD = math.ceil(user_quota[0]['user_quotaD']/100 * worker_total)
-
-            cumulative_quotas = {
-                'quotaB': quotaB, 
-                'quotaC': quotaC,
-                'quotaD': quotaD,
-            }
+            worker, worker_total, cumulative_quotas = process_quotas_workertotal(sessionid)
                 
             context = {
                 'worker': worker,
@@ -144,24 +149,13 @@ def htmx_save_sequence (request, sessionid):
         entry = Worker.objects.get(rank_id=form_rank_id)
         entry.order = idx
         entry.save()
-        
-    worker = Worker.objects.filter(session_id=sessionid)
     
-    worker_total = worker.count()
-    
-    user_quota = Session.objects.filter(user_defined=sessionid).values('user_quotaB', 'user_quotaC', 'user_quotaD')
-    quotaB = math.ceil(user_quota[0]['user_quotaB']/100 * worker_total)
-    quotaC = math.ceil(user_quota[0]['user_quotaC']/100 * worker_total)
-    quotaD = math.ceil(user_quota[0]['user_quotaD']/100 * worker_total)
 
-    cumulative_quotas = {
-        'quotaB': quotaB, 
-        'quotaC': quotaC,
-        'quotaD': quotaD,
-    }
+    worker, worker_total, cumulative_quotas = process_quotas_workertotal(sessionid)
 
     context = {
         'worker': worker,
+        'worker_total': worker_total,
         'cumulative_quotas': cumulative_quotas,
     }
 
@@ -178,20 +172,7 @@ def htmx_save_quota (request, sessionid):
     print(f"The new % inserted into DB are: {session.user_quotaB}, {session.user_quotaC}, {session.user_quotaD}")
     session.save()
         
-    worker = Worker.objects.filter(session_id=sessionid)
-    
-    worker_total = worker.count()
-    new_session = Session.objects.filter(pk=sessionid).values()
-    
-    quotaB = math.ceil(new_session[0]['user_quotaB']/100 * worker_total)
-    quotaC = math.ceil(new_session[0]['user_quotaC']/100 * worker_total)
-    quotaD = math.ceil(new_session[0]['user_quotaD']/100 * worker_total)
-    
-    cumulative_quotas = {
-        'quotaB': quotaB, 
-        'quotaC': quotaC,
-        'quotaD': quotaD,
-    }
+    worker, worker_total, cumulative_quotas = process_quotas_workertotal(sessionid)
         
     context = {
         'worker': worker,
@@ -204,19 +185,8 @@ def htmx_save_quota (request, sessionid):
 @require_http_methods(['DELETE'])
 def htmx_delete_worker(request, sessionid, workerid):
     Worker.objects.filter(id=workerid).delete()
-    worker = Worker.objects.filter(session_id=sessionid)
-    worker_total = worker.count()
-    
-    user_quota = Session.objects.filter(user_defined=sessionid).values()
-    quotaB = math.ceil(user_quota[0]['user_quotaB']/100 * worker_total)
-    quotaC = math.ceil(user_quota[0]['user_quotaC']/100 * worker_total) + quotaB
-    quotaD = math.ceil(user_quota[0]['user_quotaD']/100 * worker_total) + quotaC
 
-    cumulative_quotas = {
-        'quotaB': quotaB, 
-        'quotaC': quotaC,
-        'quotaD': quotaD,
-    }
+    worker, worker_total, cumulative_quotas = process_quotas_workertotal(sessionid)
     
     context = {
         'worker': worker,

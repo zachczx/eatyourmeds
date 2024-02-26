@@ -16,14 +16,15 @@
         border-radius: 9px;
     }
 
-    .c-1-color { background: #b5ff6f; }
-    .c-2-color { background: #bceec3; }
-    .c-3-color { background: #f3f3d0; }
-    .c-4-color { background: #e8a7a7; }
-    .c-5-color { background: purple; }
+    .c-1-color { background: #fff24b; }
+    .c-2-color { background: #F6F193; }
+    .c-3-color { background: #BFEA7C; }
+    .c-4-color { background: #9BCF53; }
+    .c-5-color { background: #416D19; }
+
 </style>
 
-<div class="container mt-5">
+<div class="container mt-2 pt-5 pb-5 rounded bg-body shadow-lg">
     <div class="row">
         <div class="col-sm-0 col-md-1"></div>
         <div class="col">
@@ -38,7 +39,7 @@
     <div class="row mt-5">
         <div class="col-sm-0 col-md-1"></div>
         <div class="col">
-            <div class="pb-5 pt-2 px-5 rounded-pill" style="background-color: #FBFFF2">
+            <div class="pb-5 pt-2 px-5 rounded-pill mb-3 border border-secondary-subtle" style="background-color: #FBFFF2">
                 <h2>Adjust Grading Percentile&nbsp;<span id="gradingTooltip"><i class="bi bi-question-circle-fill fs-5 align-top"></i></span></h2>
                 <form id="slider_form" hx-target="#sortable_list" hx-swap="innerHTML" hx-post="{% url 'htmx_save_quota' sessionid=worker.0.session_id %}" hx-trigger="click delay:1s">
                     <div id="slider-round"></div>
