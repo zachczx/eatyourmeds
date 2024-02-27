@@ -16,7 +16,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rankingapp import views
 
 urlpatterns = [
     path('admin/clearcache/', include('clearcache.urls')),
@@ -26,5 +25,3 @@ urlpatterns = [
     path('rank/', include('rankingapp.urls')),
     path('__debug__/', include('debug_toolbar.urls')),    
 ]
-
-handler404 = views.custom_error_404
