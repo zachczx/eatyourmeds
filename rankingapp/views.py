@@ -17,8 +17,12 @@ def home(request):
     return render(request, 'rankingapp/rankinghome.html', {'form':form, 'form_session': form_session})
 
 def rankingredirect(request):  
-    sanitize = str(request.GET['user_defined'])
-    return redirect('rankinglist', sessionid=sanitize)
+    if Session.objects.filter(user_defined=request.GET['user_defined']).exists():
+        sanitize = str(request.GET['user_defined'])
+        return redirect('rankinglist', sessionid=sanitize)
+    else:
+        data = {}
+        return render(request, '404.html', data)
 
 def htmx_validate_session(request):
     if Session.objects.filter(user_defined=request.GET['user_defined']).exists():
