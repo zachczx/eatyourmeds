@@ -11,7 +11,6 @@ from django.views.decorators.cache import cache_page
 
 # Create your views here.
 
-@cache_page(864000)
 def home(request):
     form = GetSessionForm()
     form_session = NewSession()
@@ -27,6 +26,7 @@ def htmx_validate_session(request):
     else:
         return HttpResponse("<span class='text-dark ms-1'><i class='bi bi-check-circle-fill' style='color:#64c10b'></i>&nbsp;&nbsp;This is ok, it's not taken.</span>")
 
+@cache_page(864000)
 def htmx_existing_session(request):
     if Session.objects.filter(user_defined=request.GET['user_defined']).exists():
         return HttpResponse("Use the ID you created previously.")
@@ -45,7 +45,7 @@ def new_session(request):
         if new_session.is_valid():
             sanitized = new_session.cleaned_data['user_defined']
             new_session.save()
-            return redirect('rankinglist', id=sanitized)    
+            return redirect('rankinglist', sessionid=sanitized)    
         else:
             return redirect('rankinghome')       
 
@@ -63,29 +63,24 @@ class RankingList(ListView):
         # Call the base implementation first to get the context
         context = super().get_context_data(**kwargs)
 
-        context['id'] = self.kwargs.get('id')
-        worker_qs = Worker.objects.filter(session_id=self.kwargs.get('id'))
+        context['id'] = self.kwargs.get('sessionid')
+        worker_qs = Worker.objects.filter(session_id=self.kwargs.get('sessionid'))
         worker_total = worker_qs.count()
 
         #grab the session quotas from db to populate noUIslider
-        nouislider_quotas = Session.objects.filter(user_defined=self.kwargs.get('id')).values('user_quotaB','user_quotaC','user_quotaD').first()
+        nouislider_quotas = Session.objects.filter(user_defined=self.kwargs.get('sessionid')).values('user_quotaB','user_quotaC','user_quotaD').first()
         print(f"The DB user_quotas %% are {nouislider_quotas}")
 
         #calculate the quota percentages
-        if Session.objects.filter(user_defined=self.kwargs.get('id')).exists():
-            print("Are we using the DB values? Yes")
-            user_quota = Session.objects.filter(user_defined=self.kwargs.get('id')).values()
-            quotaB = math.ceil(user_quota[0]['user_quotaB']/100 * worker_total) #this is where quotaB starts
-            quotaC = math.ceil(user_quota[0]['user_quotaC']/100 * worker_total) #this is where quotaC starts
-            quotaD = math.ceil(user_quota[0]['user_quotaD']/100 * worker_total) #this is where quotaD starts
-        else:
-            print("Are we using the DB values? No, it's fallback.")
-            quotaB = math.ceil(0.05 * worker_total)
-            quotaC = math.floor(0.4 * worker_total) + quotaB
-            quotaD = math.floor(0.5 * worker_total) + quotaC
+        user_quota = Session.objects.filter(user_defined=self.kwargs.get('sessionid')).values()
+        print(user_quota)
+        quotaB = math.ceil(user_quota[0]['user_quotaB']/100 * worker_total) #this is where quotaB starts
+        quotaC = math.ceil(user_quota[0]['user_quotaC']/100 * worker_total) #this is where quotaC starts
+        quotaD = math.ceil(user_quota[0]['user_quotaD']/100 * worker_total) #this is where quotaD starts
 
         context['nouislider_quotas'] = nouislider_quotas
         context['worker_total'] = worker_total
+        context['user_defined_session_id'] = user_quota[0]['user_defined']
         context['cumulative_quotas'] = {
             'quotaB': quotaB, 
             'quotaC': quotaC,

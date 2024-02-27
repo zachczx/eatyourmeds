@@ -31,7 +31,7 @@
         <div class="col-sm-0 col-md-1"></div>
         <div class="col">
             {% load crispy_forms_tags %}
-            <form hx-post="{% url 'htmx_add_worker' id %}" hx-target="#sortable_list" hx-swap="innerHTML">
+            <form hx-post="{% url 'htmx_add_worker' sessionid=user_defined_session_id %}" hx-target="#sortable_list" hx-swap="innerHTML">
             {% csrf_token %}
             {% crispy htmx_add_worker %}
             </form>
@@ -43,7 +43,7 @@
         <div class="col">
             <div class="pb-5 pt-2 px-5 rounded-pill mb-3 border border-secondary-subtle" style="background-color: #FBFFF2">
                 <h2>Adjust Grading Percentile&nbsp;<span id="gradingTooltip"><i class="bi bi-question-circle-fill fs-5 align-top"></i></span></h2>
-                <form id="slider_form" hx-target="#sortable_list" hx-swap="innerHTML" hx-post="{% url 'htmx_save_quota' sessionid=worker.0.session_id %}" hx-trigger="click delay:1s">
+                <form id="slider_form" hx-target="#sortable_list" hx-swap="innerHTML" hx-post="{% url 'htmx_save_quota' sessionid=user_defined_session_id %}" hx-trigger="click delay:1s">
                     <div id="slider-round"></div>
                     <input type="hidden" name="quotaB-input" value="" id="quotaB-input">
                     <input type="hidden" name="quotaC-input" value="" id="quotaC-input">
@@ -58,14 +58,15 @@
         <div class="col-sm-0 col-md-1"></div>
         <div class="col">
             <ol class="p-0">
-                <form class="sortable" id="sortable_list" hx-post="{% url 'htmx_save_sequence' sessionid=worker.0.session_id %}" hx-trigger="end delay:0.5s">
+                <form class="sortable" id="sortable_list" hx-post="{% url 'htmx_save_sequence' sessionid=user_defined_session_id %}" hx-trigger="end delay:0.5s">
                     {% include 'rankingapp/partials/htmx_view_worker.html' %}
                 </form>
             </ol>
         </div>
         <div class="col-sm-0 col-md-1">
         </div>
-    </div>   
+    </div>
+
 </div>
 
 

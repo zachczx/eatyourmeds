@@ -14,9 +14,9 @@ class Session(models.Model):
     user_defined = models.CharField(primary_key=True, null=False, blank=False, max_length=200, unique=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     sequence = models.CharField(null=True, blank=True, max_length=10000)
-    user_quotaB = models.IntegerField(null=True, blank=True)
-    user_quotaC = models.IntegerField(null=True, blank=True)
-    user_quotaD = models.IntegerField(null=True, blank=True)
+    user_quotaB = models.IntegerField(default=5)
+    user_quotaC = models.IntegerField(default=45)
+    user_quotaD = models.IntegerField(default=95)
     
     def __str__(self):
         return self.user_defined

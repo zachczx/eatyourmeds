@@ -58,12 +58,14 @@ class HtmxAddWorker(forms.ModelForm):
                     Field('name', placeholder='Name', css_class='form-group col-3 mx-0'),
                 ),
                 Column(
-                    Field('dept', placeholder='Dept', css_class='form-group col-3 mx-0'),
+                    Field('dept', placeholder='Dept', css_class='form-group col-2 mx-0'),
                 ),
                 Column(
-                    Field('prev', placeholder='2023 grade', css_class='form-group col-3 mx-0'),
+                    Field('prev', placeholder='Prev grade', css_class='form-group col-2 mx-0'),
                 ),
-                Column(Submit('submit', 'Add', css_class='btn-primary fw-bold col-3')),
+                Column(
+                    Submit('submit', 'Add', css_class='btn-primary fw-bold col-5 mx-0'),
+                ),
                 css_class='d-flex align-items-top',
             ),
         )
