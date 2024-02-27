@@ -25,3 +25,8 @@ urlpatterns = [
     path('rank/', include('rankingapp.urls')),
     path('__debug__/', include('debug_toolbar.urls')),    
 ]
+
+handler404 = 'rankingapp.views.error_404'
+handler500 = 'rankingapp.views.error_500'
+#handler403 = 'rankingapp.views.error_403'
+#handler400 = 'rankingapp.views.error_400'

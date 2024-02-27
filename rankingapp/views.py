@@ -8,7 +8,6 @@ from time import localtime
 from django.urls import reverse
 import math
 from django.views.decorators.cache import cache_page
-from django.views.defaults import page_not_found
 
 # Create your views here.
 
@@ -192,3 +191,25 @@ def htmx_delete_worker(request, sessionid, workerid):
         'cumulative_quotas': cumulative_quotas,
     }
     return render(request, 'rankingapp/partials/htmx_view_worker.html', context)
+
+########################################
+# custom error page
+########################################
+
+
+def error_404(request, exception):
+    template_name = 'rankingapp/404.html'
+#    if request.path.startswith('/rank/'):
+#        print("hitting rank")
+#        template_name = 'rankingapp/404.html'
+#    elif request.path.startswith('/eatyourmeds/'):
+#        print("hitting rank")
+#        template_name = 'rankingapp/500.html'
+    data = {}
+    return render(request, template_name, data)
+        
+
+def error_500(request):
+    template_name = 'rankingapp/404.html'
+    data = {}
+    return render(request, template_name, data)
