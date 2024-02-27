@@ -198,7 +198,7 @@ def htmx_delete_worker(request, sessionid, workerid):
 
 
 def error_404(request, exception):
-    template_name = 'rankingapp/404.html'
+    template_name = '404.html'
 #    if request.path.startswith('/rank/'):
 #        print("hitting rank")
 #        template_name = 'rankingapp/404.html'
@@ -210,6 +210,6 @@ def error_404(request, exception):
         
 
 def error_500(request):
-    template_name = 'rankingapp/404.html'
+    template_name = '500.html'
     data = {}
     return render(request, template_name, data)
