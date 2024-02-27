@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-6">
             <div class="newsession px-4 py-4">
-            <h1 class="mb-5 text-center"><i class="bi bi-plus-circle-fill me-3"></i>New Ranking</h1>
+            <h1 class="mb-5 text-center"><i class="bi bi-plus-circle-fill me-3"></i>New</h1>
             <div class="text-center mb-4"><img src="{% static 'rankingapp/_f1194c00-8d66-44ca-9581-e02bd42ef2b9.webp' %}" class="img-fluid"></div>
 
             {% load crispy_forms_tags %}
@@ -20,7 +20,7 @@
         </div>
         <div class="col-sm-12 col-md-6">
             <div class="existingsession px-4 py-4">
-            <h1 class="mb-5 text-center"><i class="bi bi-arrow-right-circle-fill me-3"></i>Continue Ranking</h1>
+            <h1 class="mb-5 text-center"><i class="bi bi-arrow-right-circle-fill me-3"></i>Continue</h1>
             <div class="text-center mb-4"><img src="{% static 'rankingapp/_aec1dc07-9c9b-4564-aa59-89b4a8656716.webp' %}" class="img-fluid"></div>
             <form action="{% url 'rankingredirect' %}" method="GET">
                 {% csrf_token %}
@@ -31,5 +31,25 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    function disableHomeButton (elementID, buttonName) {
+        document.addEventListener('htmx:afterRequest', function(evt) {
+            let elementIDVar = document.getElementById(elementID)
+            let buttonNameVar = document.getElementById(buttonName)
+            // need to check if this is null, else it causes a type error for null value when swapped out
+            if (elementIDVar !== null && elementIDVar.value === 'no') {    
+                buttonNameVar.setAttribute('disabled','')
+            } else if (elementIDVar == null) {
+                buttonNameVar.removeAttribute('disabled')
+            }
+        })
+    }
+    
+    disableHomeButton('checker-new', 'button-new')
+    disableHomeButton('checker-existing', 'button-existing')
+    
+</script>
 
 {% endblock %}

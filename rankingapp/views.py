@@ -26,16 +26,15 @@ def rankingredirect(request):
 
 def htmx_validate_session(request):
     if Session.objects.filter(user_defined=request.GET['user_defined']).exists():
-        return HttpResponse("<span class='text-dark ms-1'><i class='bi bi-x-circle-fill text-primary'></i>&nbsp;&nbsp;Choose something else, this is already taken.</span>")
+        return HttpResponse("<span class='text-dark ms-1'><i class='bi bi-x-circle-fill text-primary'></i>&nbsp;&nbsp;Choose something else, this is already taken.</span><input type='hidden' id='checker-new' value='no'>")
     else:
         return HttpResponse("<span class='text-dark ms-1'><i class='bi bi-check-circle-fill' style='color:#64c10b'></i>&nbsp;&nbsp;This is ok, it's not taken.</span>")
 
-@cache_page(864000)
 def htmx_existing_session(request):
     if Session.objects.filter(user_defined=request.GET['user_defined']).exists():
         return HttpResponse("Use the ID you created previously.")
     else:
-        return HttpResponse("<span class='text-dark ms-1' id='blocker2'><i class='bi bi-x-circle-fill text-primary'></i>&nbsp;&nbsp;There's no such session, are you sure this is correct?</span>")
+        return HttpResponse("<span class='text-dark ms-1' id='blocker2'><i class='bi bi-x-circle-fill text-primary'></i>&nbsp;&nbsp;There's no such session, are you sure this is correct?</span><input type='hidden' id='checker-existing' value='no'>")
 
 
 @require_http_methods(['POST'])
