@@ -1,8 +1,8 @@
 annotated-types==0.6.0
 asgiref==3.7.2
 Brotli==1.1.0
-crispy-bootstrap5==2023.10
-Django==5.0
+crispy-bootstrap5==2024.2
+Django==5.0.2
 django-appconf==1.0.6
 django-clearcache==1.2.1
 django-compression-middleware==0.5.0
