@@ -192,3 +192,13 @@ def htmx_delete_worker(request, sessionid, workerid):
         'cumulative_quotas': cumulative_quotas,
     }
     return render(request, 'rankingapp/partials/htmx_view_worker.html', context)
+
+########################################
+# custom error page
+########################################
+
+def custom_error_404(request, exception):
+    template_name = '404.html'
+    if request.path.startswith('/rank/'):
+        template_name='rankingapp/404.html'
+    return page_not_found(request, exception, template_name=template_name)
