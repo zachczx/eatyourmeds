@@ -8,6 +8,7 @@ from time import localtime
 from django.urls import reverse
 import math
 from django.views.decorators.cache import cache_page
+from django.views.defaults import page_not_found
 
 # Create your views here.
 
@@ -16,7 +17,7 @@ def home(request):
     form_session = NewSession()
     return render(request, 'rankingapp/rankinghome.html', {'form':form, 'form_session': form_session})
 
-def rankingredirect(request):
+def rankingredirect(request):  
     sanitize = str(request.GET['user_defined'])
     return redirect('rankinglist', sessionid=sanitize)
 
@@ -191,4 +192,3 @@ def htmx_delete_worker(request, sessionid, workerid):
         'cumulative_quotas': cumulative_quotas,
     }
     return render(request, 'rankingapp/partials/htmx_view_worker.html', context)
-#    return HttpResponse('ok')
