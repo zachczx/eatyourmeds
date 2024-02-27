@@ -32,8 +32,9 @@
     </div>
 </div>
 
+{% load compress %}
+{% compress js %}
 <script>
-
     function disableHomeButton (elementID, buttonName) {
         document.addEventListener('htmx:afterRequest', function(evt) {
             let elementIDVar = document.getElementById(elementID)
@@ -46,10 +47,10 @@
             }
         })
     }
-    
+
     disableHomeButton('checker-new', 'button-new')
     disableHomeButton('checker-existing', 'button-existing')
-    
 </script>
+{% endcompress %}
 
 {% endblock %}
