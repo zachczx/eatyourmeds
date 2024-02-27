@@ -92,7 +92,7 @@ class GetSessionForm(forms.ModelForm):
             'user_defined': forms.TextInput(attrs={
                 'hx-get': reverse_lazy('htmx_existing_session'),
                 'hx-target': '#htmx_existing_session',
-                'hx-trigger': 'keyup[target.value.length > 0] delay:0.3s',
+                'hx-trigger': 'keyup[target.value.length > 0] delay:0s', #this was formerly 0.3s
                 'placeholder': 'Continue where you left out last time',
             })
         }
@@ -116,7 +116,7 @@ class NewSession(forms.ModelForm):
             'user_defined': forms.TextInput(attrs={
                 'hx-get': reverse_lazy('htmx_validate_session'),
                 'hx-target': '#htmx_validate_session',
-                'hx-trigger': 'keyup[target.value.length > 0] delay:0.3s',
+                'hx-trigger': 'keyup[target.value.length > 0] delay:0s', #this was formerly 0.3s
                 'placeholder': 'Start a session using a unique ID',
             })
         }
