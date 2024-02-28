@@ -1,7 +1,10 @@
 {% load static %}
+
 {% if not worker %}
 <div class="px-5 py-5 fs-4 text-center">
-    <p class="mb-5"><i class="bi bi-rocket-takeoff"></i>&nbsp;&nbsp;Start by adding entries at the top of the page!&nbsp;&nbsp;<i class="bi bi-rocket-takeoff"></i></p>
+    <p class="mb-5">
+        <img src="{% static 'rankingapp/svg/rocket.svg' %}" alt="Rocket" width="40" height="40">
+    </p>
     <img src="{% static 'rankingapp/_8ca21747-4d08-48f7-868e-b271a206f12d.webp' %}" alt="Get started" width="500" height="500">
 </div>
 {% else %}
@@ -11,35 +14,43 @@
       </div>
       <i>Auto-Saving</i>...
 </div>
-
-    <b><i class="bi bi-list-ol align-middle"></i>&nbsp;&nbsp;&nbsp;Total no: <u>{{worker_total}} pax</u></b>
-
+    <b><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list align-middle" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l11 0" /><path d="M9 12l11 0" /><path d="M9 18l11 0" /><path d="M5 6l0 .01" /><path d="M5 12l0 .01" /><path d="M5 18l0 .01" /></svg>&nbsp;&nbsp;Total no: <u>{{worker_total}} pax</u></b>
 
 {% for person in worker %}
 {% if person.order == 1 and person.order < cumulative_quotas.quotaB %}
-<h4 class="mt-5"><i class="bi bi-palette2"></i>&nbsp;&nbsp;Grade A</h4>
+<h4 class="mt-5">
+    <img src="{% static 'rankingapp/svg/ruler.svg' %}" alt="Ruler" width="24" height="24">
+    Grade A</h4>
 <div class="py-2 my-2 rounded border border-1 border-secondary d-flex justify-content-center align-items-center" style="background-color: #fff24b" data-id='{{person.rank_id}}'>
 {% elif person.order != 1 and person.order < cumulative_quotas.quotaB %}
 <div class="py-2 my-2 rounded border border-1 border-secondary d-flex justify-content-center align-items-center" style="background-color: #fff24b" data-id='{{person.rank_id}}'>
 {% elif person.order == cumulative_quotas.quotaB %}
-<h4 class="mt-5"><i class="bi bi-palette2"></i>&nbsp;&nbsp;Grade B</h4>
+<h4 class="mt-5">
+    <img src="{% static 'rankingapp/svg/ruler.svg' %}" alt="Ruler" width="24" height="24">
+    Grade B</h4>
 <div class="py-2 my-2 rounded border border-1 border-secondary d-flex justify-content-center align-items-center" style="background-color: #F6F193" data-id='{{person.rank_id}}'>
 {% elif person.order < cumulative_quotas.quotaC and person.order > cumulative_quotas.quotaB %}
 <div class="py-2 my-2 rounded border border-1 border-secondary d-flex justify-content-center align-items-center" style="background-color: #F6F193" data-id='{{person.rank_id}}'>
 {% elif person.order == cumulative_quotas.quotaC %}
-<h4 class="mt-5"><i class="bi bi-palette2"></i>&nbsp;&nbsp;Grade C</h4>
+<h4 class="mt-5">
+    <img src="{% static 'rankingapp/svg/ruler.svg' %}" alt="Ruler" width="24" height="24">
+    Grade C</h4>
 <div class="py-2 my-2 rounded border border-1 border-secondary d-flex justify-content-center align-items-center" style="background-color: #BFEA7C" data-id='{{person.rank_id}}'>
 {% elif person.order < cumulative_quotas.quotaD and person.order > cumulative_quotas.quotaC %}
 <div class="py-2 my-2 rounded border border-1 border-secondary d-flex justify-content-center align-items-center" style="background-color: #BFEA7C" data-id='{{person.rank_id}}'>
 {% elif person.order == cumulative_quotas.quotaD %}
-<h4 class="mt-5"><i class="bi bi-palette2"></i>&nbsp;&nbsp;Grade D</h4>
+<h4 class="mt-5">
+    <img src="{% static 'rankingapp/svg/ruler.svg' %}" alt="Ruler" width="24" height="24">
+    Grade D</h4>
 <div class="py-2 my-2 rounded border border-1 border-secondary d-flex justify-content-center align-items-center" style="background-color: #9BCF53" data-id='{{person.rank_id}}'>
 {% elif person.order > cumulative_quotas.quotaD %}
 <div class="py-2 my-2 rounded border border-1 border-secondary d-flex justify-content-center align-items-center" style="background-color: #9BCF53" data-id='{{person.rank_id}}'>
 {% elif person.order is None %}
 <div class="py-2 my-2 rounded border-secondary d-flex justify-content-center align-items-center" style="background-color: #FAFAFA; border-style: dashed; border-width: thin;" data-id='{{person.rank_id}}'>
 {% endif %}
-    <i class="bi bi-grip-vertical handle me-5"></i>
+    <span class="me-5">
+        <img src="{% static 'rankingapp/svg/grip-vertical.svg' %}" alt="Grip" width="18" height="18">
+    </span>
     <li class="flex-grow-1 handle">
         <div class="container">
             <div class="row">
@@ -52,7 +63,7 @@
             </div>    
         </div>
     </li>
-    <a hx-delete="{% url 'htmx_del_worker' sessionid=person.session_id workerid=person.id %}" hx-target="#sortable_list" hx-swap="innerHTML transition:true" href="#"><i class="bi bi-x-circle-fill ms-4 me-3"></i></a>
+    <a hx-delete="{% url 'htmx_del_worker' sessionid=person.session_id workerid=person.id %}" hx-target="#sortable_list" hx-swap="innerHTML transition:true" href="#"><img src="{% static 'rankingapp/svg/circle-x-filled.svg' %}" alt="Delete" width="18" height="18" class="ms-4 me-3"></a>
 </div>
 {% endfor %}
 {% endif %}
