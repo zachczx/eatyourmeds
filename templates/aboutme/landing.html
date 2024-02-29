@@ -10,90 +10,88 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 <title>Hi, I am Zixian</title>
+<style>
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+}
+.crop {
+    overflow-x: clip;
+}
+@media screen and (max-width: 767px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        text-align: center;
+    }
+    .meds {
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("{% static 'aboutme/glenn-carstens-peters-RLw-UC03Gwc-unsplash.webp' %}");
+        height: 50dvh;
+        max-width: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }    
+    .list {
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("{% static 'aboutme/freestocks-nss2eRzQwgw-unsplash.webp' %}");
+        height: 50dvh;
+        max-width: auto; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+@media screen and (min-width: 768px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        text-align: center;
+    }
+    .meds {
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("{% static 'aboutme/glenn-carstens-peters-RLw-UC03Gwc-unsplash.webp' %}");
+        height: 100dvh;
+        max-width: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+    }    
+    .list {
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("{% static 'aboutme/freestocks-nss2eRzQwgw-unsplash.webp' %}");
+        height: 100dvh;
+        max-width: auto; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+    }    
+}
+.meds:hover {
+    background: linear-gradient(0deg, rgba(159, 187, 115, 0.9), rgba(159, 187, 115, 0.9)), url("{% static 'aboutme/glenn-carstens-peters-RLw-UC03Gwc-unsplash.webp' %}");
+}
+h1 {
+    color: white;
+}
+.list:hover {
+    background: linear-gradient(0deg, rgba(236, 143, 94, 0.9), rgba(236, 143, 94, 0.9)), url("{% static 'aboutme/freestocks-nss2eRzQwgw-unsplash.webp' %}");
+}
+a {
+    text-decoration: underline;
+    color: white;
+}
+a:hover {
+    color: black;
+}
+</style>
 </head>
 <body>
 <main>
-{% load compress %}
-{% compress css %}
-<style>
-    body {
-        margin: 0;
-        font-family: "Poppins", sans-serif;
-    }
-    .crop {
-        overflow-x: clip;
-    }
-    @media screen and (max-width: 767px) {
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0;
-            text-align: center;
-        }
-        .meds {
-            background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("{% static 'aboutme/glenn-carstens-peters-RLw-UC03Gwc-unsplash.webp' %}");
-            height: 50dvh;
-            max-width: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }    
-        .list {
-            background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("{% static 'aboutme/freestocks-nss2eRzQwgw-unsplash.webp' %}");
-            height: 50dvh;
-            max-width: auto; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    }
-    @media screen and (min-width: 768px) {
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            text-align: center;
-        }
-        .meds {
-            background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("{% static 'aboutme/glenn-carstens-peters-RLw-UC03Gwc-unsplash.webp' %}");
-            height: 100dvh;
-            max-width: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }    
-        .list {
-            background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("{% static 'aboutme/freestocks-nss2eRzQwgw-unsplash.webp' %}");
-            height: 100dvh;
-            max-width: auto; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }    
-    }
-    .meds:hover {
-        background: linear-gradient(0deg, rgba(159, 187, 115, 0.9), rgba(159, 187, 115, 0.9)), url("{% static 'aboutme/glenn-carstens-peters-RLw-UC03Gwc-unsplash.webp' %}");
-    }
-    h1 {
-        color: white;
-    }
-    .list:hover {
-        background: linear-gradient(0deg, rgba(236, 143, 94, 0.9), rgba(236, 143, 94, 0.9)), url("{% static 'aboutme/freestocks-nss2eRzQwgw-unsplash.webp' %}");
-    }
-    a {
-        text-decoration: underline;
-        color: white;
-    }
-    a:hover {
-        color: black;
-    }
-</style>
-{% endcompress %}
 <div class="grid-container">
     <div class="meds"><h1><a href="https://tinker.zixianchen.com/eatyourmeds/">Zixian's Medicine Dose Tracker</a></h1></div>
     <div class="list"><h1><a href="https://tinker.zixianchen.com/rank/">Zixian's Drag+Drop Ranker</a></h1></div>
 </div>
-
 </main>
 </body>
 </html>
