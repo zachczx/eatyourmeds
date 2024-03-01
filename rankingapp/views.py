@@ -195,7 +195,7 @@ def htmx_delete_worker(request, sessionid, workerid):
 # custom error page
 ########################################
 
-
+'''
 def error_404(request, exception):
     template_name = '404.html'
 #    if request.path.startswith('/rank/'):
@@ -212,3 +212,4 @@ def error_500(request):
     template_name = '500.html'
     data = {}
     return render(request, template_name, data)
+'''
