@@ -21,8 +21,8 @@ urlpatterns = [
     path('admin/clearcache/', include('clearcache.urls')),
     path('admin/', admin.site.urls), 
     path('', include('aboutme.urls')),
-    path('eatyourmeds/', include('trackerapp.urls')),
-    path('rank/', include('rankingapp.urls')),
+    path('eatyourmeds', include('trackerapp.urls')),
+    path('rank', include('rankingapp.urls')),
     path('__debug__/', include('debug_toolbar.urls')),    
 ]
 
