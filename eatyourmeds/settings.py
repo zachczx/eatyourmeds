@@ -72,9 +72,9 @@ MIDDLEWARE = [
 
 # for https, "Origin checking failed - https://zixianchen.com does not match any trusted origins."
 
-CSRF_TRUSTED_ORIGINS = ["https://zixianchen.com"]
-CSRF_ALLOWED_ORIGINS = ["https://zixianchen.com"]
-CORS_ORIGINS_WHITELIST = ["https://zixianchen.com"]
+CSRF_TRUSTED_ORIGINS = ["https://tinker.zixianchen.com"]
+CSRF_ALLOWED_ORIGINS = ["https://tinker.zixianchen.com"]
+CORS_ORIGINS_WHITELIST = ["https://tinker.zixianchen.com"]
 
 ROOT_URLCONF = 'eatyourmeds.urls'
 
