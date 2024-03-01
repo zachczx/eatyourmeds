@@ -70,6 +70,8 @@ MIDDLEWARE = [
     #'compression_middleware.middleware.CompressionMiddleware', #custom for brotli
 ]
 
+APPEND_SLASH = True
+
 # for https, "Origin checking failed - https://zixianchen.com does not match any trusted origins."
 
 CSRF_TRUSTED_ORIGINS = ["https://zixianchen.com"]
