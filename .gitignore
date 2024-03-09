@@ -13,4 +13,4 @@ aboutme/migrations/
 rankingapp/migrations/
 CACHE/
 *.old
-static/* linguist-vendored
+static/** linguist-vendored
