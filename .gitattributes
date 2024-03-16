@@ -1,4 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-static/** linguist-vendored
+static/bootstrap/** linguist-vendored
+static/bootstrap_icons/** linguist-vendored
+static/fonts/** linguist-vendored
+static/ linguist-vendored
