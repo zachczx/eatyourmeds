@@ -4,4 +4,6 @@
 static/bootstrap/** linguist-vendored
 static/bootstrap_icons/** linguist-vendored
 static/fonts/** linguist-vendored
-static/ linguist-vendored
+static/alpine.min.js linguist-vendored
+static/bootstrap.bundle.min.js linguist-vendored
+static/htmx.min.js linguist-vendored
