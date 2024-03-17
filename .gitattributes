@@ -7,3 +7,4 @@ static/fonts/** linguist-vendored
 static/alpine.min.js linguist-vendored
 static/bootstrap.bundle.min.js linguist-vendored
 static/htmx.min.js linguist-vendored
+static/admin/** linguist-vendored
