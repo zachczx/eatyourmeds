@@ -27,3 +27,4 @@ sqlparse==0.4.4
 typing_extensions==4.9.0
 tzdata==2023.3
 zstandard==0.22.0
+gunicorn==22.0.0
