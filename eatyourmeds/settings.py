@@ -114,22 +114,22 @@ DATABASES = {
 
 ############## end redis ##############
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-        'TIMEOUT': 604800,
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "PASSWORD": env('REDIS_PASSWORD'),
-            "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
-        },
-        "KEY_PREFIX": "eatyourmeds",
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",
+#         'TIMEOUT': 604800,
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             "PASSWORD": env('REDIS_PASSWORD'),
+#             "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
+#         },
+#         "KEY_PREFIX": "eatyourmeds",
+#     }
+# }
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# SESSION_CACHE_ALIAS = "default"
 
 ############## end redis ############## 
 
