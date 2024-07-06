@@ -22,9 +22,9 @@ class Session(models.Model):
         return self.user_defined
 
 class Worker(models.Model):
-    name = models.CharField(null=False, blank=False)
+    name = models.CharField(null=False, blank=False,max_length=200)
     session = models.ForeignKey(Session, blank=False, null=False, default=None, on_delete=models.CASCADE)
-    dept = models.CharField(null=True, blank=True, default=None)
+    dept = models.CharField(null=True, blank=True, default=None, max_length=200)
     rank_id = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
     order = models.IntegerField(null=True, default=None)
     prev = models.CharField(null=True, blank=True, max_length=5)
