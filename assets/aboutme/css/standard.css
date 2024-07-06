@@ -1,0 +1,53 @@
+body {
+    font-family: 'Rubik', sans-serif;
+    background-color: #FFE6F7;
+}
+
+a, a:visited {
+    text-decoration: none;
+    color: #937DC2; 
+}
+
+a:hover {
+    color: #C689C6;
+    text-decoration: underline;
+}
+
+[x-cloak] { display: none !important; }
+
+.curve::before {
+    content: '';
+    border-radius: 50%;
+    position: fixed;
+    bottom: -5%;
+    left: 10%;
+    z-index: -2;
+    width: 150em;
+    height: 150em;
+    background-color: #FFABE1;
+}
+
+.curve2::after {
+    content: '';
+    border-radius: 50%;
+    position: fixed;
+    bottom: -5%;
+    left: -20%;
+    z-index: -3;
+    width: 200em;
+    background-color: #C689C6;
+    height: 200em;
+}
+
+.hash::before, h2::before {
+    content: '#';
+    color: #FFABE1;
+    margin-right: 0.2em;
+}
+
+/*for nav links */
+.linker {
+    text-decoration: none;
+    background-color: #FFE6F7;
+    transition: ease-out all 0.5s
+ }
