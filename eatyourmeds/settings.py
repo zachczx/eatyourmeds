@@ -169,7 +169,7 @@ STATIC_URL = 'staticfiles/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static/"),
 ]
-STATIC_ROOT = env('STATIC_ROOT')
+STATIC_ROOT = os.path.join(env('STATIC_ROOT'), 'staticfiles')
 
 ######## for sass bootstrap ######## 
 STATICFILES_FINDERS = (
